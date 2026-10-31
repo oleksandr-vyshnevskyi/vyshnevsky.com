@@ -1968,3 +1968,33 @@ requestAnimationFrame(() => {
     setTimeout(() => { ScrollTrigger.refresh(); }, 100);
   });
 });
+
+(function () {
+  const pick = document.getElementById('cvPick');
+  const btn  = document.getElementById('cvPickBtn');
+  const menu = document.getElementById('cvPickMenu');
+  if (!pick || !btn || !menu) return;
+  const items = Array.from(menu.querySelectorAll('a'));
+
+  function setOpen(open, focusFirst) {
+    pick.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    if (open && focusFirst) items[0].focus();
+  }
+
+  btn.addEventListener('click', () => setOpen(!pick.classList.contains('is-open'), false));
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); setOpen(true, true); }
+  });
+  menu.addEventListener('keydown', e => {
+    const i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+  });
+  items.forEach(a => a.addEventListener('click', () => setOpen(false, false)));
+  document.addEventListener('click', e => { if (!pick.contains(e.target)) setOpen(false, false); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && pick.classList.contains('is-open')) { setOpen(false, false); btn.focus(); }
+  });
+  pick.addEventListener('focusout', e => { if (!pick.contains(e.relatedTarget)) setOpen(false, false); });
+})();

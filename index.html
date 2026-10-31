@@ -303,9 +303,12 @@
     <div class="ab-card ab-cv">
       <div class="ab-cv-eyebrow">Download</div>
       <div class="ab-cv-title">My full résumé &amp; portfolio</div>
-      <div class="ab-cv-actions">
-        <a href="cv/cv.pdf" download class="btn-g btn btn--primary btn--s">Download CV <span class="btn__icon btn__icon--down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></a>
-        <a href="cv/cv-pl.pdf" download hreflang="pl" class="ab-cv-alt" aria-label="Download CV in Polish">PL</a>
+      <div class="cv-pick" id="cvPick">
+        <button type="button" class="btn-g btn btn--primary btn--s cv-pick__btn" id="cvPickBtn" aria-haspopup="true" aria-expanded="false" aria-controls="cvPickMenu">Download CV <span class="btn__icon btn__icon--down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></button>
+        <div class="cv-pick__menu" id="cvPickMenu" aria-label="Choose CV language">
+          <a href="cv/cv.pdf" download class="cv-pick__item"><span class="cv-pick__name">English</span><span class="cv-pick__meta">EN · PDF</span></a>
+          <a href="cv/cv-pl.pdf" download hreflang="pl" class="cv-pick__item"><span class="cv-pick__name" lang="pl">Polski</span><span class="cv-pick__meta">PL · PDF</span></a>
+        </div>
       </div>
     </div>
 

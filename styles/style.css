@@ -3287,28 +3287,73 @@ footer {
   margin-bottom: var(--sp-8);
 }
 
-.ab-cv-actions {
+.ab-cv:has(.cv-pick.is-open) {
+  overflow: visible;
+  z-index: 3;
+}
+.cv-pick {
+  position: relative;
+  align-self: flex-start;
+}
+.cv-pick__btn .btn__icon svg {
+  transition: transform var(--dur) var(--ease-out);
+}
+.cv-pick.is-open .cv-pick__btn .btn__icon svg {
+  transform: rotate(180deg);
+}
+.cv-pick__menu {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + var(--sp-8));
+  min-width: 100%;
+  padding: var(--sp-4);
+  background: var(--bg2);
+  border: 1px solid var(--ga-20);
+  border-radius: var(--r);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(var(--sp-8));
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+  z-index: 2;
+}
+.cv-pick.is-open .cv-pick__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
+}
+.cv-pick__item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--sp-16);
+  padding: var(--sp-12);
+  border-radius: var(--r-sm);
+  color: var(--t);
+  font-size: var(--fs-body-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
 }
-.ab-cv-alt {
-  font-size: var(--fs-small);
+.cv-pick__item:hover,
+.cv-pick__item:focus-visible {
+  background: var(--ga-08);
+  color: var(--g);
+}
+.cv-pick__meta {
+  font-size: var(--fs-label);
   letter-spacing: var(--ls-ui);
   color: var(--m);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color var(--dur-fast) var(--ease-out);
-}
-.ab-cv-alt:hover,
-.ab-cv-alt:focus-visible {
-  color: var(--g);
 }
 
 /* CV button: on medium screens stretch to the full card width */
 @media (max-width: 1100px) {
+  .cv-pick {
+    align-self: stretch;
+  }
   .ab-cv .btn-g {
-    flex: 1;
+    width: 100%;
   }
 }
 
