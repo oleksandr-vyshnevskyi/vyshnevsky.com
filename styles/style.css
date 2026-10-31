@@ -3289,9 +3289,8 @@ footer {
 
 .ab-cv-actions {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: var(--sp-12) var(--sp-16);
+  gap: var(--sp-16);
 }
 .ab-cv-alt {
   font-size: var(--fs-small);
@@ -3309,7 +3308,7 @@ footer {
 /* CV button: on medium screens stretch to the full card width */
 @media (max-width: 1100px) {
   .ab-cv .btn-g {
-    width: 100%;
+    flex: 1;
   }
 }
 
