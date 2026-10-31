@@ -28,6 +28,98 @@
 const PROJECTS = [
 
   {
+    id: 17,
+    title: "AD Aerospace",
+    type: "Corporate Website · WordPress",
+    stack: ["WordPress", "PHP", "JavaScript", "Three.js"],
+    year: "2026",
+    country: "United Kingdom",
+    client: "AD Aerospace · Aircraft video surveillance systems",
+    platform: "Fiverr",
+    image: "images/ADAerospace.webp",
+    gallery: [
+      { type: "image", src: "images/ADAerospace1.webp" },
+      { type: "image", src: "images/ADAerospace2.webp" },
+      { type: "image", src: "images/ADAerospace3.webp" },
+      { type: "image", src: "images/ADAerospace4.webp" },
+      { type: "image", src: "images/ADAerospace5.webp" },
+      { type: "image", src: "images/ADAerospace6.webp" },
+      { type: "image", src: "images/ADAerospace7.webp" },
+      { type: "image", src: "images/ADAerospace8.webp" },
+      { type: "image", src: "images/ADAerospace9.webp" },
+      { type: "image", src: "images/ADAerospace10.webp" },
+      { type: "image", src: "images/ADAerospace11.webp" },
+    ],
+    brief: "A full redesign and custom WordPress build for AD Aerospace, a British manufacturer of aircraft video surveillance systems. The brief covered a new visual identity and information architecture, a product catalogue the client edits on their own, and a site in four languages.",
+    deliverables: [
+      "Design, UX and content architecture captured in an HTML/CSS/JS prototype",
+      "Custom WordPress theme with custom post types for systems, LRUs, aircraft and documents",
+      "Every page, product and document editable from the WordPress admin",
+      "Interactive 3D viewer of the 4K camera (Three.js), loaded on scroll",
+      "Aircraft hotspot map linking each point to its product range",
+      "English, Chinese, Russian and Arabic with a full right-to-left layout",
+      "WCAG 2.0 level A and PageSpeed optimisation"
+    ],
+    liveUrl: "https://ad-aero.com/"
+  },
+
+  {
+    id: 18,
+    title: "STRATA — 3D Watch Landing",
+    type: "3D Product Landing Page",
+    stack: ["Three.js", "GSAP", "JavaScript", "Vite"],
+    year: "2026",
+    client: "Concept project · Fictional watch brand",
+    image: "images/Strata.webp",
+    gallery: [
+      { type: "image", src: "images/Strata1.webp" },
+      { type: "image", src: "images/Strata2.webp" },
+      { type: "image", src: "images/Strata3.webp" },
+      { type: "image", src: "images/Strata4.webp" },
+      { type: "image", src: "images/Strata5.webp" },
+      { type: "image", src: "images/Strata6.webp" },
+      { type: "image", src: "images/Strata7.webp" },
+    ],
+    brief: "A cinematic landing page for a fictional rugged field chronograph, told as a short film in five chapters: real-time WebGL, scroll-driven camera work, weather, sound and a live colour switcher on a single page.",
+    deliverables: [
+      "One continuous 3D scene driven by scroll through five chapters",
+      "Real-time PBR watch whose hands show the visitor's local time",
+      "Exploded view, macro dolly and live colour variants on the 3D model",
+      "Ambient rain and thunder synthesised with the Web Audio API",
+      "Works without WebGL and respects reduced-motion settings",
+      "21 automated tests, including accessibility checks"
+    ],
+    liveUrl: "https://oleksandr549.github.io/Strata.github.io/"
+  },
+
+  {
+    id: 19,
+    title: "Shelf — React Product Catalog",
+    type: "Web App · SPA",
+    stack: ["React", "TypeScript", "Vite", "React Router"],
+    year: "2026",
+    client: "Personal project",
+    image: "images/ProductCatalog.webp",
+    gallery: [
+      { type: "image", src: "images/ProductCatalog1.webp" },
+      { type: "image", src: "images/ProductCatalog2.webp" },
+      { type: "image", src: "images/ProductCatalog3.webp" },
+      { type: "image", src: "images/ProductCatalog4.webp" },
+      { type: "image", src: "images/ProductCatalog5.webp" },
+    ],
+    brief: "A single-page product catalog built with React and TypeScript: almost two hundred products from a public API, with search, category filters, product pages and a validated review form.",
+    deliverables: [
+      "TypeScript in strict mode, form types inferred from the Zod schema",
+      "Reusable generic useFetch hook that cancels outdated requests",
+      "Search by name and category filter with an empty state and reset",
+      "Product pages with image gallery, discount, rating and stock",
+      "Accessible review form with React Hook Form and Zod",
+      "Responsive layout in CSS Modules, no UI libraries, deployed on Vercel"
+    ],
+    liveUrl: "https://react-product-catalog-ecru.vercel.app/"
+  },
+
+  {
     id: 1,
     title: "Nations On Fire",
     type: "Church / Event Landing Page",
@@ -456,7 +548,7 @@ const PROJECTS = [
       "Contact & map section",
       "Multi-page blog structure"
     ],
-    liveUrl: "https://oleksandr549.github.io/fiverdemo.github.io/"
+    liveUrl: "https://oleksandr549.github.io/karma-hair.github.io/"
   },
 
   {
