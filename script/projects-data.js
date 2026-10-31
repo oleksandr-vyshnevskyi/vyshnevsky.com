@@ -89,7 +89,7 @@ const PROJECTS = [
       "Works without WebGL and respects reduced-motion settings",
       "21 automated tests, including accessibility checks"
     ],
-    liveUrl: "https://oleksandr549.github.io/Strata.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/Strata.github.io/"
   },
 
   {
@@ -149,7 +149,7 @@ const PROJECTS = [
       "Support & donation CTA",
       "Responsive multi-page structure"
     ],
-    liveUrl: "https://oleksandr549.github.io/Nations-On-Fire-git.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/Nations-On-Fire-git.io/"
   },
 
   {
@@ -178,7 +178,7 @@ const PROJECTS = [
       "Social media integration (WhatsApp, Instagram, TikTok)",
       "Responsive layout"
     ],
-    liveUrl: "https://oleksandr549.github.io/KAAS.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/KAAS.github.io/"
   },
 
   {
@@ -205,7 +205,7 @@ const PROJECTS = [
       "Payrolling & billing services sections",
       "Phone CTA & LinkedIn integration"
     ],
-    liveUrl: "https://oleksandr549.github.io/HTP.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/HTP.github.io/"
   },
 
   {
@@ -232,7 +232,7 @@ const PROJECTS = [
       "Live support & instant platform UI",
       "Steam login integration link"
     ],
-    liveUrl: "https://oleksandr549.github.io/CaseHyg.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/CaseHyg.github.io/"
   },
 
   {
@@ -260,7 +260,7 @@ const PROJECTS = [
       "Weekly AI productivity report",
       "Data export"
     ],
-    liveUrl: "https://oleksandr549.github.io/TaskFlow.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/TaskFlow.github.io/"
   },
 
   {
@@ -287,7 +287,7 @@ const PROJECTS = [
       "Table booking form",
       "Responsive design"
     ],
-    liveUrl: "https://oleksandr549.github.io/Restaurant-Busienss.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/Restaurant-Busienss.github.io/"
   },
 
   {
@@ -313,7 +313,7 @@ const PROJECTS = [
       "Responsive typography & content hierarchy",
       "Data & research sections"
     ],
-    liveUrl: "https://oleksandr549.github.io/SexualAssault.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/SexualAssault.github.io/"
   },
 
   {
@@ -339,7 +339,7 @@ const PROJECTS = [
       "Responsive layout",
       "Multi-page navigation structure"
     ],
-    liveUrl: "https://oleksandr549.github.io/LevantineCollective.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/LevantineCollective.github.io/"
   },
 
   {
@@ -367,7 +367,7 @@ const PROJECTS = [
       "Waiver subpage",
       "Responsive layout"
     ],
-    liveUrl: "https://oleksandr549.github.io/VRLounge2.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/VRLounge2.github.io/"
   },
 
   {
@@ -394,7 +394,7 @@ const PROJECTS = [
       "Subscription / pricing plans",
       "Authentication modals (Sign In / Register)"
     ],
-    liveUrl: "https://oleksandr549.github.io/Chat.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/Chat.github.io/"
   },
 
   {
@@ -452,7 +452,7 @@ const PROJECTS = [
       "Bilingual support (EN / PL)",
       "Contact & login UI"
     ],
-    liveUrl: "https://oleksandr549.github.io/QBL.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/QBL.github.io/"
   },
 
   {
@@ -487,7 +487,7 @@ const PROJECTS = [
       "Bilingual support (PL / EN)",
       "Promo code & discount banner"
     ],
-    liveUrl: "https://oleksandr549.github.io/DreamApart/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/DreamApart/"
   },
 
   {
@@ -517,7 +517,7 @@ const PROJECTS = [
       "Social media links",
       "Responsive layout"
     ],
-    liveUrl: "https://oleksandr549.github.io/Ski-Carv.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/Ski-Carv.github.io/"
   },
 
   {
@@ -548,7 +548,7 @@ const PROJECTS = [
       "Contact & map section",
       "Multi-page blog structure"
     ],
-    liveUrl: "https://oleksandr549.github.io/karma-hair.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/karma-hair.github.io/"
   },
 
   {
@@ -584,7 +584,7 @@ const PROJECTS = [
       "Blog with multi-layout support",
       "Volunteer & donate CTA"
     ],
-    liveUrl: "https://oleksandr549.github.io/finsweetwebsiteoleksandr.github.io/home.html"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/finsweetwebsiteoleksandr.github.io/home.html"
   }
 
 ];

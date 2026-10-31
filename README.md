@@ -60,9 +60,9 @@ DNS records at the registrar:
 | A     | @    | 185.199.109.153         |
 | A     | @    | 185.199.110.153         |
 | A     | @    | 185.199.111.153         |
-| CNAME | www  | oleksandr549.github.io  |
+| CNAME | www  | oleksandr-vyshnevskyi.github.io  |
 
-> Replace `oleksandr549` with your actual GitHub username.
+> Replace `oleksandr-vyshnevskyi` with your actual GitHub username.
 
 GitHub Pages settings: **Source → Deploy from branch → main → / (root)**  
 Enable **"Enforce HTTPS"** after the domain propagates (~10–30 min).
