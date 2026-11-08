@@ -50,7 +50,7 @@ function renderCards(count) {
 function buildCard(p, idx) {
   const card = document.createElement('a');
   card.className = 'pg-card';
-  card.href = `project-detail.html?id=${p.id}`;
+  card.href = `/project-detail?id=${p.id}`;
   card.setAttribute('data-id', p.id);
 
   const mediaEl = p.image
@@ -104,5 +104,5 @@ document.getElementById('pgLoadBtn').addEventListener('click', () => {
    ptNavigate() is available globally
 ──────────────────────────────────────────────── */
 function navigateToProject(id) {
-  window.ptNavigate(`project-detail.html?id=${id}`);
+  window.ptNavigate(`/project-detail?id=${id}`);
 }

@@ -40,7 +40,7 @@ function renderPage(p) {
   document.title = `${p.title} — Oleksandr Vyshnevskyi`;
 
   /* ── per-project SEO: canonical, description, OG ── */
-  const pageUrl = `https://vyshnevsky.com/project-detail.html?id=${p.id}`;
+  const pageUrl = `https://vyshnevsky.com/project-detail?id=${p.id}`;
   const setAttr = (sel, attr, val) => { const el = document.querySelector(sel); if (el && val) el.setAttribute(attr, val); };
   setAttr('link[rel="canonical"]', 'href', pageUrl);
   setAttr('meta[property="og:url"]', 'content', pageUrl);
@@ -80,7 +80,7 @@ function renderPage(p) {
       <a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="pd-hero-btn btn btn--primary">View Demo <span class="btn__icon btn__icon--up-right"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>`;
   }
   actionsHtml += `
-    <a href="index.html?section=contact" class="pd-hero-btn btn btn--secondary">Start a Similar Project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>`;
+    <a href="/?section=contact" class="pd-hero-btn btn btn--secondary">Start a Similar Project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>`;
   heroActions.innerHTML = actionsHtml;
 
   /* ── INFO STRIP — removed, content moved to sidebar ── */
@@ -169,8 +169,8 @@ function renderPage(p) {
     <div class="pd-sb-head">Get in touch</div>
     <div class="pd-sb-body">
       <div class="pd-sb-cta">
-        <a href="index.html?section=contact" class="pd-sb-btn btn btn--primary btn--s">Start a Similar Project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a href="projects.html" class="pd-sb-btn btn btn--secondary btn--s btn--icon-left"><span class="btn__icon btn__icon--left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span> All Projects</a>
+        <a href="/?section=contact" class="pd-sb-btn btn btn--primary btn--s">Start a Similar Project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a href="/projects" class="pd-sb-btn btn btn--secondary btn--s btn--icon-left"><span class="btn__icon btn__icon--left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span> All Projects</a>
       </div>
     </div>
   </div>`;
@@ -262,7 +262,7 @@ function renderPage(p) {
 
     if (prev) {
       navHtml += `
-        <a class="pd-nav-card" href="project-detail.html?id=${prev.id}">
+        <a class="pd-nav-card" href="/project-detail?id=${prev.id}">
           <div class="pd-nav-card-bg" style="${prev.image ? `background-image:url(${prev.image})` : ''}"></div>
           <div class="pd-nav-card-overlay"></div>
           <div class="pd-nav-card-body">
@@ -279,7 +279,7 @@ function renderPage(p) {
 
     if (next) {
       navHtml += `
-        <a class="pd-nav-card is-next" href="project-detail.html?id=${next.id}">
+        <a class="pd-nav-card is-next" href="/project-detail?id=${next.id}">
           <div class="pd-nav-card-bg" style="${next.image ? `background-image:url(${next.image})` : ''}"></div>
           <div class="pd-nav-card-overlay"></div>
           <div class="pd-nav-card-body" style="text-align:right;">
