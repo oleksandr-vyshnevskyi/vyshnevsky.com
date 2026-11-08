@@ -60,6 +60,14 @@ const PROJECTS = [
       "English, Chinese, Russian and Arabic with a full right-to-left layout",
       "WCAG 2.0 level A and PageSpeed optimisation"
     ],
+    review: {
+      text: "Excellent service, communication and delivery. We would recommend Oleksandr to anyone requiring a website refresh.",
+      author: "ad_aerospace",
+      initials: "AD",
+      stars: 5,
+      platform: "Fiverr",
+      country: "United Kingdom"
+    },
     liveUrl: "https://ad-aero.com/"
   },
 
