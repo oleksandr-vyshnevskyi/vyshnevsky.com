@@ -29,6 +29,7 @@ const PROJECTS = [
 
   {
     id: 17,
+    slug: "ad-aerospace",
     title: "AD Aerospace",
     type: "Corporate Website · WordPress",
     stack: ["WordPress", "PHP", "JavaScript", "Three.js"],
@@ -73,6 +74,7 @@ const PROJECTS = [
 
   {
     id: 18,
+    slug: "strata",
     title: "STRATA — 3D Watch Landing",
     type: "3D Product Landing Page",
     stack: ["Three.js", "GSAP", "JavaScript", "Vite"],
@@ -102,6 +104,7 @@ const PROJECTS = [
 
   {
     id: 19,
+    slug: "react-product-catalog",
     title: "Shelf — React Product Catalog",
     type: "Web App · SPA",
     stack: ["React", "TypeScript", "Vite", "React Router"],
@@ -129,6 +132,7 @@ const PROJECTS = [
 
   {
     id: 1,
+    slug: "nations-on-fire",
     title: "Nations On Fire",
     type: "Church / Event Landing Page",
     stack: ["HTML", "CSS", "JavaScript", "GSAP"],
@@ -162,6 +166,7 @@ const PROJECTS = [
 
   {
     id: 2,
+    slug: "kaas-kitchens",
     title: "KAAS Kitchens",
     type: "Business Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -191,6 +196,7 @@ const PROJECTS = [
 
   {
     id: 3,
+    slug: "htp-group",
     title: "HTP Group — IT Consulting",
     type: "Corporate Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -218,6 +224,7 @@ const PROJECTS = [
 
   {
     id: 4,
+    slug: "casehug",
     title: "CaseHug — CS2 Skin Platform",
     type: "Gaming / E-commerce Landing",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -245,6 +252,7 @@ const PROJECTS = [
 
   {
     id: 5,
+    slug: "taskflow",
     title: "TaskFlow",
     type: "Web App",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -273,6 +281,7 @@ const PROJECTS = [
 
   {
     id: 6,
+    slug: "restaurant-business",
     title: "Restaurant Business",
     type: "Restaurant Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -300,6 +309,7 @@ const PROJECTS = [
 
   {
     id: 7,
+    slug: "digital-journalism-csa",
     title: "Digital Journalism & CSA",
     type: "Editorial / Interactive Article",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -326,6 +336,7 @@ const PROJECTS = [
 
   {
     id: 8,
+    slug: "levantine-collective",
     title: "Levantine Collective",
     type: "Editorial / Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -352,6 +363,7 @@ const PROJECTS = [
 
   {
     id: 9,
+    slug: "vr-lounge",
     title: "VR Lounge",
     type: "Landing Page",
     stack: ["HTML", "CSS", "JavaScript", "GSAP"],
@@ -380,6 +392,7 @@ const PROJECTS = [
 
   {
     id: 10,
+    slug: "swiperoulette",
     title: "SwipeRoulette — Chat App",
     type: "Web App",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -407,6 +420,7 @@ const PROJECTS = [
 
   {
     id: 11,
+    slug: "matrix-technology",
     title: "Matrix Technology",
     type: "Business / Product Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -435,6 +449,7 @@ const PROJECTS = [
 
   {
     id: 12,
+    slug: "qbl",
     title: "QBL — Industrial Storage Systems",
     type: "B2B Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -465,6 +480,7 @@ const PROJECTS = [
 
   {
     id: 13,
+    slug: "dream-apart",
     title: "Dream Apart",
     type: "Apartment Booking Platform",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -500,6 +516,7 @@ const PROJECTS = [
 
   {
     id: 14,
+    slug: "skicarv",
     title: "SkiCarv",
     type: "Service Booking Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -530,6 +547,7 @@ const PROJECTS = [
 
   {
     id: 15,
+    slug: "karma-hair-transplant",
     title: "KARMA Hair Transplant",
     type: "Medical / Business Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
@@ -561,6 +579,7 @@ const PROJECTS = [
 
   {
     id: 16,
+    slug: "finsweet",
     title: "Finsweet — Eco NGO Website",
     type: "NGO / Non-Profit Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],

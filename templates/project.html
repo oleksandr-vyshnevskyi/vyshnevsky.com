@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <script>document.documentElement.classList.add('js')</script>
+  <meta name="theme-color" content="#07090A">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ─── Primary SEO ─── -->
+  <title>{{TITLE}}</title>
+  <meta name="description" id="pdMetaDesc" content="{{DESC}}">
+  <meta name="author" content="Oleksandr Vyshnevskyi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" id="pdCanonical" href="{{URL}}">
+
+  <!-- ─── Open Graph ─── -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" id="pdOgUrl" content="{{URL}}">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{DESC}}">
+  <meta property="og:image" content="https://vyshnevsky.com/images/og-preview-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Oleksandr Vyshnevskyi">
+
+  <!-- ─── Twitter Card ─── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{TITLE}}">
+  <meta name="twitter:description" content="{{DESC}}">
+  <meta name="twitter:image" content="https://vyshnevsky.com/images/og-preview-1200x630.png">
+
+  <!-- ─── Favicon ─── -->
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+  <!-- ─── Fonts & Styles ─── -->
+  <link rel="preload" href="/fonts/syne-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles/fonts.css">
+  <link rel="stylesheet" href="/styles/tokens.css">
+  <link rel="stylesheet" href="/styles/style.css">
+  <link rel="stylesheet" href="/styles/buttons.css">
+  <link rel="stylesheet" href="/styles/project-detail.css">
+
+  <noscript><style>#pdMain{opacity:1!important}</style></noscript>
+  <script type="application/ld+json">{{JSONLD}}</script>
+</head>
+
+<body data-page="project" data-project-id="{{ID}}">
+  <a class="skip-link" href="#pdMain">Skip to content</a>
+
+  <div class="page-content">
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAV -->
+  <nav id="nav">
+    <a class="logo" href="/">OV.</a>
+
+    <!-- scrolled state links (always visible on inner pages) -->
+    <div class="nav-scrolled-links">
+      <a href="/#about">About</a>
+      <a href="/#skills">Skills</a>
+      <a href="/projects/">Projects</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <div class="nav-scrolled-time">
+      <span id="navTimeS">--:--:--</span>
+      <span class="nav-scrolled-tz">CET · PL</span>
+    </div>
+
+    <button type="button" class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false" aria-controls="navMobile">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- mobile nav overlay -->
+  <div class="nav-mobile" id="navMobile">
+    <a href="/#about" class="nm-link">About</a>
+    <a href="/#skills" class="nm-link">Skills</a>
+    <a href="/projects/" class="nm-link nm-active">Projects</a>
+    <a href="/#contact" class="nm-link">Contact</a>
+    <div class="nm-time-block">
+      <span class="nm-time-label">Local time</span>
+      <span id="nmTime">--:--:--</span>
+      <span class="nm-time-tz">CET · PL</span>
+    </div>
+  </div>
+
+  <!-- Page enter overlay (slides away on load) -->
+  <!-- ─── 404 state (shown if id not found) ─── -->
+  <div class="pd-404" id="pd404" style="display:none;">
+    <div class="pd-404-inner">
+      <div class="stag">Error</div>
+      <h1>Project not found.</h1>
+      <a href="/projects/" class="pd-back-btn btn btn--secondary btn--icon-left"><span class="btn__icon btn__icon--left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span> Back to Projects</a>
+    </div>
+  </div>
+
+  <!-- ─── MAIN CONTENT (injected by JS) ─── -->
+  <main id="pdMain" style="opacity:0;">
+
+    <!-- HERO -->
+    <section class="pd-hero" id="pdHero">
+      <div class="pd-hero-bg" id="pdHeroBg" style="{{HERO_BG}}"></div>
+      <div class="pd-hero-overlay"></div>
+      <div class="pd-hero-content wrap">
+        <a class="pd-breadcrumb" href="/projects/" id="pdBreadcrumb">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          All Projects
+        </a>
+        <div class="pd-hero-meta" id="pdHeroMeta">{{HERO_META}}</div>
+        <h1 class="pd-hero-title" id="pdHeroTitle">{{HERO_TITLE}}</h1>
+        <p class="pd-hero-brief" id="pdHeroBrief">{{HERO_BRIEF}}</p>
+        <div class="pd-hero-actions" id="pdHeroActions">{{HERO_ACTIONS}}</div>
+      </div>
+    </section>
+
+    <!-- BODY -->
+    <section class="pd-content-wrap wrap">
+      <div class="pd-content-grid">
+
+        <!-- LEFT — main content -->
+        <div class="pd-left" id="pdLeft">{{LEFT}}</div>
+
+        <!-- RIGHT — sidebar -->
+        <aside class="pd-sidebar" id="pdSidebar">{{SIDEBAR}}</aside>
+
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="pd-gallery-section" id="pdGallerySection" style="{{GALLERY_STYLE}}">
+      <div class="pd-gallery-header wrap">
+        <h2 class="pd-gallery-title">Gallery</h2>
+        <span class="pd-gallery-count-label" id="pdGalleryCountLabel">{{GALLERY_COUNT}}</span>
+      </div>
+      <div class="pd-gallery-grid" id="pdGalleryGrid">{{GALLERY}}</div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="pd-lightbox" id="pdLightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <button type="button" class="pd-lb-close" id="pdLbClose" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <button type="button" class="pd-lb-prev" id="pdLbPrev" aria-label="Previous image">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="pd-lb-media" id="pdLbMedia"></div>
+      <button type="button" class="pd-lb-next" id="pdLbNext" aria-label="Next image">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="pd-lb-counter" id="pdLbCounter"></div>
+    </div>
+
+    <!-- NEXT / PREV PROJECTS -->
+    <section class="pd-nav-projects wrap" id="pdNavProjects">{{NAV}}</section>
+
+  </main>
+
+
+  </div><!-- /page-content -->
+
+<!-- FOOTER -->
+  <footer id="footer">
+    <canvas class="foot-canvas" id="footCanvas"></canvas>
+    <div class="foot-grid"></div>
+
+    <!-- Variant B glow: horizontal band + double line -->
+    <div class="foot-glow-band" aria-hidden="true"></div>
+
+    <div class="foot-inner">
+
+      <!-- Col 1: Brand -->
+      <div class="foot-col foot-col--brand">
+       <a class="foot-logo" href="/"> OV.</a>
+        <p class="foot-tagline">Front-End Developer.<br>Clean code, real results, every time.</p>
+        <div class="foot-avail"><span class="pulse"></span>Available for work</div>
+        <div class="foot-sep"></div>
+        <span class="foot-col-label">Contact</span>
+        <a href="mailto:oleksandr.vyshnevskyi.work@gmail.com" class="foot-email">
+          oleksandr.vyshnevskyi<wbr>.work@gmail.com
+        </a>
+
+      </div>
+
+      <!-- Col 2: Navigate -->
+      <div class="foot-col">
+        <div class="foot-col-title">Navigate</div>
+        <ul class="foot-links">
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Work with me -->
+      <div class="foot-col">
+        <div class="foot-col-title">Work with me</div>
+        <ul class="foot-links">
+          <li><a href="https://www.fiverr.com/vyshnevsky" target="_blank" rel="noopener noreferrer">Fiverr</a></li>
+          <li><a href="https://www.upwork.com/freelancers/~01569a3bc56c0a5504" target="_blank" rel="noopener noreferrer">UpWork</a></li>
+          <li><a href="https://www.linkedin.com/in/oleksandr-vyshnevskyi-dev/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="https://github.com/oleksandr-vyshnevskyi" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Info -->
+      <div class="foot-col foot-col--info">
+        <div class="foot-info-item">
+          <span class="foot-col-label">Local time</span>
+          <div class="foot-time" id="footTime">--:--:--</div>
+          <div class="foot-tz">CET · PL</div>
+        </div>
+        <div class="foot-info-item">
+          <span class="foot-col-label">Region</span>
+          <div class="foot-info-val">Poland · EU</div>
+        </div>
+        <div class="foot-info-item">
+          <span class="foot-col-label">Response</span>
+          <div class="foot-info-val">within 12h</div>
+        </div>
+      </div>
+
+    </div><!-- /foot-inner -->
+
+    <div class="foot-divider"></div>
+
+    <div class="foot-bottom">
+      <span class="foot-copy">© <span id="footYear"></span> Oleksandr Vyshnevskyi — Designed &amp; built from scratch. <span class="foot-copy-sep">·</span> <a href="/privacy" class="foot-legal">Privacy Policy</a></span>
+      <a href="#" class="foot-back">
+        Back to top
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M7 12V2M2 7l5-5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+
+  </footer>
+
+  <script src="/script/vendor/gsap.min.js" defer></script>
+  <script src="/script/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="/script/transition.js" defer></script>
+  <script src="/script/common.js" defer></script>
+  <script src="/script/projects-data.js" defer></script>
+  <script src="/script/project-render.js" defer></script>
+  <script src="/script/project-detail.js" defer></script>
+
+</body>
+</html>

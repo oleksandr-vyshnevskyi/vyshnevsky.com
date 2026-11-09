@@ -50,11 +50,11 @@ function renderCards(count) {
 function buildCard(p, idx) {
   const card = document.createElement('a');
   card.className = 'pg-card';
-  card.href = `/project-detail?id=${p.id}`;
+  card.href = `/projects/${p.slug}/`;
   card.setAttribute('data-id', p.id);
 
   const mediaEl = p.image
-    ? `<img class="pg-card-img" src="${p.image}" alt="${p.title}" loading="lazy">`
+    ? `<img class="pg-card-img" src="/${p.image.replace(/^\//, '')}" alt="${p.title}" loading="lazy">`
     : `<div class="pg-card-placeholder"><span class="pg-card-placeholder-ico">${p.title.charAt(0)}</span></div>`;
 
   const stackTags = (p.stack || []).slice(0, 3)
@@ -104,5 +104,6 @@ document.getElementById('pgLoadBtn').addEventListener('click', () => {
    ptNavigate() is available globally
 ──────────────────────────────────────────────── */
 function navigateToProject(id) {
-  window.ptNavigate(`/project-detail?id=${id}`);
+  const p = PROJECTS.find(x => x.id === id);
+  window.ptNavigate(p ? `/projects/${p.slug}/` : '/projects/');
 }

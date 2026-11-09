@@ -23,3 +23,6 @@ Thumbs.db
 
 # ── Claude app outputs (mockups / screenshots) ───────────
 Claude outputs/
+
+# ── Generated project pages (built by tools/build-projects.mjs) ──
+/projects/*/

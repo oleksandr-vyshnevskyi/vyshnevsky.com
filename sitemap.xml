@@ -1,158 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://vyshnevsky.com/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/projects</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=1</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/ad-aerospace/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=2</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/strata/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=3</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/react-product-catalog/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=4</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/nations-on-fire/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=5</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/kaas-kitchens/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=6</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/htp-group/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=7</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/casehug/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=8</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/taskflow/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=9</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/restaurant-business/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=10</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/digital-journalism-csa/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=11</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/levantine-collective/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=12</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/vr-lounge/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=13</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/swiperoulette/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=14</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/matrix-technology/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=15</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/qbl/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=16</loc>
-    <lastmod>2026-09-25</lastmod>
+    <loc>https://vyshnevsky.com/projects/dream-apart/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=17</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://vyshnevsky.com/projects/skicarv/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=18</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://vyshnevsky.com/projects/karma-hair-transplant/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://vyshnevsky.com/project-detail?id=19</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://vyshnevsky.com/projects/finsweet/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
     <loc>https://vyshnevsky.com/privacy</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
-
 </urlset>

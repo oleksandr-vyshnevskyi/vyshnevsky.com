@@ -13,8 +13,15 @@ HTML · CSS · JavaScript · GSAP (self-hosted) · Three.js · Formspree
 ```
 /
 ├── index.html              # Main page (Hero, About, Skills, Projects, Reviews, Contact)
-├── projects.html           # All projects grid
-├── project-detail.html     # Single project page (JS-driven, ?id=N)
+├── projects/
+│   ├── index.html          # All projects grid
+│   └── <slug>/index.html   # Generated project pages (not committed)
+├── templates/
+│   └── project.html        # Template for generated project pages
+├── tools/
+│   └── build-projects.mjs  # Generates project pages, redirects and sitemap.xml
+├── projects.html           # Generated redirect to /projects/
+├── project-detail.html     # Generated redirect from old ?id=N links
 ├── 404.html                # Custom error page
 ├── CNAME                   # Custom domain for GitHub Pages
 ├── sitemap.xml
@@ -31,23 +38,26 @@ HTML · CSS · JavaScript · GSAP (self-hosted) · Three.js · Formspree
 │   ├── script.js           # Home page animations & interactions
 │   ├── projects.js         # Projects grid logic
 │   ├── project-detail.js   # Single project page logic
+│   ├── project-render.js   # Project page markup, shared by the browser and the build
 │   ├── projects-data.js    # All project data (single source of truth)
 │   ├── transition.js       # Page transitions + shared scroll lock
 │   └── globe.js            # Three.js hero globe (home only)
 ├── images/                 # WebP images, videos, favicons
 └── cv/
-    └── cv.pdf
+    ├── cv.pdf
+    └── cv-pl.pdf
 ```
 
 ## Local development
 
-No build step required. Open `index.html` directly in a browser, or use any static server:
+Project pages (`/projects/<slug>/`) are generated from `script/projects-data.js` and `templates/project.html`. Build them, then start a static server that supports clean URLs:
 
 ```bash
-npx serve .
-# or
-python3 -m http.server 8080
+npm run dev
+# same as: node tools/build-projects.mjs && npx serve .
 ```
+
+`npm run build` regenerates the project pages, `project-detail.html`, `projects.html` and `sitemap.xml`. Generated pages are not committed: GitHub Actions builds them on every push.
 
 ## Deployment
 
@@ -64,7 +74,7 @@ DNS records at the registrar:
 
 > Replace `oleksandr-vyshnevskyi` with your actual GitHub username.
 
-GitHub Pages settings: **Source → Deploy from branch → main → / (root)**  
+GitHub Pages settings: **Source → GitHub Actions** (workflow `.github/workflows/static.yml` builds project pages and deploys)  
 Enable **"Enforce HTTPS"** after the domain propagates (~10–30 min).
 
 ## Contact form
