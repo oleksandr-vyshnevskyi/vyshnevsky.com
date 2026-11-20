@@ -154,18 +154,11 @@ nav#nav.s .nav-scrolled-time {
   letter-spacing: var(--ls-label)
 }
 
-.nav-scrolled-links a.nav-cv {
+.nav-scrolled-links a.nav-cv-btn {
+  --h: 34px;
   color: var(--g);
-  border: 1px solid var(--ga-35);
-  border-radius: var(--r-pill);
-  padding: var(--sp-4) var(--sp-12);
-  font-size: var(--fs-label);
-  letter-spacing: var(--ls-label);
-  transition: background var(--dur-fast), color var(--dur-fast);
-}
-.nav-scrolled-links a.nav-cv:hover {
-  background: var(--g);
-  color: var(--g-btn);
+  font-size: 12px;
+  letter-spacing: var(--ls-ui);
 }
 .nm-cv {
   display: inline-flex;
@@ -191,8 +184,7 @@ nav#nav.s .nav-scrolled-time {
   font-size: var(--fs-label);
   letter-spacing: var(--ls-label);
 }
-.nav-scrolled-links .nav-lang a[aria-current],
-.nav-col a.nav-col-lang[aria-current] {
+.nav-scrolled-links .nav-lang a[aria-current] {
   color: var(--g);
 }
 .nm-lang {
@@ -293,11 +285,47 @@ nav#nav.s .nav-scrolled-time {
 /* ── right block: time (hero state) — footer style ── */
 .nav-right-block {
   display: flex;
+  align-items: center;
+  gap: var(--sp-24);
+  position: relative;
+  z-index: 2
+}
+
+.nav-right-block > * + * {
+  position: relative;
+}
+
+.nav-right-block .nav-lang--hero {
+  padding-left: 0;
+  border-left: none;
+  padding-right: var(--sp-24);
+  border-right: 1px solid var(--w-12);
+}
+
+.nav-lang--hero a {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  color: var(--m);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+
+.nav-lang--hero a:hover,
+.nav-lang--hero a[aria-current] {
+  color: var(--g);
+}
+
+.nav-time {
+  display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 3px;
-  position: relative;
-  z-index: 2
+  padding-left: var(--sp-24);
+  border-left: 1px solid var(--w-12);
+}
+
+.nav-cv-btn.btn {
+  color: var(--g);
 }
 
 .nav-time-label {
