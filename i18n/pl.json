@@ -206,7 +206,24 @@
   "Used in": "Użyte w",
   "Animation · WebGL": "Animacja · WebGL",
   "Accessibility": "Dostępność",
-  "HTML &amp; CSS": "HTML i CSS"
+  "HTML &amp; CSS": "HTML i CSS",
+  "Not just a list of technologies — pick one to see the project where I used it.": "To nie tylko lista technologii — wybierz jedną, aby zobaczyć projekt, w którym jej użyłem.",
+  "Back-end &amp; languages": "Back-end i języki",
+  "<span class=\"stk-legend-dot\"></span>Learning now": "<span class=\"stk-legend-dot\"></span>Uczę się teraz",
+  "Library management system": "System zarządzania biblioteką",
+  "University project · GitHub": "Projekt na studia · GitHub",
+  "Object-oriented programming": "Programowanie obiektowe",
+  "University course · GitHub": "Przedmiot na studiach · GitHub",
+  "University coursework": "Zajęcia na studiach",
+  "Relational databases and queries": "Relacyjne bazy danych i zapytania",
+  "Learning now": "Uczę się teraz",
+  "Building a full-stack booking app with Next.js, Prisma and PostgreSQL": "Buduję aplikację full-stack do rezerwacji w Next.js, Prisma i PostgreSQL",
+  "Web fundamentals": "Podstawy weba",
+  "Tools": "Narzędzia",
+  "Front-End": "Front-end",
+  "Core": "Podstawa",
+  "Server": "Serwer",
+  "Responsive": "Responsywność"
  },
  "js": {
   "Name is required": "Podaj imię",
@@ -260,6 +277,13 @@
   "\"Excellent work and good communication, <strong>professional approach</strong> to project. Looking forward to working on future projects!\"",
   "\"<strong>Excellent solution</strong> for the form validation task — clean, reusable code covering name, email, and international phone validation. Communication was professional, delivery on time, and the result exceeded expectations.\"",
   "Did the task very quickly.",
-  "Nations On Fire"
+  "Nations On Fire",
+  "React · TypeScript · Vite",
+  "WordPress · PHP · Three.js",
+  "Three.js · GSAP · Vite",
+  "HTML · CSS · JavaScript",
+  "HTML · CSS · GSAP",
+  "PolskaPogoda",
+  "QBL Platform"
  ]
 }

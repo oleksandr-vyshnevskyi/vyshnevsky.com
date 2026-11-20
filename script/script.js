@@ -303,122 +303,90 @@ const unlockScroll = () => window.unlockScroll?.();
 
 /* Scroll progress, burger menu, clock, footer reveal — handled by common.js */
 
-/* ─── SKILLS ACCORDION ─── */
 (function () {
-  const rows = document.querySelectorAll('.sk-row');
-  if (!rows.length) return;
+  const stk = document.getElementById('stk');
+  if (!stk) return;
+  const chips = [...stk.querySelectorAll('.stk-chip')];
+  const panel = document.getElementById('stkPanel');
+  const techEl = document.getElementById('stkTech');
+  const items = [...panel.querySelectorAll('.stk-item')];
+  const panelHome = panel.parentNode;
+  const narrow = window.matchMedia('(max-width: 1024px)');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  let current = chips.find(c => c.classList.contains('is-on')) || chips[0];
 
-  // ── Accordion: header acts as a button (click, Enter, Space) ──
-  function syncAria() {
-    rows.forEach(r => {
-      const head = r.querySelector('.sk-acc-head');
-      if (head) head.setAttribute('aria-expanded', r.classList.contains('open') ? 'true' : 'false');
-    });
-  }
-  function toggleRow(row) {
-    const wasOpen = row.classList.contains('open');
-    rows.forEach(r => r.classList.remove('open'));
-    if (!wasOpen) row.classList.add('open');
-    syncAria();
-  }
-  rows.forEach(function (row, i) {
-    const head = row.querySelector('.sk-acc-head');
-    const body = row.querySelector('.sk-body');
-    if (head) {
-      head.setAttribute('role', 'button');
-      head.setAttribute('tabindex', '0');
-      if (body) { body.id = body.id || 'skBody' + i; head.setAttribute('aria-controls', body.id); }
-      head.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleRow(row); }
-      });
+  function place() {
+    if (narrow.matches) {
+      const group = current.closest('.stk-g');
+      if (panel.parentNode !== group) group.appendChild(panel);
+    } else if (panel.parentNode !== panelHome) {
+      panelHome.appendChild(panel);
     }
-    row.addEventListener('click', e => { if (!e.target.closest('a')) toggleRow(row); });
-  });
-  syncAria();
+  }
 
-  // ── Intro: stag line + title + sub scrub in ──
+  function select(chip) {
+    if (!chip) return;
+    current = chip;
+    chips.forEach(c => {
+      const on = c === chip;
+      c.classList.toggle('is-on', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    const used = chip.dataset.used.split(/\s+/);
+    techEl.textContent = chip.textContent.trim();
+    items.forEach(it => { it.hidden = !used.includes(it.dataset.key); });
+    used.forEach((k, i) => { const it = items.find(x => x.dataset.key === k); if (it) it.style.order = i; });
+    place();
+    panel.classList.remove('is-swap');
+    void panel.offsetWidth;
+    panel.classList.add('is-swap');
+  }
+
+  let hoverTimer = 0;
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => { clearTimeout(hoverTimer); select(chip); });
+    chip.addEventListener('focus', () => { if (fine.matches && chip.matches(':focus-visible')) select(chip); });
+    chip.addEventListener('pointerenter', () => {
+      if (!fine.matches || narrow.matches) return;
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => select(chip), 220);
+    });
+    chip.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
+  });
+  narrow.addEventListener('change', place);
+  select(current);
+  panel.classList.remove('is-swap');
+
   const stag  = document.getElementById('skStag');
   const title = document.getElementById('skTitle');
   const sub   = document.getElementById('skSub');
-  const list  = document.getElementById('skList');
+  const groups = stk.querySelectorAll('.stk-g, .stk-legend');
 
   if (stag && title && sub) {
     gsap.set([stag, sub], { opacity: 0, y: 20 });
-    gsap.set(title,       { opacity: 0, y: 40 });
-
+    gsap.set(title, { opacity: 0, y: 40 });
     ScrollTrigger.create({
       trigger: '#skills',
       start: 'top 80%',
+      once: true,
       onEnter() {
         gsap.to(stag,  { opacity: 1, y: 0, duration: .7, ease: 'power2.out' });
         gsap.to(title, { opacity: 1, y: 0, duration: .9, delay: .12, ease: 'power3.out' });
         gsap.to(sub,   { opacity: 1, y: 0, duration: .7, delay: .28, ease: 'power2.out' });
-      },
-      once: true
+      }
     });
   }
 
-  // ── Rows: stagger slide-in from bottom with scrub ──
-  if (list) {
-    // Top border line — draws in from left on scroll
-    gsap.fromTo(list,
-      { '--line-w': '0%' },
-      { '--line-w': '100%',
-        ease: 'none',
-        scrollTrigger: { trigger: list, start: 'top 85%', end: 'top 60%', scrub: 1 }
-      }
-    );
-
-    // Each row flies in with stagger
-    rows.forEach(function (row, i) {
-      gsap.fromTo(row,
-        { opacity: 0, y: 50, clipPath: 'inset(0 0 100% 0)' },
-        {
-          opacity: 1,
-          y: 0,
-          clipPath: 'inset(0 0 0% 0)',
-          duration: .8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: list,
-            start: 'top 78%',
-            toggleActions: 'play none none none'
-          },
-          delay: i * 0.09
-        }
-      );
-    });
-
-    // First row opens automatically after animation
-    ScrollTrigger.create({
-      trigger: list,
-      start: 'top 70%',
-      onEnter() {
-        setTimeout(function () {
-          if (!document.querySelector('.sk-row.open')) {
-            rows[0].classList.add('open');
-            syncAria();
-          }
-        }, 700);
-      },
-      once: true
-    });
-  }
-
-  // ── Hover: number colour pulse on row hover ──
-  rows.forEach(function (row) {
-    const num = row.querySelector('.sk-num');
-    if (!num) return;
-    row.addEventListener('mouseenter', function () {
-      gsap.to(num, { color: '#3DFF8F', duration: .25, ease: 'power2.out' });
-    });
-    row.addEventListener('mouseleave', function () {
-      if (!row.classList.contains('open')) {
-        gsap.to(num, { color: 'rgba(61,255,143,0.65)', duration: .3, ease: 'power2.out' });
-      }
-    });
+  gsap.set([...groups, panelHome === panel.parentNode ? panel : null].filter(Boolean), { opacity: 0, y: 40 });
+  ScrollTrigger.create({
+    trigger: stk,
+    start: 'top 82%',
+    once: true,
+    onEnter() {
+      gsap.to(groups, { opacity: 1, y: 0, duration: .8, ease: 'power3.out', stagger: .08 });
+      if (panel.parentNode === panelHome) gsap.to(panel, { opacity: 1, y: 0, duration: .8, delay: .2, ease: 'power3.out' });
+    }
   });
-
 })();
 
 /* ─── PROJECTS SPLIT LAYOUT ─── */
