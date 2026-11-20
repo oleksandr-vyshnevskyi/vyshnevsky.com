@@ -152,7 +152,7 @@ gsap.registerPlugin(ScrollTrigger);
 
   // ── Desktop: stickyWrap gets height, bentoInner is sticky ──
   function setupDesktop() {
-    const extra = 1100;
+    const extra = 700;
     stickyWrap.style.height  = (window.innerHeight + extra) + 'px';
     bentoInner.style.position  = 'sticky';
     bentoInner.style.top       = '0px';
@@ -179,7 +179,8 @@ gsap.registerPlugin(ScrollTrigger);
     const rect  = stickyWrap.getBoundingClientRect();
     const total = stickyWrap.offsetHeight - window.innerHeight;
     if (total <= 0) return;
-    const p = Math.max(0, Math.min(1, -rect.top / total));
+    const lead = window.innerHeight * 0.7;
+    const p = Math.max(0, Math.min(1, (lead - rect.top) / (total + lead)));
 
     cards.forEach(c => {
       const t = eio(prog(p, c.from, c.to));
@@ -331,7 +332,7 @@ const unlockScroll = () => window.unlockScroll?.();
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleRow(row); }
       });
     }
-    row.addEventListener('click', () => toggleRow(row));
+    row.addEventListener('click', e => { if (!e.target.closest('a')) toggleRow(row); });
   });
   syncAria();
 

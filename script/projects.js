@@ -1,109 +1,111 @@
-/* ─────────────────────────────────────────────
-   DATA is in script/projects-data.js
-   CONFIG
-──────────────────────────────────────────────── */
-const PER_PAGE = 6;
+const FEATURED = ['react-product-catalog', 'ad-aerospace', 'strata', 'qbl'];
 
-/* ─── STATE ─── */
-let shown = 0;
+const arrowRight = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const imgPath = p => '/' + p.image.replace(/^\//, '');
+const smallPath = p => imgPath(p).replace(/\.webp$/, '-960.webp');
+const projectHref = p => `${window.LANG_BASE}/projects/${p.slug}/`;
 
-/* Scroll progress, nav state, burger, clock — handled by common.js */
-
-gsap.registerPlugin(ScrollTrigger);
-
-/* ─── INIT ─── */
 window.addEventListener('DOMContentLoaded', () => {
-  // Total count in header
+  const featured = FEATURED.map(s => PROJECTS.find(p => p.slug === s)).filter(Boolean);
+  const other = PROJECTS.filter(p => !FEATURED.includes(p.slug))
+    .sort((a, b) => (b.year || '').localeCompare(a.year || ''));
+
   const countEl = document.getElementById('pgTotalCount');
   if (countEl) countEl.textContent = `${PROJECTS.length} ${T('Projects')}`;
+  document.getElementById('pgFeatCount').textContent = String(featured.length).padStart(2, '0');
+  document.getElementById('pgOtherCount').textContent = String(other.length).padStart(2, '0');
 
-  renderCards(PER_PAGE);
-});
-
-/* ─────────────────────────────────────────────
-   CARD RENDERING
-──────────────────────────────────────────────── */
-function renderCards(count) {
   const grid = document.getElementById('pgGrid');
-  const end = Math.min(shown + count, PROJECTS.length);
-  const newCards = [];
+  featured.forEach((p, i) => grid.appendChild(buildCard(p, i)));
 
-  for (let i = shown; i < end; i++) {
-    const card = buildCard(PROJECTS[i], i);
-    grid.appendChild(card);
-    newCards.push(card);
-  }
+  const list = document.getElementById('pgList');
+  other.forEach((p, i) => list.appendChild(buildRow(p, i)));
 
-  shown = end;
-
-  // Staggered entrance
-  newCards.forEach((card, idx) => {
+  const cards = grid.querySelectorAll('.pg-card');
+  cards.forEach((card, idx) => {
     setTimeout(() => {
-      card.style.transition = `opacity .55s cubic-bezier(.16,1,.3,1) ${idx * 55}ms, transform .55s cubic-bezier(.16,1,.3,1) ${idx * 55}ms`;
+      card.style.transition = `opacity .55s cubic-bezier(.16,1,.3,1) ${idx * 70}ms, transform .55s cubic-bezier(.16,1,.3,1) ${idx * 70}ms`;
       card.classList.add('visible');
     }, 30);
   });
 
-  updateLoadBtn();
-}
+  initPreview(list);
+});
 
 function buildCard(p, idx) {
   const card = document.createElement('a');
   card.className = 'pg-card';
-  card.href = `${window.LANG_BASE}/projects/${p.slug}/`;
+  card.href = projectHref(p);
   card.setAttribute('data-id', p.id);
 
-  const mediaEl = p.image
-    ? `<img class="pg-card-img" src="/${p.image.replace(/^\//, '')}" srcset="/${p.image.replace(/^\//, '').replace(/\.webp$/, '-960.webp')} 960w, /${p.image.replace(/^\//, '')} 1920w" sizes="(max-width: 900px) 100vw, 50vw" alt="${p.title}" loading="lazy">`
+  const media = p.image
+    ? `<img class="pg-card-img" src="${imgPath(p)}" srcset="${smallPath(p)} 960w, ${imgPath(p)} 1920w" sizes="(max-width: 640px) 100vw, 50vw" alt="${p.title}" loading="${idx < 2 ? 'eager' : 'lazy'}">`
     : `<div class="pg-card-placeholder"><span class="pg-card-placeholder-ico">${p.title.charAt(0)}</span></div>`;
 
-  const stackTags = (p.stack || []).slice(0, 3)
-    .map(t => `<span class="pg-stack-tag">${t}</span>`).join('');
+  const tags = (p.stack || []).slice(0, 4).map(t => `<span class="pg-stack-tag">${t}</span>`).join('');
 
   card.innerHTML = `
-    ${mediaEl}
-    <span class="pg-card-num">${String(idx + 1).padStart(2, '0')}</span>
-    ${p.type ? `<span class="pg-card-type">${p.type}</span>` : ''}
-    <div class="pg-card-hover">
-      <div class="pg-card-title">${p.title}</div>
-      ${p.stack?.length ? `<div class="pg-card-stack">${stackTags}</div>` : ''}
-      <span class="pg-card-cta btn btn--secondary btn--s">${T('View Project')} <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+    <div class="pg-card-media">
+      ${media}
+      <span class="pg-card-num">${String(idx + 1).padStart(2, '0')}</span>
+      <span class="pg-card-go btn__icon">${arrowRight}</span>
+    </div>
+    <div class="pg-card-info">
+      <div class="pg-card-head">
+        <h3 class="pg-card-title">${p.title}</h3>
+        <span class="pg-card-year">${p.year || ''}</span>
+      </div>
+      ${p.type ? `<div class="pg-card-type">${p.type}</div>` : ''}
+      ${tags ? `<div class="pg-card-stack">${tags}</div>` : ''}
     </div>
   `;
-
-  /* Real <a href> — crawlable, middle-click/new-tab works; transition.js animates the navigation */
   return card;
 }
 
-/* ─── LOAD MORE + PROGRESS ─── */
-function updateLoadBtn() {
-  const wrap     = document.getElementById('pgLoadWrap');
-  const bar      = document.getElementById('pgProgressBar');
-  const label    = document.getElementById('pgProgressLabel');
-  const pct      = Math.round((shown / PROJECTS.length) * 100);
-
-  // Update progress bar
-  if (bar)   bar.style.width = pct + '%';
-  if (label) label.textContent = `${shown} ${T('of')} ${PROJECTS.length}`;
-
-  // Hide button when all shown
-  if (shown >= PROJECTS.length) {
-    document.getElementById('pgLoadBtn').style.display = 'none';
-  }
+function buildRow(p, idx) {
+  const li = document.createElement('li');
+  li.className = 'pg-row-item';
+  li.innerHTML = `
+    <a class="pg-row" href="${projectHref(p)}" data-img="${p.image ? smallPath(p) : ''}">
+      <span class="pg-row-num">${String(idx + 1).padStart(2, '0')}</span>
+      <span class="pg-row-title">${p.title}</span>
+      <span class="pg-row-type">${p.type || ''}</span>
+      <span class="pg-row-stack">${(p.stack || []).slice(0, 3).join(' · ')}</span>
+      <span class="pg-row-year">${p.year || ''}</span>
+      <span class="pg-row-go">${arrowRight}</span>
+    </a>
+  `;
+  return li;
 }
 
-document.getElementById('pgLoadBtn').addEventListener('click', () => {
-  const btn = document.getElementById('pgLoadBtn');
-  btn.style.transform = 'scale(.97)';
-  setTimeout(() => btn.style.transform = '', 180);
-  renderCards(PER_PAGE);
-});
-
-/* ─────────────────────────────────────────────
-   PAGE TRANSITION handled by transition.js
-   ptNavigate() is available globally
-──────────────────────────────────────────────── */
-function navigateToProject(id) {
-  const p = PROJECTS.find(x => x.id === id);
-  window.ptNavigate(`${window.LANG_BASE}/projects/${p ? p.slug + '/' : ''}`);
+function initPreview(list) {
+  const box = document.getElementById('pgPreview');
+  const img = document.getElementById('pgPreviewImg');
+  if (!box || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  let x = 0, y = 0, cx = 0, cy = 0, raf = 0;
+  const loop = () => {
+    cx += (x - cx) * 0.18;
+    cy += (y - cy) * 0.18;
+    box.style.transform = `translate(${cx}px, ${cy}px)`;
+    raf = Math.abs(x - cx) + Math.abs(y - cy) > 0.5 ? requestAnimationFrame(loop) : 0;
+  };
+  list.addEventListener('pointermove', e => {
+    x = e.clientX + 24;
+    y = e.clientY - 90;
+    if (!raf) raf = requestAnimationFrame(loop);
+  });
+  list.querySelectorAll('.pg-row').forEach(row => {
+    row.addEventListener('pointerenter', e => {
+      const src = row.dataset.img;
+      if (!src) return;
+      if (!box.classList.contains('on')) {
+        cx = x = e.clientX + 24;
+        cy = y = e.clientY - 90;
+        box.style.transform = `translate(${cx}px, ${cy}px)`;
+      }
+      img.src = src;
+      box.classList.add('on');
+    });
+  });
+  list.addEventListener('pointerleave', () => box.classList.remove('on'));
 }

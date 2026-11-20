@@ -193,7 +193,20 @@
   "Previous image": "Poprzednie zdjęcie",
   "Next image": "Następne zdjęcie",
   "Language": "Język",
-  "Shelf — Product Catalog": "Shelf — katalog produktów"
+  "Shelf — Product Catalog": "Shelf — katalog produktów",
+  "<span class=\"pulse\"></span>Open to full-time roles": "<span class=\"pulse\"></span>Otwarty na pracę na etat",
+  "Interactive menus, live filtering, form validation and API calls in clean ES6+ modules. Vanilla JavaScript when a framework would only add weight.": "Interaktywne menu, filtrowanie na żywo, walidacja formularzy i zapytania do API w czystych modułach ES6+. Czysty JavaScript tam, gdzie framework tylko dodałby wagi.",
+  "Motion &amp; 3D": "Animacja i 3D",
+  "Scroll-driven sequences, entrance animations, micro-interactions and real-time 3D. Motion that supports the interface and keeps performance in check.": "Sekwencje sterowane przewijaniem, animacje wejścia, mikrointerakcje i 3D w czasie rzeczywistym. Ruch, który wspiera interfejs i nie obciąża wydajności.",
+  "Design, Back-End &amp; Tools": "Design, back-end i narzędzia",
+  "Figma-to-code on every project, custom WordPress themes in PHP, SQL basics, and a Git workflow with deploys to GitHub Pages and Vercel.": "Figma do kodu w każdym projekcie, własne motywy WordPress w PHP, podstawy SQL oraz praca z Git i wdrożenia na GitHub Pages i Vercel.",
+  "Selected work": "Wybrane projekty",
+  "Other work": "Pozostałe projekty",
+  "Profiles": "Profile",
+  "Used in": "Użyte w",
+  "Animation · WebGL": "Animacja · WebGL",
+  "Accessibility": "Dostępność",
+  "HTML &amp; CSS": "HTML i CSS"
  },
  "js": {
   "Name is required": "Podaj imię",
@@ -228,7 +241,8 @@
   "Open image": "Otwórz zdjęcie",
   "out of 5 stars": "na 5 gwiazdek",
   "char": "znak",
-  "Currently in Poland": "Obecnie w Polsce"
+  "Currently in Poland": "Obecnie w Polsce",
+  "View Code": "Zobacz kod"
  },
  "keep": [
   "oleksandr.vyshnevskyi<wbr>.work@gmail.com",
@@ -245,6 +259,7 @@
   "\"<strong>Great work and very professional!</strong> Highly recommend!\"",
   "\"Excellent work and good communication, <strong>professional approach</strong> to project. Looking forward to working on future projects!\"",
   "\"<strong>Excellent solution</strong> for the form validation task — clean, reusable code covering name, email, and international phone validation. Communication was professional, delivery on time, and the result exceeded expectations.\"",
-  "Did the task very quickly."
+  "Did the task very quickly.",
+  "Nations On Fire"
  ]
 }

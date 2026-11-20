@@ -69,6 +69,7 @@
       <a href="/#skills">Skills</a>
       <a href="/projects/">Projects</a>
       <a href="/#contact">Contact</a>
+      <a href="/cv/cv.pdf" data-href-pl="/cv/cv-pl.pdf" class="nav-cv" target="_blank" rel="noopener">CV</a>
       <span class="nav-lang"><a href="/projects/" class="nav-lang-link" data-lang="en" hreflang="en" lang="en" aria-current="true">EN</a><a href="/pl/projects/" class="nav-lang-link" data-lang="pl" hreflang="pl" lang="pl">PL</a></span>
     </div>
     <div class="nav-scrolled-time">
@@ -87,6 +88,7 @@
     <a href="/#skills" class="nm-link">Skills</a>
     <a href="/projects/" class="nm-link nm-active">Projects</a>
     <a href="/#contact" class="nm-link">Contact</a>
+    <a href="/cv/cv.pdf" data-href-pl="/cv/cv-pl.pdf" class="nm-cv" target="_blank" rel="noopener">Download CV</a>
     <div class="nm-lang"><a href="/projects/" class="nm-lang-link" data-lang="en" hreflang="en" lang="en" aria-current="true">EN</a><a href="/pl/projects/" class="nm-lang-link" data-lang="pl" hreflang="pl" lang="pl">PL</a></div>
     <div class="nm-time-block">
       <span class="nm-time-label">Local time</span>
@@ -109,22 +111,22 @@
     <div class="pg-page-border"></div>
   </div>
 
-  <!-- ─── PROJECTS GRID ─── -->
   <section id="proj-grid-sec">
     <div class="proj-grid-wrap">
-      <div class="pg-grid" id="pgGrid">
-        <!-- cards injected by JS -->
+      <div class="pg-sec-head">
+        <h2 class="pg-sec-title">Selected work</h2>
+        <span class="pg-sec-count" id="pgFeatCount"></span>
       </div>
-      <div class="pg-load-wrap" id="pgLoadWrap">
-        <div class="pg-progress" id="pgProgress">
-          <div class="pg-progress-bar" id="pgProgressBar"></div>
-        </div>
-        <div class="pg-progress-label" id="pgProgressLabel"></div>
-        <button type="button" class="pg-load-btn btn btn--secondary" id="pgLoadBtn"><span class="pg-load-text">Load More</span> <span class="btn__icon btn__icon--down"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></button>
-      </div>
-    </div>
-  </section>
+      <div class="pg-grid" id="pgGrid"></div>
 
+      <div class="pg-sec-head pg-sec-head--other">
+        <h2 class="pg-sec-title">Other work</h2>
+        <span class="pg-sec-count" id="pgOtherCount"></span>
+      </div>
+      <ul class="pg-list" id="pgList"></ul>
+    </div>
+    <div class="pg-preview" id="pgPreview" aria-hidden="true"><img alt="" id="pgPreviewImg"></div>
+  </section>
 
   </main>
   </div><!-- /page-content -->
@@ -143,7 +145,7 @@
       <div class="foot-col foot-col--brand">
        <a class="foot-logo" href="/"> OV.</a>
         <p class="foot-tagline">Front-End Developer.<br>Clean code, real results, every time.</p>
-        <div class="foot-avail"><span class="pulse"></span>Available for work</div>
+        <div class="foot-avail"><span class="pulse"></span>Open to full-time roles</div>
         <div class="foot-sep"></div>
         <span class="foot-col-label">Contact</span>
         <a href="mailto:oleksandr.vyshnevskyi.work@gmail.com" class="foot-email">
@@ -163,14 +165,14 @@
         </ul>
       </div>
 
-      <!-- Col 3: Work with me -->
+      <!-- Col 3: Profiles -->
       <div class="foot-col">
-        <div class="foot-col-title">Work with me</div>
+        <div class="foot-col-title">Profiles</div>
         <ul class="foot-links">
-          <li><a href="https://www.fiverr.com/vyshnevsky" target="_blank" rel="noopener noreferrer">Fiverr</a></li>
-          <li><a href="https://www.upwork.com/freelancers/~01569a3bc56c0a5504" target="_blank" rel="noopener noreferrer">UpWork</a></li>
           <li><a href="https://www.linkedin.com/in/oleksandr-vyshnevskyi-dev/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
           <li><a href="https://github.com/oleksandr-vyshnevskyi" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://www.fiverr.com/vyshnevsky" target="_blank" rel="noopener noreferrer">Fiverr</a></li>
+          <li><a href="https://www.upwork.com/freelancers/~01569a3bc56c0a5504" target="_blank" rel="noopener noreferrer">UpWork</a></li>
         </ul>
       </div>
 
@@ -184,10 +186,6 @@
         <div class="foot-info-item">
           <span class="foot-col-label">Region</span>
           <div class="foot-info-val">Poland · EU</div>
-        </div>
-        <div class="foot-info-item">
-          <span class="foot-col-label">Response</span>
-          <div class="foot-info-val">within 12h</div>
         </div>
       </div>
 

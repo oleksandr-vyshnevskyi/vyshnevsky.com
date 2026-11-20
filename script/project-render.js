@@ -35,6 +35,9 @@
     if (hasLive(p)) {
       html += `<a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="pd-hero-btn btn btn--primary">${T('View Demo')} ${arrowUpRight}</a>`;
     }
+    if (p.codeUrl) {
+      html += `<a href="${p.codeUrl}" target="_blank" rel="noopener noreferrer" class="pd-hero-btn btn btn--secondary">${T('View Code')} ${arrowUpRight}</a>`;
+    }
     html += `<a href="${base()}/?section=contact" class="pd-hero-btn btn btn--secondary">${T('Start a Similar Project')} ${arrowRight}</a>`;
     return html;
   }

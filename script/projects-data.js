@@ -122,7 +122,8 @@ const PROJECTS = [
       "Works without WebGL and respects reduced-motion settings",
       "21 automated tests, including accessibility checks"
     ],
-    liveUrl: "https://oleksandr-vyshnevskyi.github.io/Strata.github.io/"
+    liveUrl: "https://oleksandr-vyshnevskyi.github.io/Strata.github.io/",
+    codeUrl: "https://github.com/oleksandr-vyshnevskyi/Strata.github.io"
   },
 
   {
@@ -161,7 +162,8 @@ const PROJECTS = [
       "Accessible review form with React Hook Form and Zod",
       "Responsive layout in CSS Modules, no UI libraries, deployed on Vercel"
     ],
-    liveUrl: "https://react-product-catalog-ecru.vercel.app/"
+    liveUrl: "https://react-product-catalog-ecru.vercel.app/",
+    codeUrl: "https://github.com/oleksandr-vyshnevskyi/react-product-catalog"
   },
 
   {

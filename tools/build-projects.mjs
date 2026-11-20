@@ -74,6 +74,10 @@ function localize(html, { dict, lang, url, prefix }) {
     onAttr: (n, a, k) => { const v = tr(k); if (v != null) n.setAttribute(a, v); },
   });
   root.querySelector('html')?.setAttribute('lang', lang);
+  for (const el of root.querySelectorAll('[data-href-pl]')) {
+    if (lang === 'pl') el.setAttribute('href', el.getAttribute('data-href-pl'));
+    el.removeAttribute('data-href-pl');
+  }
   for (const el of root.querySelectorAll('*')) {
     if (el.getAttribute('data-lang')) {
       if (el.getAttribute('data-lang') === lang) el.setAttribute('aria-current', 'true');

@@ -82,7 +82,7 @@
   --sp-96:  6rem;
   --sp-128: 8rem;
 
-  --fs-label: 0.75rem;
+  --fs-label: 0.8125rem;
   --fs-small: clamp(0.8125rem, 0.7893rem + 0.0952vw, 0.875rem);
   --fs-body-sm: clamp(0.875rem, 0.8518rem + 0.0952vw, 0.9375rem);
   --fs-body: clamp(1rem, 0.9768rem + 0.0952vw, 1.0625rem);
