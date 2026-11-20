@@ -436,12 +436,11 @@ const PROJECTS = [
       { type: "image", src: "images/Matrix4.webp" },
 
     ],
-    brief: "A corporate product website for Matrix Technology — a Polish company manufacturing VR and 5D attraction capsules for shopping malls, with a product catalogue, about section, and bilingual support (EN/PL).",
+    brief: "A corporate product website for Matrix Technology — a Polish company manufacturing VR and 5D attraction capsules for shopping malls, with a product catalogue and about section.",
     deliverables: [
       "Video hero section",
       "Product catalogue (VR/5D capsules)",
       "Stats & brand growth counters",
-      "Bilingual navigation (EN / PL)",
       "Contact page"
     ],
     liveUrl: "http://matrix.dreamerstudio.pl/"
@@ -507,7 +506,6 @@ const PROJECTS = [
       "Property listing cards with ski amenity icons",
       "Map integration placeholder",
       "Filter UI",
-      "Bilingual support (PL / EN)",
       "Promo code & discount banner"
     ],
     liveUrl: "https://oleksandr-vyshnevskyi.github.io/DreamApart/"
