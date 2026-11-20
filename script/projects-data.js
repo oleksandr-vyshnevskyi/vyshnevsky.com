@@ -52,6 +52,18 @@ const PROJECTS = [
       { type: "image", src: "images/ADAerospace11.webp" },
     ],
     brief: "A full redesign and custom WordPress build for AD Aerospace, a British manufacturer of aircraft video surveillance systems. The brief covered a new visual identity and information architecture, a product catalogue the client edits on their own, and a site in four languages.",
+    caseStudy: {
+      challenge: "AD Aerospace, a British manufacturer of aircraft video surveillance systems, needed its whole website rebuilt: a new look and information architecture, a product catalogue the team can update without a developer, and a site in four languages, including Arabic.",
+      approach: [
+        "Designed the full site first as an HTML/CSS/JS prototype, so every page, hover and interaction was agreed before any WordPress work started.",
+        "Built a custom WordPress theme with custom post types for systems, LRUs, aircraft, documents and certificates, all edited through custom fields.",
+        "Made one reusable template per content type instead of one-off pages, so every new product follows the same design and markup.",
+        "Added an interactive 3D viewer of the 4K camera with Three.js, loaded only when it scrolls into view.",
+        "Translated the site into Chinese, Russian and Arabic, with a full right-to-left layout for Arabic.",
+        "Checked accessibility against WCAG 2.0 level A and optimised PageSpeed on the live server."
+      ],
+      result: "48 pages in four languages, with every page, product and document editable from the WordPress admin."
+    },
     deliverables: [
       "Design, UX and content architecture captured in an HTML/CSS/JS prototype",
       "Custom WordPress theme with custom post types for systems, LRUs, aircraft and documents",
@@ -91,6 +103,17 @@ const PROJECTS = [
       { type: "image", src: "images/Strata7.webp" },
     ],
     brief: "A cinematic landing page for a fictional rugged field chronograph, told as a short film in five chapters: real-time WebGL, scroll-driven camera work, weather, sound and a live colour switcher on a single page.",
+    caseStudy: {
+      challenge: "A personal concept project: present a product the way a film trailer would. A fictional field chronograph told in five chapters, with real-time 3D instead of video.",
+      approach: [
+        "One continuous Three.js scene that follows the scroll through five chapters with GSAP, with no page reloads or video files.",
+        "A real-time PBR watch whose hands show the visitor's local time.",
+        "Exploded view, macro dolly and four colour variants switched live on the 3D model.",
+        "Ambient rain and thunder synthesised with the Web Audio API, with no audio files.",
+        "A fallback without WebGL and support for reduced-motion settings."
+      ],
+      result: "Lighthouse scores of 98 / 100 / 96 / 100, and 21 automated Playwright tests, including accessibility checks with axe-core."
+    },
     deliverables: [
       "One continuous 3D scene driven by scroll through five chapters",
       "Real-time PBR watch whose hands show the visitor's local time",
@@ -119,6 +142,17 @@ const PROJECTS = [
       { type: "image", src: "images/ProductCatalog5.webp" },
     ],
     brief: "A single-page product catalog built with React and TypeScript: almost two hundred products from a public API, with search, category filters, product pages and a validated review form.",
+    caseStudy: {
+      challenge: "My first complete React and TypeScript project: a product catalog that behaves like a real app, with routing, data loading, search and forms, built without a UI library.",
+      approach: [
+        "TypeScript in strict mode with no any; form types are inferred from the Zod schema.",
+        "A reusable, generic useFetch hook that cancels outdated requests.",
+        "A loading, error and empty state for every screen.",
+        "A review form with React Hook Form and Zod: errors appear after a field is touched and invalid fields are marked with aria-invalid.",
+        "Nested routes with React Router and a shared layout, styles in CSS Modules, deployed on Vercel."
+      ],
+      result: "Almost two hundred products from the public DummyJSON API, live on Vercel, with the source code on GitHub."
+    },
     deliverables: [
       "TypeScript in strict mode, form types inferred from the Zod schema",
       "Reusable generic useFetch hook that cancels outdated requests",

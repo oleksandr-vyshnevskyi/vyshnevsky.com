@@ -39,6 +39,14 @@
 
   function left(p) {
     let html = '';
+    if (p.caseStudy) {
+      const c = p.caseStudy;
+      html += '<div class="pd-case">';
+      if (c.challenge) html += `<div class="pd-section-label">The Challenge</div><p class="pd-case-text">${c.challenge}</p>`;
+      if (c.approach && c.approach.length) html += `<div class="pd-section-label">How I Built It</div><ul class="pd-case-list">${c.approach.map(a => `<li>${a}</li>`).join('')}</ul>`;
+      if (c.result) html += `<div class="pd-section-label">Result</div><p class="pd-case-text pd-case-result">${c.result}</p>`;
+      html += '</div>';
+    }
     if (p.deliverables && p.deliverables.length) {
       html += '<div class="pd-section-label">What I Did</div><ul class="pd-deliverables">';
       p.deliverables.forEach((d, i) => {
