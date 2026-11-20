@@ -30,3 +30,7 @@ Claude outputs/
 # ── Generated 960px image variants (built by tools/build-projects.mjs) ──
 images/*-960.webp
 node_modules/
+
+# ── Generated Polish version (built by tools/build-projects.mjs) ──
+/pl/
+script/projects-data.pl.js

@@ -1,5 +1,7 @@
 (function (root) {
   const SITE_URL = 'https://vyshnevsky.com';
+  const T = s => (root.I18N && root.I18N[s]) || s;
+  const base = () => (root.LANG === 'pl' ? '/pl' : '');
 
   const asset = src => {
     if (!src || /^([a-z]+:)?\/\//i.test(src) || src.startsWith('/') || src.startsWith('data:')) return src;
@@ -12,7 +14,7 @@
 
   const bgSrc = src => srcset(src) ? asset(smallSrc(src)) : asset(src);
 
-  const projectPath = p => `/projects/${p.slug}/`;
+  const projectPath = p => `${base()}/projects/${p.slug}/`;
   const projectUrl = p => SITE_URL + projectPath(p);
 
   const hasLive = p => p.liveUrl && p.liveUrl !== '#';
@@ -31,9 +33,9 @@
   function heroActions(p) {
     let html = '';
     if (hasLive(p)) {
-      html += `<a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="pd-hero-btn btn btn--primary">View Demo ${arrowUpRight}</a>`;
+      html += `<a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="pd-hero-btn btn btn--primary">${T('View Demo')} ${arrowUpRight}</a>`;
     }
-    html += `<a href="/?section=contact" class="pd-hero-btn btn btn--secondary">Start a Similar Project ${arrowRight}</a>`;
+    html += `<a href="${base()}/?section=contact" class="pd-hero-btn btn btn--secondary">${T('Start a Similar Project')} ${arrowRight}</a>`;
     return html;
   }
 
@@ -42,13 +44,13 @@
     if (p.caseStudy) {
       const c = p.caseStudy;
       html += '<div class="pd-case">';
-      if (c.challenge) html += `<div class="pd-section-label">The Challenge</div><p class="pd-case-text">${c.challenge}</p>`;
-      if (c.approach && c.approach.length) html += `<div class="pd-section-label">How I Built It</div><ul class="pd-case-list">${c.approach.map(a => `<li>${a}</li>`).join('')}</ul>`;
-      if (c.result) html += `<div class="pd-section-label">Result</div><p class="pd-case-text pd-case-result">${c.result}</p>`;
+      if (c.challenge) html += `<div class="pd-section-label">${T('The Challenge')}</div><p class="pd-case-text">${c.challenge}</p>`;
+      if (c.approach && c.approach.length) html += `<div class="pd-section-label">${T('How I Built It')}</div><ul class="pd-case-list">${c.approach.map(a => `<li>${a}</li>`).join('')}</ul>`;
+      if (c.result) html += `<div class="pd-section-label">${T('Result')}</div><p class="pd-case-text pd-case-result">${c.result}</p>`;
       html += '</div>';
     }
     if (p.deliverables && p.deliverables.length) {
-      html += '<div class="pd-section-label">What I Did</div><ul class="pd-deliverables">';
+      html += `<div class="pd-section-label">${T('What I Did')}</div><ul class="pd-deliverables">`;
       p.deliverables.forEach((d, i) => {
         html += `<li class="pd-del-item"><span class="pd-del-text">${d}</span><span class="pd-del-num">${String(i + 1).padStart(2, '0')}</span></li>`;
       });
@@ -56,7 +58,7 @@
     }
     if (p.review) {
       const r = p.review;
-      const stars = r.stars ? `<div class="pd-review-stars" aria-label="${r.stars} out of 5 stars">${star.repeat(r.stars)}</div>` : '';
+      const stars = r.stars ? `<div class="pd-review-stars" aria-label="${r.stars} ${T('out of 5 stars')}">${star.repeat(r.stars)}</div>` : '';
       const platform = r.platform ? `<span class="pd-review-platform pd-review-platform--${r.platform.toLowerCase()}">${r.platform}</span>` : '';
       const location = r.country ? `<span class="pd-review-location">${r.country}</span>` : '';
       const initials = r.initials || (r.author ? r.author.slice(0, 2).toUpperCase() : '?');
@@ -68,23 +70,23 @@
   function sidebar(p) {
     let html = '';
     if (hasLive(p)) {
-      html += `<a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="pd-live-banner"><span class="pd-live-banner-label">View Demo</span><span class="pd-live-banner-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg></span></a>`;
+      html += `<a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="pd-live-banner"><span class="pd-live-banner-label">${T('View Demo')}</span><span class="pd-live-banner-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg></span></a>`;
     }
-    html += `<div class="pd-sidebar-box"><div class="pd-sb-head">Get in touch</div><div class="pd-sb-body"><div class="pd-sb-cta"><a href="/?section=contact" class="pd-sb-btn btn btn--primary btn--s">Start a Similar Project ${arrowRight}</a><a href="/projects/" class="pd-sb-btn btn btn--secondary btn--s btn--icon-left">${arrowLeft} All Projects</a></div></div></div>`;
+    html += `<div class="pd-sidebar-box"><div class="pd-sb-head">${T('Get in touch')}</div><div class="pd-sb-body"><div class="pd-sb-cta"><a href="${base()}/?section=contact" class="pd-sb-btn btn btn--primary btn--s">${T('Start a Similar Project')} ${arrowRight}</a><a href="${base()}/projects/" class="pd-sb-btn btn btn--secondary btn--s btn--icon-left">${arrowLeft} ${T('All Projects')}</a></div></div></div>`;
     const fields = [
-      p.type && { label: 'Project Type', val: p.type, accent: true },
-      p.year && { label: 'Year', val: p.year },
-      p.country && { label: 'Country', val: p.country },
-      p.client && { label: 'Client', val: p.client },
-      p.platform && { label: 'Platform', val: p.platform },
+      p.type && { label: T('Project Type'), val: p.type, accent: true },
+      p.year && { label: T('Year'), val: p.year },
+      p.country && { label: T('Country'), val: p.country },
+      p.client && { label: T('Client'), val: p.client },
+      p.platform && { label: T('Platform'), val: p.platform },
     ].filter(Boolean);
     if (fields.length) {
-      html += '<div class="pd-sidebar-box"><div class="pd-sb-head">Project Info</div><div class="pd-sb-body">';
+      html += `<div class="pd-sidebar-box"><div class="pd-sb-head">${T('Project Info')}</div><div class="pd-sb-body">`;
       fields.forEach(f => {
         html += `<div class="pd-sb-field"><div class="pd-sb-field-label">${f.label}</div><div class="pd-sb-field-val${f.accent ? ' accent' : ''}">${f.val}</div></div>`;
       });
       if (p.stack && p.stack.length) {
-        html += `<div class="pd-sb-field"><div class="pd-sb-field-label">Tech Stack</div><div class="pd-sb-field-chips">${p.stack.map(t => `<span class="pd-sb-chip">${t}</span>`).join('')}</div></div>`;
+        html += `<div class="pd-sb-field"><div class="pd-sb-field-label">${T('Tech Stack')}</div><div class="pd-sb-field-chips">${p.stack.map(t => `<span class="pd-sb-chip">${t}</span>`).join('')}</div></div>`;
       }
       html += '</div></div>';
     }
@@ -100,6 +102,10 @@
 
   function galleryCount(p) {
     const n = media(p).length;
+    if (root.LANG === 'pl') {
+      const few = n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14);
+      return `${n} ${n === 1 ? 'zdjęcie' : few ? 'zdjęcia' : 'zdjęć'}`;
+    }
     return `${n} ${n === 1 ? 'image' : 'images'}`;
   }
 
@@ -113,14 +119,14 @@
       const el = m.type === 'video'
         ? `<video src="${m.src}" muted loop preload="metadata" playsinline></video>`
         : `<img src="${m.src}"${set ? ` srcset="${set}" sizes="(max-width: 900px) 50vw, 33vw"` : ''} alt="${p.title} — ${i + 1}" loading="lazy">`;
-      return `<div class="pd-gal-item${m.type === 'video' ? ' is-video' : ''}" role="button" tabindex="0" data-index="${i}" aria-label="Open image ${i + 1} of ${list.length}">${el}<div class="pd-gal-overlay"></div><span class="pd-gal-num">${String(i + 1).padStart(2, '0')}</span></div>`;
+      return `<div class="pd-gal-item${m.type === 'video' ? ' is-video' : ''}" role="button" tabindex="0" data-index="${i}" aria-label="${T('Open image')} ${i + 1} / ${list.length}">${el}<div class="pd-gal-overlay"></div><span class="pd-gal-num">${String(i + 1).padStart(2, '0')}</span></div>`;
     }).join('');
   }
 
   function navCard(p, isNext) {
     const dir = isNext
-      ? 'Next <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
-      : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Previous';
+      ? `${T('Next')} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`
+      : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> ${T('Previous')}`;
     return `<a class="pd-nav-card${isNext ? ' is-next' : ''}" href="${projectPath(p)}"><div class="pd-nav-card-bg" style="${p.image ? `background-image:url(${bgSrc(p.image)})` : ''}"></div><div class="pd-nav-card-overlay"></div><div class="pd-nav-card-body"${isNext ? ' style="text-align:right;"' : ''}><div class="pd-nav-dir"${isNext ? ' style="justify-content:flex-end;"' : ''}>${dir}</div><div class="pd-nav-title">${p.title}</div></div></a>`;
   }
 

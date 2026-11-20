@@ -154,6 +154,42 @@ nav#nav.s .nav-scrolled-time {
   letter-spacing: var(--ls-label)
 }
 
+.nav-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-8);
+  padding-left: clamp(1.2rem, 2.5vw, 2rem);
+  border-left: 1px solid var(--w-12);
+}
+.nav-scrolled-links .nav-lang a {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+}
+.nav-scrolled-links .nav-lang a[aria-current],
+.nav-col a.nav-col-lang[aria-current] {
+  color: var(--g);
+}
+.nm-lang {
+  display: flex;
+  gap: var(--sp-16);
+  margin-top: var(--sp-24);
+}
+.nm-lang a {
+  font-size: var(--fs-small);
+  letter-spacing: var(--ls-label);
+  color: var(--m);
+  text-decoration: none;
+}
+.nm-lang a[aria-current] {
+  color: var(--g);
+}
+:lang(pl) .nav-mobile .nm-link {
+  font-size: min(var(--fs-h1), 9vw);
+}
+:lang(pl) .pjs-card.active .pjs-card-overlay::after {
+  content: 'Dotknij ponownie, aby otworzyć →';
+}
+
 /* ── burger — mobile only ── */
 .nav-burger {
   display: none;

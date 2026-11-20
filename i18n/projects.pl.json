@@ -1,0 +1,297 @@
+{
+ "ad-aerospace": {
+  "type": "Strona firmowa · WordPress",
+  "country": "Wielka Brytania",
+  "client": "AD Aerospace · Systemy monitoringu wideo dla lotnictwa",
+  "brief": "Pełny redesign i własny motyw WordPress dla AD Aerospace, brytyjskiego producenta systemów monitoringu wideo dla samolotów. Zakres obejmował nową identyfikację wizualną i architekturę informacji, katalog produktów edytowany samodzielnie przez klienta oraz stronę w czterech językach.",
+  "deliverables": [
+   "Projekt, UX i architektura treści w prototypie HTML/CSS/JS",
+   "Własny motyw WordPress z custom post types dla systemów, LRU, samolotów i dokumentów",
+   "Każda strona, produkt i dokument edytowalne z panelu WordPress",
+   "Interaktywny podgląd 3D kamery 4K (Three.js), ładowany przy przewijaniu",
+   "Mapa samolotu z punktami prowadzącymi do grup produktów",
+   "Angielski, chiński, rosyjski i arabski z pełnym układem RTL",
+   "WCAG 2.0 poziom A i optymalizacja PageSpeed"
+  ],
+  "caseStudy": {
+   "challenge": "AD Aerospace, brytyjski producent systemów monitoringu wideo dla samolotów, potrzebował całkowicie nowej strony: nowego wyglądu i architektury informacji, katalogu produktów, który zespół zaktualizuje bez developera, oraz wersji w czterech językach, w tym po arabsku.",
+   "approach": [
+    "Najpierw zaprojektowałem całą stronę jako prototyp HTML/CSS/JS, żeby każda podstrona, hover i interakcja były uzgodnione przed rozpoczęciem pracy w WordPressie.",
+    "Zbudowałem własny motyw WordPress z custom post types dla systemów, LRU, samolotów, dokumentów i certyfikatów — wszystko edytowane przez pola niestandardowe.",
+    "Zamiast pojedynczych stron przygotowałem jeden szablon dla każdego typu treści, więc każdy nowy produkt ma ten sam wygląd i markup.",
+    "Dodałem interaktywny podgląd 3D kamery 4K w Three.js, ładowany dopiero, gdy pojawia się na ekranie.",
+    "Przetłumaczyłem stronę na chiński, rosyjski i arabski, z pełnym układem od prawej do lewej dla arabskiego.",
+    "Sprawdziłem dostępność według WCAG 2.0 na poziomie A i zoptymalizowałem PageSpeed na serwerze produkcyjnym."
+   ],
+   "result": "48 stron w czterech językach; każdą stronę, produkt i dokument klient edytuje z panelu WordPress."
+  }
+ },
+ "strata": {
+  "title": "STRATA — landing zegarka 3D",
+  "type": "Landing produktowy 3D",
+  "client": "Projekt koncepcyjny · Fikcyjna marka zegarków",
+  "brief": "Filmowy landing page fikcyjnego, wytrzymałego zegarka terenowego, opowiedziany jak krótki film w pięciu rozdziałach: WebGL w czasie rzeczywistym, kamera sterowana scrollem, pogoda, dźwięk i zmiana koloru na żywo — na jednej stronie.",
+  "deliverables": [
+   "Jedna ciągła scena 3D sterowana scrollem przez pięć rozdziałów",
+   "Zegarek PBR w czasie rzeczywistym, którego wskazówki pokazują lokalny czas odwiedzającego",
+   "Widok rozłożony, zbliżenie makro i warianty kolorów na żywo na modelu 3D",
+   "Deszcz i grzmoty syntezowane przez Web Audio API",
+   "Działa bez WebGL i respektuje ustawienie ograniczonego ruchu",
+   "21 testów automatycznych, w tym testy dostępności"
+  ],
+  "caseStudy": {
+   "challenge": "Osobisty projekt koncepcyjny: pokazać produkt tak, jak robi to zwiastun filmowy. Fikcyjny zegarek terenowy opowiedziany w pięciu rozdziałach, z 3D w czasie rzeczywistym zamiast wideo.",
+   "approach": [
+    "Jedna ciągła scena Three.js, która za pomocą GSAP podąża za scrollem przez pięć rozdziałów — bez przeładowań strony i plików wideo.",
+    "Zegarek PBR renderowany w czasie rzeczywistym, którego wskazówki pokazują lokalny czas odwiedzającego.",
+    "Widok rozłożony, zbliżenie makro i cztery warianty kolorów przełączane na żywo na modelu 3D.",
+    "Deszcz i grzmoty syntezowane przez Web Audio API, bez plików audio.",
+    "Wersja zastępcza bez WebGL i obsługa ustawienia ograniczonego ruchu."
+   ],
+   "result": "Wyniki Lighthouse 98 / 100 / 96 / 100 oraz 21 automatycznych testów Playwright, w tym testy dostępności z axe-core."
+  }
+ },
+ "react-product-catalog": {
+  "title": "Shelf — katalog produktów w React",
+  "type": "Aplikacja webowa · SPA",
+  "client": "Projekt własny",
+  "brief": "Katalog produktów jako aplikacja SPA w React i TypeScript: prawie dwieście produktów z publicznego API, z wyszukiwarką, filtrami kategorii, stronami produktów i formularzem opinii z walidacją.",
+  "deliverables": [
+   "TypeScript w trybie strict, typy formularza wyprowadzone ze schematu Zod",
+   "Uniwersalny, generyczny hook useFetch, który anuluje nieaktualne zapytania",
+   "Wyszukiwanie po nazwie i filtr kategorii ze stanem pustej listy i resetem",
+   "Strony produktów z galerią, rabatem, oceną i stanem magazynu",
+   "Dostępny formularz opinii z React Hook Form i Zod",
+   "Responsywny układ w CSS Modules, bez bibliotek UI, wdrożony na Vercel"
+  ],
+  "caseStudy": {
+   "challenge": "Mój pierwszy kompletny projekt w React i TypeScript: katalog produktów, który działa jak prawdziwa aplikacja — z routingiem, ładowaniem danych, wyszukiwaniem i formularzami — zbudowany bez bibliotek UI.",
+   "approach": [
+    "TypeScript w trybie strict, bez any; typy formularza są wyprowadzane ze schematu Zod.",
+    "Uniwersalny, generyczny hook useFetch, który anuluje nieaktualne zapytania.",
+    "Stan ładowania, błędu i pustej listy na każdym ekranie.",
+    "Formularz opinii z React Hook Form i Zod: błędy pojawiają się po opuszczeniu pola, a niepoprawne pola są oznaczone aria-invalid.",
+    "Zagnieżdżone trasy w React Router ze wspólnym layoutem, style w CSS Modules, wdrożenie na Vercel."
+   ],
+   "result": "Prawie dwieście produktów z publicznego API DummyJSON, aplikacja działa na Vercel, a kod źródłowy jest na GitHubie."
+  }
+ },
+ "nations-on-fire": {
+  "type": "Landing kościoła / wydarzeń",
+  "country": "Polska",
+  "client": "Wspólnota chrześcijańska · Nations On Fire",
+  "brief": "Wielostronicowa strona Nations On Fire — polskiego chrześcijańskiego ruchu misyjnego — z wideo w hero, listą wydarzeń, galerią multimediów i ścieżką wsparcia/darowizn.",
+  "deliverables": [
+   "Sekcja hero z wideo w tle",
+   "Strona z listą wydarzeń",
+   "Strona multimediów",
+   "Sekcje o kościele i NOF",
+   "CTA wsparcia i darowizn",
+   "Responsywna struktura wielostronicowa"
+  ]
+ },
+ "kaas-kitchens": {
+  "type": "Landing firmowy",
+  "country": "Kazachstan",
+  "client": "Firma meblowa · kuchnie na wymiar",
+  "brief": "Wielostronicowy landing KAAS Kitchens — kazachskiej firmy meblowej sprzedającej kuchnie i szafy na wymiar — z lokalizacjami salonów i formularzem oddzwonienia.",
+  "deliverables": [
+   "Struktura wielostronicowa (kuchnie, szafy, salony, o firmie)",
+   "Interfejs katalogu produktów",
+   "CTA kontaktu i konsultacji",
+   "Integracja z social media (WhatsApp, Instagram, TikTok)",
+   "Responsywny układ"
+  ]
+ },
+ "htp-group": {
+  "title": "HTP Group — doradztwo IT",
+  "type": "Landing firmowy",
+  "country": "USA",
+  "client": "High Tech Pros Group Inc.",
+  "brief": "Wielostronicowa strona firmowa HTP Group Inc. — amerykańskiej firmy oferującej rekrutację IT, offshore development oraz usługi payrollu i rozliczeń, działającej od 1997 roku.",
+  "deliverables": [
+   "Strona wielostronicowa (Strona główna, Usługi, O nas, Kontakt)",
+   "Sekcja kompetencji IT i technologii",
+   "Usługi offshore development",
+   "Sekcje payrollu i rozliczeń",
+   "CTA telefoniczne i integracja z LinkedIn"
+  ]
+ },
+ "casehug": {
+  "title": "CaseHug — platforma skinów CS2",
+  "type": "Landing gamingowy / e-commerce",
+  "country": "Cały świat",
+  "client": "Platforma handlu skinami CS2",
+  "brief": "Promocyjny landing CaseHug — platformy do otwierania skrzynek i handlu skinami CS2 — z najlepszymi skinami, popularnymi skrzynkami, codziennymi nagrodami i sekcją drużyny partnerskiej.",
+  "deliverables": [
+   "Hero z promocyjnym CTA (+20% bonusu)",
+   "Listy najlepszych skinów i popularnych skrzynek",
+   "Sekcja codziennych nagród",
+   "Baner oficjalnego partnera esportowego",
+   "Interfejs wsparcia na żywo",
+   "Link do logowania przez Steam"
+  ]
+ },
+ "taskflow": {
+  "type": "Aplikacja webowa",
+  "client": "Projekt koncepcyjny",
+  "brief": "W pełni działająca aplikacja do zarządzania zadaniami wspierana przez AI — z panelem, projektami, kalendarzem, analityką, asystentem AI (Anthropic API) i eksportem danych — w języku polskim.",
+  "deliverables": [
+   "Panel ze statystykami na żywo",
+   "Generowanie zadań z opisu przez AI (Anthropic API)",
+   "Czat z asystentem AI",
+   "System zarządzania projektami i zadaniami",
+   "Widoki kalendarza i analityki",
+   "Tygodniowy raport produktywności od AI",
+   "Eksport danych"
+  ]
+ },
+ "restaurant-business": {
+  "title": "Restauracja",
+  "type": "Landing restauracji",
+  "client": "Projekt koncepcyjny",
+  "brief": "Rosyjskojęzyczny landing restauracji z historią marki, galerią dań, statystykami menu i CTA rezerwacji stolika.",
+  "deliverables": [
+   "Pełnoekranowe hero z CTA rezerwacji",
+   "Sekcja historii marki",
+   "Galeria dań",
+   "Statystyki menu (napoje, dania, przekąski)",
+   "Formularz rezerwacji stolika",
+   "Responsywny design"
+  ]
+ },
+ "digital-journalism-csa": {
+  "type": "Artykuł interaktywny",
+  "country": "Europa",
+  "client": "Projekt akademicki · Dziennikarstwo",
+  "brief": "Długi materiał dziennikarski o etyce relacjonowania przemocy seksualnej wobec dzieci, łączący historie osób, które przeżyły, badania i UX uwzględniający traumę.",
+  "deliverables": [
+   "Układ długiego tekstu redakcyjnego",
+   "Nawigacja po sekcjach przy przewijaniu",
+   "System prezentacji historii",
+   "Responsywna typografia i hierarchia treści",
+   "Sekcje danych i badań"
+  ]
+ },
+ "levantine-collective": {
+  "type": "Landing redakcyjny",
+  "country": "Wielka Brytania",
+  "client": "Kolektyw kulturalny · Londyn",
+  "brief": "Landing kulturalny dla The Levantine Collective — londyńskiej społeczności twórczej celebrującej lewantyńską tożsamość przez sztukę, opowieści i wspólnotę — z interaktywnym quizem i sekcją wideo.",
+  "deliverables": [
+   "Redakcyjny interfejs oparty na marce",
+   "Interaktywny quiz kulturowy",
+   "Sekcja z osadzonym wideo (Tatreez)",
+   "Responsywny układ",
+   "Nawigacja wielostronicowa"
+  ]
+ },
+ "vr-lounge": {
+  "type": "Landing page",
+  "country": "USA",
+  "client": "Rozrywka VR",
+  "brief": "Nastawiony na konwersję landing prawdziwego salonu VR, prezentujący atrakcje z cennikiem, galerię zdjęć, FAQ i stronę zgody uczestnika.",
+  "deliverables": [
+   "Hero z animowanym CTA",
+   "Karty atrakcji z cenami",
+   "Galeria prawdziwych zdjęć",
+   "Akordeon FAQ",
+   "Podstrona zgody uczestnika",
+   "Responsywny układ"
+  ]
+ },
+ "swiperoulette": {
+  "title": "SwipeRoulette — aplikacja czatu",
+  "type": "Aplikacja webowa",
+  "country": "Cały świat",
+  "client": "Aplikacja czatu",
+  "brief": "Rozbudowany interfejs aplikacji do losowych rozmów — SwipeRoulette — z filtrami płci i regionu, planami subskrypcji, profilami użytkowników i licznikiem osób online.",
+  "deliverables": [
+   "Interfejs czatu z listą wiadomości",
+   "Profil użytkownika z edycją",
+   "Filtry płci i regionu",
+   "Plany subskrypcji i cennik",
+   "Okna logowania i rejestracji"
+  ]
+ },
+ "matrix-technology": {
+  "type": "Landing firmowy / produktowy",
+  "country": "Polska",
+  "client": "Matrix Technology · Atrakcje VR/5D",
+  "brief": "Firmowa strona produktowa Matrix Technology — polskiej firmy produkującej kapsuły VR i 5D dla centrów handlowych — z katalogiem produktów i sekcją o firmie.",
+  "deliverables": [
+   "Hero z wideo",
+   "Katalog produktów (kapsuły VR/5D)",
+   "Statystyki i liczniki rozwoju marki",
+   "Strona kontaktowa"
+  ]
+ },
+ "qbl": {
+  "title": "QBL — systemy magazynowe",
+  "type": "Landing B2B",
+  "country": "Polska",
+  "client": "Producent wyposażenia przemysłowego",
+  "brief": "Wielostronicowa strona B2B firmy produkującej systemy magazynowe i regały, z pełnym katalogiem produktów oraz sekcjami referencji, technologii i zalet.",
+  "deliverables": [
+   "Wielostronicowa struktura B2B",
+   "Katalog produktów (systemy przechowywania, suszenia i ekspozycji)",
+   "Sekcje z banerami na całą szerokość",
+   "Interfejs kontaktu i logowania"
+  ]
+ },
+ "dream-apart": {
+  "type": "Platforma rezerwacji apartamentów",
+  "country": "Polska",
+  "client": "Platforma najmu wakacyjnego",
+  "brief": "Interfejs polskiej platformy rezerwacji apartamentów wakacyjnych z wyszukiwaniem lokalizacji i liczby gości, widokiem mapy, filtrami i listą obiektów w kurortach narciarskich.",
+  "deliverables": [
+   "Wyszukiwarka z lokalizacją, datami i liczbą gości",
+   "Karty obiektów z ikonami udogodnień narciarskich",
+   "Miejsce na integrację mapy",
+   "Interfejs filtrów",
+   "Baner z kodem rabatowym"
+  ]
+ },
+ "skicarv": {
+  "type": "Landing rezerwacji usług",
+  "country": "Polska",
+  "client": "Szkoła narciarska i wypożyczalnia sprzętu",
+  "brief": "Strona rezerwacji polskiej szkoły narciarskiej i wypożyczalni sprzętu z wyborem rodzaju lekcji i stoku, licznikiem uczestników i kalkulatorem wypożyczenia sprzętu.",
+  "deliverables": [
+   "Wybór rodzaju lekcji i stoku",
+   "Licznik dorosłych i dzieci z opcją sprzętu",
+   "Formularz zapytania o rezerwację",
+   "Linki do social media",
+   "Responsywny układ"
+  ]
+ },
+ "karma-hair-transplant": {
+  "type": "Landing medyczny",
+  "country": "Niemcy",
+  "client": "KARMA Hair · Klinika przeszczepu włosów w Monachium",
+  "brief": "Niemieckojęzyczny landing medyczny dla KARMA Hair — monachijskiej kliniki przeszczepu włosów metodą FUE w tureckim standardzie — z porównaniem przed/po, zespołem, FAQ i rezerwacją wizyt.",
+  "deliverables": [
+   "Hero usługi medycznej z CTA umówienia wizyty",
+   "Sekcja porównania przed/po",
+   "Profile zespołu i specjalistów",
+   "Blog z wariantami paska bocznego",
+   "Sekcja FAQ",
+   "Sekcja kontaktu z mapą",
+   "Wielostronicowa struktura bloga"
+  ]
+ },
+ "finsweet": {
+  "title": "Finsweet — strona organizacji ekologicznej",
+  "type": "Landing organizacji non-profit",
+  "client": "Projekt koncepcyjny",
+  "brief": "Strona w stylu agencji premium Finsweet, zbudowana jako koncept organizacji ekologicznej — ze statystykami sadzenia drzew, ścieżką darowizn, prezentacją projektów, logotypami partnerów i blogiem.",
+  "deliverables": [
+   "Hero ze statystykami na żywo (posadzone drzewa, darowizny)",
+   "Sekcje misji i o nas",
+   "Siatka prezentacji projektów",
+   "Wykres kołowy podziału darowizn",
+   "Blog z wieloma układami",
+   "CTA wolontariatu i darowizn"
+  ]
+ }
+}

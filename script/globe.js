@@ -229,7 +229,7 @@
       const cached = window.GEO_DATA && window.GEO_DATA[name];
       if (cached) return resolve(cached);
       const s = document.createElement('script');
-      s.src = `data/geo/${name}.js`;
+      s.src = `/data/geo/${name}.js`;
       s.async = true;
       s.onload  = () => (window.GEO_DATA && window.GEO_DATA[name]) ? resolve(window.GEO_DATA[name]) : reject(new Error('Geo data missing: ' + name));
       s.onerror = () => reject(new Error('Geo load failed: ' + name));
@@ -427,7 +427,7 @@
     homeLabel = document.createElement('div');
     homeLabel.className = 'globe-home';
     homeLabel.setAttribute('aria-hidden', 'true');
-    homeLabel.textContent = 'Currently in Poland';
+    homeLabel.textContent = window.T ? window.T('Currently in Poland') : 'Currently in Poland';
     heroEl.appendChild(homeLabel);
   }
 

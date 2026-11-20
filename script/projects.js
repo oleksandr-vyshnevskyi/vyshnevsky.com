@@ -15,7 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 window.addEventListener('DOMContentLoaded', () => {
   // Total count in header
   const countEl = document.getElementById('pgTotalCount');
-  if (countEl) countEl.textContent = `${PROJECTS.length} Projects`;
+  if (countEl) countEl.textContent = `${PROJECTS.length} ${T('Projects')}`;
 
   renderCards(PER_PAGE);
 });
@@ -50,7 +50,7 @@ function renderCards(count) {
 function buildCard(p, idx) {
   const card = document.createElement('a');
   card.className = 'pg-card';
-  card.href = `/projects/${p.slug}/`;
+  card.href = `${window.LANG_BASE}/projects/${p.slug}/`;
   card.setAttribute('data-id', p.id);
 
   const mediaEl = p.image
@@ -67,7 +67,7 @@ function buildCard(p, idx) {
     <div class="pg-card-hover">
       <div class="pg-card-title">${p.title}</div>
       ${p.stack?.length ? `<div class="pg-card-stack">${stackTags}</div>` : ''}
-      <span class="pg-card-cta btn btn--secondary btn--s">View Project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+      <span class="pg-card-cta btn btn--secondary btn--s">${T('View Project')} <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
     </div>
   `;
 
@@ -84,7 +84,7 @@ function updateLoadBtn() {
 
   // Update progress bar
   if (bar)   bar.style.width = pct + '%';
-  if (label) label.textContent = `${shown} of ${PROJECTS.length}`;
+  if (label) label.textContent = `${shown} ${T('of')} ${PROJECTS.length}`;
 
   // Hide button when all shown
   if (shown >= PROJECTS.length) {
@@ -105,5 +105,5 @@ document.getElementById('pgLoadBtn').addEventListener('click', () => {
 ──────────────────────────────────────────────── */
 function navigateToProject(id) {
   const p = PROJECTS.find(x => x.id === id);
-  window.ptNavigate(p ? `/projects/${p.slug}/` : '/projects/');
+  window.ptNavigate(`${window.LANG_BASE}/projects/${p ? p.slug + '/' : ''}`);
 }

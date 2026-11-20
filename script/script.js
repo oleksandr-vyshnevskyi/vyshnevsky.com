@@ -1212,7 +1212,7 @@ const unlockScroll = () => window.unlockScroll?.();
   if (fieldMsg && counterEl) {
     fieldMsg.addEventListener('input', function () {
       const n = this.value.length;
-      counterEl.textContent = n + (n === 1 ? ' char' : ' chars');
+      counterEl.textContent = n + ' ' + T(n === 1 ? 'char' : 'chars');
       counterEl.className = 'cf-counter' + (n >= 50 ? ' ok' : '');
     });
   }
@@ -1243,19 +1243,19 @@ const unlockScroll = () => window.unlockScroll?.();
   }
 
   function validateAll() {
-    const okName  = validate(fieldName,  'grp-name',  'err-name',  v => !v ? 'Name is required' : null);
+    const okName  = validate(fieldName,  'grp-name',  'err-name',  v => !v ? T('Name is required') : null);
     const okEmail = validate(fieldEmail, 'grp-email', 'err-email', v => {
-      if (!v) return 'Email is required';
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Enter a valid email address';
+      if (!v) return T('Email is required');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return T('Enter a valid email address');
       return null;
     });
-    const okMsg   = validate(fieldMsg,   'grp-msg',   'err-msg',   v => !v ? 'Please describe your project' : null);
+    const okMsg   = validate(fieldMsg,   'grp-msg',   'err-msg',   v => !v ? T('Please describe your project') : null);
 
     const typeEl     = document.getElementById('d-type');
     const deadlineEl = document.getElementById('d-deadline');
 
-    const okType     = !typeEl     || validate(typeEl,     'grp-type',     'err-type',     v => !v ? 'Choose a project type' : null);
-    const okDeadline = !deadlineEl || validate(deadlineEl, 'grp-deadline', 'err-deadline', v => !v ? 'Choose a deadline' : null);
+    const okType     = !typeEl     || validate(typeEl,     'grp-type',     'err-type',     v => !v ? T('Choose a project type') : null);
+    const okDeadline = !deadlineEl || validate(deadlineEl, 'grp-deadline', 'err-deadline', v => !v ? T('Choose a deadline') : null);
 
     return okName && okEmail && okMsg && okType && okDeadline;
   }

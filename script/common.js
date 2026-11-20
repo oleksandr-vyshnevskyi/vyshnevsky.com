@@ -11,6 +11,10 @@
    Exposes: window.SITE = { REDUCE_MOTION, BP, isMobile() }
    ═══════════════════════════════════════════════════════════════ */
 
+window.T = s => (window.I18N && window.I18N[s]) || s;
+window.LANG = document.documentElement.lang === 'pl' ? 'pl' : 'en';
+window.LANG_BASE = window.LANG === 'pl' ? '/pl' : '';
+
 (function () {
   'use strict';
 

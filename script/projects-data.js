@@ -458,7 +458,7 @@ const PROJECTS = [
     title: "Matrix Technology",
     type: "Business / Product Landing Page",
     stack: ["HTML", "CSS", "JavaScript"],
-    year: "2024",
+    year: "2023",
     country: "Poland",
     client: "Matrix Technology · VR/5D Attractions",
     platform: "Direct",

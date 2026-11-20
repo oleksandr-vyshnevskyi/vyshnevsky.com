@@ -57,6 +57,8 @@ npm install   # once, installs sharp for image resizing
 npm run dev   # same as: node tools/build-projects.mjs && npx serve .
 ```
 
+The Polish version (`/pl/…`) is generated from the English pages: texts are translated with `i18n/pl.json`, project data with `i18n/projects.pl.json`. After changing an English text, run `node tools/build-projects.mjs --check` to list strings that still need a Polish translation.
+
 `npm run build` regenerates the project pages, `project-detail.html`, `projects.html`, `sitemap.xml` and the 960px image variants (`images/*-960.webp`). Generated pages are not committed: GitHub Actions builds them on every push.
 
 ## Deployment

@@ -1,135 +1,399 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://vyshnevsky.com/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/ad-aerospace/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/ad-aerospace/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/ad-aerospace/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/ad-aerospace/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/ad-aerospace/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/ad-aerospace/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/ad-aerospace/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/ad-aerospace/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/strata/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/strata/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/strata/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/strata/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/strata/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/strata/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/strata/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/strata/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/react-product-catalog/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/react-product-catalog/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/react-product-catalog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/react-product-catalog/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/react-product-catalog/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/react-product-catalog/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/react-product-catalog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/react-product-catalog/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/nations-on-fire/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/nations-on-fire/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/nations-on-fire/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/nations-on-fire/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/nations-on-fire/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/nations-on-fire/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/nations-on-fire/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/nations-on-fire/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/kaas-kitchens/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/kaas-kitchens/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/kaas-kitchens/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/kaas-kitchens/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/kaas-kitchens/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/kaas-kitchens/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/kaas-kitchens/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/kaas-kitchens/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/htp-group/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/htp-group/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/htp-group/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/htp-group/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/htp-group/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/htp-group/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/htp-group/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/htp-group/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/casehug/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/casehug/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/casehug/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/casehug/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/casehug/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/casehug/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/casehug/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/casehug/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/taskflow/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/taskflow/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/taskflow/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/taskflow/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/taskflow/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/taskflow/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/taskflow/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/taskflow/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/restaurant-business/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/restaurant-business/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/restaurant-business/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/restaurant-business/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/restaurant-business/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/restaurant-business/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/restaurant-business/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/restaurant-business/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/digital-journalism-csa/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/digital-journalism-csa/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/digital-journalism-csa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/digital-journalism-csa/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/digital-journalism-csa/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/digital-journalism-csa/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/digital-journalism-csa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/digital-journalism-csa/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/levantine-collective/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/levantine-collective/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/levantine-collective/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/levantine-collective/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/levantine-collective/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/levantine-collective/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/levantine-collective/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/levantine-collective/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/vr-lounge/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/vr-lounge/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/vr-lounge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/vr-lounge/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/vr-lounge/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/vr-lounge/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/vr-lounge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/vr-lounge/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/swiperoulette/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/swiperoulette/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/swiperoulette/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/swiperoulette/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/swiperoulette/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/swiperoulette/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/swiperoulette/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/swiperoulette/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/matrix-technology/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/matrix-technology/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/matrix-technology/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/matrix-technology/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/matrix-technology/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/matrix-technology/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/matrix-technology/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/matrix-technology/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/qbl/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/qbl/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/qbl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/qbl/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/qbl/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/qbl/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/qbl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/qbl/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/dream-apart/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/dream-apart/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/dream-apart/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/dream-apart/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/dream-apart/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/dream-apart/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/dream-apart/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/dream-apart/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/skicarv/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/skicarv/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/skicarv/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/skicarv/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/skicarv/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/skicarv/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/skicarv/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/skicarv/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/karma-hair-transplant/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/karma-hair-transplant/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/karma-hair-transplant/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/karma-hair-transplant/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/karma-hair-transplant/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/karma-hair-transplant/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/karma-hair-transplant/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/karma-hair-transplant/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/projects/finsweet/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/finsweet/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/finsweet/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/finsweet/"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/projects/finsweet/</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/projects/finsweet/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/projects/finsweet/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/projects/finsweet/"/>
   </url>
   <url>
     <loc>https://vyshnevsky.com/privacy</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/privacy"/>
+  </url>
+  <url>
+    <loc>https://vyshnevsky.com/pl/privacy</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://vyshnevsky.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://vyshnevsky.com/pl/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vyshnevsky.com/privacy"/>
   </url>
 </urlset>
