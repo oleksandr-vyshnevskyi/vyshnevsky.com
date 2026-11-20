@@ -291,28 +291,9 @@ nav#nav.s .nav-scrolled-time {
   z-index: 2
 }
 
-.nav-right-block > * + * {
-  position: relative;
-}
-
-.nav-right-block .nav-lang--hero {
-  padding-left: 0;
-  border-left: none;
-  padding-right: var(--sp-24);
-  border-right: 1px solid var(--w-12);
-}
-
-.nav-lang--hero a {
-  font-size: var(--fs-label);
-  letter-spacing: var(--ls-label);
-  color: var(--m);
-  text-decoration: none;
-  transition: color var(--dur-fast);
-}
-
-.nav-lang--hero a:hover,
-.nav-lang--hero a[aria-current] {
+.nav-col a.nav-col-lang[aria-current] {
   color: var(--g);
+  opacity: 1;
 }
 
 .nav-time {
@@ -320,8 +301,6 @@ nav#nav.s .nav-scrolled-time {
   flex-direction: column;
   align-items: flex-end;
   gap: 3px;
-  padding-left: var(--sp-24);
-  border-left: 1px solid var(--w-12);
 }
 
 .nav-cv-btn.btn {
@@ -4379,11 +4358,5 @@ select.cf-in option { background: var(--bg2); color: var(--t); }
   }
   .nav-time-box {
     font-size: var(--fs-small);
-  }
-}
-
-@media (min-width: 1101px) and (max-width: 1360px) {
-  nav#nav:not(.s) .nav-time {
-    display: none;
   }
 }
