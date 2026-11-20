@@ -809,18 +809,10 @@ section {
 .stk-chip.is-on {
   border-color: var(--g);
   background: var(--ga-10);
-  color: var(--t-bright);
+  color: var(--g);
   box-shadow: 0 0 20px rgba(var(--g-rgb), .14);
 }
 
-.stk-chip.is-on::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--g);
-  flex-shrink: 0;
-}
 
 .stk-chip:focus-visible {
   outline: 2px solid var(--g);
@@ -845,6 +837,7 @@ section {
 
 .stk-panel {
   position: sticky;
+  isolation: isolate;
   top: 96px;
   border: 1px solid var(--ga-20);
   border-radius: var(--r);
@@ -866,13 +859,31 @@ section {
   gap: var(--sp-12);
 }
 
-.stk-panel.is-swap .stk-item:not([hidden]) {
-  animation: stkIn .45s var(--ease-out) both;
+.stk-items {
+  overflow: hidden;
 }
 
-@keyframes stkIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: none; }
+.stk-panel::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid var(--g);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stk-panel.is-pulse::after {
+  animation: stkPulse .7s var(--ease-out);
+}
+
+@keyframes stkPulse {
+  0%   { opacity: .7; box-shadow: 0 0 24px rgba(var(--g-rgb), .25); }
+  100% { opacity: 0;  box-shadow: 0 0 0 rgba(var(--g-rgb), 0); }
+}
+
+.stk-g .stk-panel::after {
+  display: none;
 }
 
 .stk-item {

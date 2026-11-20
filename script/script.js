@@ -324,22 +324,51 @@ const unlockScroll = () => window.unlockScroll?.();
     }
   }
 
-  function select(chip) {
-    if (!chip) return;
+  const list = panel.querySelector('.stk-items');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let swapTween = null;
+
+  function apply(chip) {
+    const used = chip.dataset.used.split(/\s+/);
+    techEl.textContent = chip.textContent.trim();
+    items.forEach(it => { it.hidden = !used.includes(it.dataset.key); });
+    used.forEach((k, i) => { const it = items.find(x => x.dataset.key === k); if (it) it.style.order = i; });
+    return items.filter(it => !it.hidden);
+  }
+
+  function select(chip, instant) {
+    if (!chip || (chip === current && !instant)) return;
     current = chip;
     chips.forEach(c => {
       const on = c === chip;
       c.classList.toggle('is-on', on);
       c.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    const used = chip.dataset.used.split(/\s+/);
-    techEl.textContent = chip.textContent.trim();
-    items.forEach(it => { it.hidden = !used.includes(it.dataset.key); });
-    used.forEach((k, i) => { const it = items.find(x => x.dataset.key === k); if (it) it.style.order = i; });
-    place();
-    panel.classList.remove('is-swap');
-    void panel.offsetWidth;
-    panel.classList.add('is-swap');
+
+    const moved = narrow.matches && panel.parentNode !== chip.closest('.stk-g');
+    if (instant || reduce.matches || !window.gsap) { apply(chip); place(); return; }
+
+    const visible = items.filter(it => !it.hidden);
+    gsap.killTweensOf([list, techEl, ...items]);
+    if (swapTween) swapTween.kill();
+
+    const startH = moved ? 0 : list.offsetHeight;
+    swapTween = gsap.to([techEl, ...visible], {
+      opacity: 0, y: -8, duration: moved ? 0 : .14, ease: 'power1.in',
+      onComplete() {
+        const shown = apply(chip);
+        place();
+        gsap.set(shown, { opacity: 0, y: 14 });
+        list.style.height = 'auto';
+        const endH = list.offsetHeight;
+        gsap.fromTo(list, { height: startH }, { height: endH, duration: .45, ease: 'power3.out', clearProps: 'height' });
+        gsap.fromTo(techEl, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .4, ease: 'power3.out' });
+        gsap.to(shown, { opacity: 1, y: 0, duration: .5, ease: 'power3.out', stagger: .07, delay: .05 });
+        panel.classList.remove('is-pulse');
+        void panel.offsetWidth;
+        panel.classList.add('is-pulse');
+      }
+    });
   }
 
   let hoverTimer = 0;
@@ -354,8 +383,7 @@ const unlockScroll = () => window.unlockScroll?.();
     chip.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
   });
   narrow.addEventListener('change', place);
-  select(current);
-  panel.classList.remove('is-swap');
+  select(current, true);
 
   const stag  = document.getElementById('skStag');
   const title = document.getElementById('skTitle');
