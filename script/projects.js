@@ -54,7 +54,7 @@ function buildCard(p, idx) {
   card.setAttribute('data-id', p.id);
 
   const mediaEl = p.image
-    ? `<img class="pg-card-img" src="/${p.image.replace(/^\//, '')}" alt="${p.title}" loading="lazy">`
+    ? `<img class="pg-card-img" src="/${p.image.replace(/^\//, '')}" srcset="/${p.image.replace(/^\//, '').replace(/\.webp$/, '-960.webp')} 960w, /${p.image.replace(/^\//, '')} 1920w" sizes="(max-width: 900px) 100vw, 50vw" alt="${p.title}" loading="lazy">`
     : `<div class="pg-card-placeholder"><span class="pg-card-placeholder-ico">${p.title.charAt(0)}</span></div>`;
 
   const stackTags = (p.stack || []).slice(0, 3)

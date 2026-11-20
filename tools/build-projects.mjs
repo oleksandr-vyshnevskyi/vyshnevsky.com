@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -24,6 +24,28 @@ for (const p of PROJECTS) {
   if (!p.slug || !/^[a-z0-9-]+$/.test(p.slug)) throw new Error(`Bad slug for project ${p.id}: ${p.slug}`);
   if (seen.has(p.slug)) throw new Error(`Duplicate slug: ${p.slug}`);
   seen.add(p.slug);
+}
+
+let sharp;
+try {
+  sharp = (await import('sharp')).default;
+} catch {
+  throw new Error('sharp is not installed: run "npm install" first');
+}
+const sources = new Set();
+for (const p of PROJECTS) {
+  if (p.image) sources.add(p.image);
+  (p.gallery || []).forEach(m => { if (m.type !== 'video') sources.add(m.src); });
+}
+let made = 0;
+for (const src of sources) {
+  if (!R.srcset(src)) continue;
+  const from = join(ROOT, src);
+  const to = join(ROOT, R.smallSrc(src));
+  if (!existsSync(from)) throw new Error(`Missing image: ${src}`);
+  if (existsSync(to) && statSync(to).mtimeMs >= statSync(from).mtimeMs) continue;
+  await sharp(from).resize({ width: R.SMALL, withoutEnlargement: true }).webp({ quality: 78 }).toFile(to);
+  made++;
 }
 
 const template = read('templates/project.html');
@@ -55,7 +77,7 @@ for (const p of PROJECTS) {
     URL: attr(url),
     ID: String(p.id),
     JSONLD: JSON.stringify(jsonld).replace(/</g, '\\u003c'),
-    HERO_BG: p.image ? attr(`background-image:url(${R.asset(p.image)})`) : '',
+    HERO_BG: p.image ? attr(`background-image:url(${R.bgSrc(p.image)})`) : '',
     HERO_META: R.heroMeta(p),
     HERO_TITLE: text(p.title),
     HERO_BRIEF: text(p.brief || ''),
@@ -121,4 +143,4 @@ ${urls.map(u => `  <url>
 </urlset>
 `);
 
-console.log(`Built ${PROJECTS.length} project pages, project-detail.html, projects.html and sitemap.xml`);
+console.log(`Built ${PROJECTS.length} project pages, project-detail.html, projects.html and sitemap.xml; ${made} new ${R.SMALL}px images`);

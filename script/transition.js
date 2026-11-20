@@ -12,10 +12,29 @@
 (function () {
 
   /* ── Create overlay element ── */
-  const overlay = document.createElement('div');
-  overlay.className = 'pt-overlay';
-  overlay.id = 'ptOverlay';
-  document.body.appendChild(overlay);
+  let overlay = document.getElementById('ptOverlay');
+  const preset = !!overlay;
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'pt-overlay';
+    overlay.id = 'ptOverlay';
+    document.body.appendChild(overlay);
+  }
+
+  function finishEnter() {
+    overlay.classList.remove('pt-in');
+    overlay.style.transform = 'translateY(100%)';
+    handleSectionParam();
+  }
+
+  function adoptPresetOverlay() {
+    const running = overlay.getAnimations && overlay.getAnimations().some(a => a.playState === 'running' || a.playState === 'pending');
+    if (!running) { finishEnter(); return; }
+    let done = false;
+    const end = () => { if (done) return; done = true; finishEnter(); };
+    overlay.addEventListener('animationend', end, { once: true });
+    setTimeout(end, 900);
+  }
 
   /* ── Play enter animation: overlay slides out upward ── */
   function playEnterAnimation() {
@@ -74,7 +93,8 @@
   }
 
   /* ── On page load: play enter animation ── */
-  window.addEventListener('DOMContentLoaded', playEnterAnimation);
+  if (preset) adoptPresetOverlay();
+  else window.addEventListener('DOMContentLoaded', playEnterAnimation);
 
   /* ── bfcache fix: browser restored page from cache ── */
   window.addEventListener('pageshow', (e) => {

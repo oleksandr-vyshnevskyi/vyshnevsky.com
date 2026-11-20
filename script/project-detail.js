@@ -32,7 +32,7 @@ if (!project) {
 function renderPage(p) {
   document.title = `${p.title} — Oleksandr Vyshnevskyi`;
 
-  if (p.image) document.getElementById('pdHeroBg').style.backgroundImage = `url(${R.asset(p.image)})`;
+  if (p.image) document.getElementById('pdHeroBg').style.backgroundImage = `url(${R.bgSrc(p.image)})`;
   document.getElementById('pdHeroMeta').innerHTML = R.heroMeta(p);
   document.getElementById('pdHeroTitle').textContent = p.title;
   const brief = document.getElementById('pdHeroBrief');
@@ -78,11 +78,6 @@ function renderPage(p) {
 
   /* ── set initial gsap states BEFORE the timeout so elements are hidden from frame 0 ── */
   if (!prefersReduced) {
-    gsap.set('.pd-breadcrumb', { opacity: 0, y: 10 });
-    gsap.set('.pd-hero-meta',  { opacity: 0, y: 10 });
-    gsap.set('.pd-hero-title', { opacity: 0, y: 20 });
-    gsap.set('.pd-hero-brief', { opacity: 0, y: 16 });
-    gsap.set('.pd-hero-actions', { opacity: 0, y: 14 });
     gsap.set('#pdLeft',        { opacity: 0, y: 30 });
     gsap.set('#pdSidebar',     { opacity: 0, y: 20 });
     gsap.set('#pdNavProjects', { opacity: 0 });
@@ -93,14 +88,6 @@ function renderPage(p) {
   // Staggered entrance after page-enter overlay finishes (~650ms)
   setTimeout(() => {
     if (prefersReduced) return; // skip all animations if user prefers reduced motion
-
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    tl.to('.pd-breadcrumb', { opacity: 1, y: 0, duration: .6 }, 0)
-      .to('.pd-hero-meta',  { opacity: 1, y: 0, duration: .6 }, .1)
-      .to('.pd-hero-title', { opacity: 1, y: 0, duration: .8 }, .2)
-      .to('.pd-hero-brief', { opacity: 1, y: 0, duration: .7 }, .4)
-      .to('.pd-hero-actions', { opacity: 1, y: 0, duration: .7 }, .55);
 
     // Strip
     if (document.getElementById('pdStrip')) gsap.to('#pdStrip', { opacity: 1, duration: .7, delay: .5 });

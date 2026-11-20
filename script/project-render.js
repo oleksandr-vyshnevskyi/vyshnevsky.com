@@ -6,6 +6,12 @@
     return '/' + src;
   };
 
+  const SMALL = 960;
+  const smallSrc = src => src.replace(/\.webp$/, `-${SMALL}.webp`);
+  const srcset = src => /^\/?images\/[^/]+\.webp$/.test(src) ? `${asset(smallSrc(src))} ${SMALL}w, ${asset(src)} 1920w` : '';
+
+  const bgSrc = src => srcset(src) ? asset(smallSrc(src)) : asset(src);
+
   const projectPath = p => `/projects/${p.slug}/`;
   const projectUrl = p => SITE_URL + projectPath(p);
 
@@ -90,11 +96,15 @@
   }
 
   function gallery(p) {
+    const raw = [];
+    if (p.image) raw.push({ type: 'image', src: p.image });
+    (p.gallery || []).forEach(m => raw.push(m));
     const list = media(p);
     return list.map((m, i) => {
+      const set = m.type === 'video' ? '' : srcset(raw[i].src);
       const el = m.type === 'video'
         ? `<video src="${m.src}" muted loop preload="metadata" playsinline></video>`
-        : `<img src="${m.src}" alt="${p.title} — ${i + 1}" loading="lazy">`;
+        : `<img src="${m.src}"${set ? ` srcset="${set}" sizes="(max-width: 900px) 50vw, 33vw"` : ''} alt="${p.title} — ${i + 1}" loading="lazy">`;
       return `<div class="pd-gal-item${m.type === 'video' ? ' is-video' : ''}" role="button" tabindex="0" data-index="${i}" aria-label="Open image ${i + 1} of ${list.length}">${el}<div class="pd-gal-overlay"></div><span class="pd-gal-num">${String(i + 1).padStart(2, '0')}</span></div>`;
     }).join('');
   }
@@ -103,7 +113,7 @@
     const dir = isNext
       ? 'Next <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
       : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Previous';
-    return `<a class="pd-nav-card${isNext ? ' is-next' : ''}" href="${projectPath(p)}"><div class="pd-nav-card-bg" style="${p.image ? `background-image:url(${asset(p.image)})` : ''}"></div><div class="pd-nav-card-overlay"></div><div class="pd-nav-card-body"${isNext ? ' style="text-align:right;"' : ''}><div class="pd-nav-dir"${isNext ? ' style="justify-content:flex-end;"' : ''}>${dir}</div><div class="pd-nav-title">${p.title}</div></div></a>`;
+    return `<a class="pd-nav-card${isNext ? ' is-next' : ''}" href="${projectPath(p)}"><div class="pd-nav-card-bg" style="${p.image ? `background-image:url(${bgSrc(p.image)})` : ''}"></div><div class="pd-nav-card-overlay"></div><div class="pd-nav-card-body"${isNext ? ' style="text-align:right;"' : ''}><div class="pd-nav-dir"${isNext ? ' style="justify-content:flex-end;"' : ''}>${dir}</div><div class="pd-nav-title">${p.title}</div></div></a>`;
   }
 
   function nav(projects, p) {
@@ -114,5 +124,5 @@
     return (prev ? navCard(prev, false) : '<div></div>') + (next ? navCard(next, true) : '<div></div>');
   }
 
-  root.ProjectRender = { SITE_URL, asset, projectPath, projectUrl, heroMeta, heroActions, left, sidebar, media, galleryCount, gallery, nav };
+  root.ProjectRender = { SITE_URL, SMALL, smallSrc, srcset, bgSrc, asset, projectPath, projectUrl, heroMeta, heroActions, left, sidebar, media, galleryCount, gallery, nav };
 })(typeof window !== 'undefined' ? window : globalThis);

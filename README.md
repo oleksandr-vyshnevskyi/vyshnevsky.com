@@ -53,11 +53,11 @@ HTML · CSS · JavaScript · GSAP (self-hosted) · Three.js · Formspree
 Project pages (`/projects/<slug>/`) are generated from `script/projects-data.js` and `templates/project.html`. Build them, then start a static server that supports clean URLs:
 
 ```bash
-npm run dev
-# same as: node tools/build-projects.mjs && npx serve .
+npm install   # once, installs sharp for image resizing
+npm run dev   # same as: node tools/build-projects.mjs && npx serve .
 ```
 
-`npm run build` regenerates the project pages, `project-detail.html`, `projects.html` and `sitemap.xml`. Generated pages are not committed: GitHub Actions builds them on every push.
+`npm run build` regenerates the project pages, `project-detail.html`, `projects.html`, `sitemap.xml` and the 960px image variants (`images/*-960.webp`). Generated pages are not committed: GitHub Actions builds them on every push.
 
 ## Deployment
 

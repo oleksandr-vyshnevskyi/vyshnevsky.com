@@ -26,3 +26,7 @@ Claude outputs/
 
 # ── Generated project pages (built by tools/build-projects.mjs) ──
 /projects/*/
+
+# ── Generated 960px image variants (built by tools/build-projects.mjs) ──
+images/*-960.webp
+node_modules/

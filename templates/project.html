@@ -46,11 +46,11 @@
   <link rel="stylesheet" href="/styles/buttons.css">
   <link rel="stylesheet" href="/styles/project-detail.css">
 
-  <noscript><style>#pdMain{opacity:1!important}</style></noscript>
   <script type="application/ld+json">{{JSONLD}}</script>
 </head>
 
 <body data-page="project" data-project-id="{{ID}}">
+  <div class="pt-overlay pt-in" id="ptOverlay" aria-hidden="true"></div>
   <a class="skip-link" href="#pdMain">Skip to content</a>
 
   <div class="page-content">
@@ -102,7 +102,7 @@
   </div>
 
   <!-- ─── MAIN CONTENT (injected by JS) ─── -->
-  <main id="pdMain" style="opacity:0;">
+  <main id="pdMain">
 
     <!-- HERO -->
     <section class="pd-hero" id="pdHero">

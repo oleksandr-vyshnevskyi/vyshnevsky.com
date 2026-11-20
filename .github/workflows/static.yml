@@ -29,8 +29,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Build project pages
+      - name: Install build tools
+        run: npm install --no-audit --no-fund
+      - name: Build project pages and images
         run: node tools/build-projects.mjs
+      - name: Remove build tools from the site
+        run: rm -rf node_modules package-lock.json
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -28,59 +28,20 @@ gsap.registerPlugin(ScrollTrigger);
 
   if (REDUCE_MOTION) {
     globeIntro.p = 1;
-    gsap.set(["#heroTag","#heroL1","#heroL2",".hero-cta",".hero-stat","#heroScroll","#heroBtns","#globeCanvas"],
-      { clearProps: "all" });
+    gsap.set("#globeCanvas", { clearProps: "all" });
   } else {
-    /* Initial states */
-    gsap.set("#heroTag",       { opacity: 0, y: 15 });
-    gsap.set("#heroL1",        { opacity: 0, y: 20 });
-    gsap.set("#heroL2",        { opacity: 0, y: 20 });
-    gsap.set(".hero-cta",      { opacity: 0, x: 20 });
-    gsap.set(".hero-stat",     { opacity: 0, x: 20 });
-    gsap.set("#heroScroll",    { opacity: 0 });
-    gsap.set("#heroBtns",      { opacity: 1, y: 0 }); /* heroBtns is just a wrapper, don't animate it */
-    gsap.set("#globeCanvas",   { opacity: 0 });
+    gsap.set("#globeCanvas", { opacity: 0 });
   }
 
   function startHeroAnim() {
     if (REDUCE_MOTION) return;
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    /* 1. Tagline */
-    tl.to("#heroTag",   { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "0");
-
-    /* 2. Name line 1 */
-    tl.to("#heroL1",    { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "0.3");
-
-    /* 3. Name line 2 — glow fully visible, no clip */
-    tl.to("#heroL2",    { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "0.5");
-
-    /* 4. CTA + Stats — each element staggers in from right */
-    tl.to(".hero-cta",  { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, "0.8");
-    tl.to(".hero-stat", { opacity: 1, x: 0, duration: 0.5, ease: "power2.out", stagger: 0.1 }, "0.85");
-
-    /* 5. Scroll hint */
-    tl.to("#heroScroll", { opacity: 1, duration: 0.5, ease: "power2.out" }, "1.1");
-
-    /* 6. Globe — bounces in like a ball, elastic overshoot */
-    tl.to("#globeCanvas", { opacity: 1, duration: 1.2, ease: "power2.out" }, "0");
-    globeIntro.heroAt = performance.now();
+    const fcp = performance.getEntriesByName('first-contentful-paint')[0];
+    const heroStart = (fcp ? fcp.startTime : performance.now()) + 550;
+    globeIntro.heroAt = heroStart;
+    gsap.to("#globeCanvas", { opacity: 1, duration: 1.2, ease: "power2.out", delay: Math.max(0, (heroStart - performance.now()) / 1000) });
   }
 
-  /* No video — start hero animation directly (or after page transition overlay) */
-  function startHeroAnimOnce() {
-    let started = false;
-    return function() { if (started) return; started = true; startHeroAnim(); };
-  }
-  const onceStart = startHeroAnimOnce();
-
-  const overlay = document.getElementById("ptOverlay");
-  if (overlay) {
-    overlay.addEventListener("animationend", onceStart, { once: true });
-  } else {
-    /* Small delay to let Three.js initialize the globe canvas */
-    setTimeout(onceStart, 120);
-  }
+  startHeroAnim();
 })();
 
 // ═══════════════════════════════════════════════════════════════

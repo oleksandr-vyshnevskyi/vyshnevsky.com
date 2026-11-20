@@ -472,7 +472,6 @@ const PROJECTS = [
       "Multi-page B2B structure",
       "Product catalogue (storage, drying, shop display systems)",
       "Full-width banner sections",
-      "Bilingual support (EN / PL)",
       "Contact & login UI"
     ],
     liveUrl: "https://oleksandr-vyshnevskyi.github.io/QBL.github.io/"
