@@ -50,6 +50,22 @@ gsap.registerPlugin(ScrollTrigger);
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = [...about.querySelectorAll('.xp')];
 
+  const scrollers = [...about.querySelectorAll('.xp-scroll')];
+  const syncFade = el => {
+    el.classList.toggle('can-up', el.scrollTop > 2);
+    el.classList.toggle('can-down', el.scrollTop + el.clientHeight < el.scrollHeight - 2);
+  };
+  scrollers.forEach(el => {
+    el.addEventListener('scroll', () => syncFade(el), { passive: true });
+    const cards = el.querySelectorAll('.xp-pj');
+    if (cards.length > 3) {
+      const lbl = el.parentElement.querySelector('.xp-col-lbl');
+      if (lbl) lbl.insertAdjacentHTML('beforeend', `<span class="xp-col-cnt">${String(cards.length).padStart(2, '0')}</span>`);
+    }
+  });
+  const syncAll = root => (root || about).querySelectorAll('.xp-scroll').forEach(syncFade);
+  window.addEventListener('resize', () => syncAll(), { passive: true });
+
   items.forEach(item => {
     const head = item.querySelector('button.xp-head');
     if (!head) return;
@@ -63,6 +79,7 @@ gsap.registerPlugin(ScrollTrigger);
       });
       item.classList.toggle('is-open', open);
       head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) requestAnimationFrame(() => syncAll(item));
     });
   });
 
