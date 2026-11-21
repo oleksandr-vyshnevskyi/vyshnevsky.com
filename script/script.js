@@ -83,17 +83,16 @@ gsap.registerPlugin(ScrollTrigger);
     });
   });
 
-  const front = document.getElementById('aboutImgFront');
   const portrait = about.querySelector('.ab-portrait');
-  if (front && portrait && !reduce) {
+  if (portrait && !reduce) {
     const io = new IntersectionObserver(entries => {
       if (!entries[0].isIntersecting) return;
       io.disconnect();
-      gsap.fromTo(front, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.4, delay: .5, ease: 'power3.inOut' });
-    }, { threshold: .35 });
+      setTimeout(() => portrait.classList.add('is-lit'), 700);
+    }, { threshold: .45 });
     io.observe(portrait);
-  } else if (front) {
-    front.style.clipPath = 'none';
+  } else if (portrait) {
+    portrait.classList.add('is-lit', 'no-anim');
   }
 
   if (reduce || !window.gsap) return;

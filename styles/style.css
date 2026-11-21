@@ -708,8 +708,47 @@ section {
 }
 
 #aboutImgFront {
-  clip-path: inset(100% 0 0 0);
+  opacity: 0;
 }
+
+#aboutImgBack {
+  filter: saturate(.2) brightness(.32) contrast(1.15);
+}
+
+.ab-portrait {
+  transition: border-color .6s ease, box-shadow .8s ease;
+}
+
+.ab-portrait.is-lit #aboutImgFront {
+  animation: neonOn 1.5s linear forwards;
+}
+
+.ab-portrait.is-lit {
+  border-color: var(--ga-20);
+  box-shadow: 0 0 60px rgba(var(--g-rgb), .08);
+  transition-delay: 1.1s;
+}
+
+.ab-portrait.no-anim #aboutImgFront {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes neonOn {
+  0%   { opacity: 0; }
+  6%   { opacity: .85; }
+  9%   { opacity: .1; }
+  14%  { opacity: .9; }
+  17%  { opacity: 0; }
+  30%  { opacity: 0; }
+  33%  { opacity: 1; }
+  36%  { opacity: .35; }
+  41%  { opacity: 1; }
+  44%  { opacity: .7; }
+  52%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
 
 .ab-portrait::after {
   content: '';
@@ -1648,7 +1687,8 @@ button.xp-head:hover .xp-plus::after {
     animation: none;
   }
   #aboutImgFront {
-    clip-path: none;
+    opacity: 1;
+    animation: none !important;
   }
 }
 
