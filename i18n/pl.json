@@ -264,7 +264,22 @@
   "English CV": "CV po angielsku",
   "Polski CV": "CV po polsku",
   "Poland · CET": "Polska · CET",
-  "Front-End Developer": "Front-End Developer"
+  "Front-End Developer": "Front-End Developer",
+  "What I did": "Co robiłem",
+  "Landing pages, corporate sites and web apps — design in Figma and development by one person": "Landing page’e, strony firmowe i aplikacje webowe — projekt w Figmie i kodowanie w jednych rękach",
+  "Agency collaboration: multi-page corporate websites built from the studio's designs in Figma and Adobe XD.": "Współpraca z agencją: wielostronicowe strony firmowe tworzone na podstawie projektów studia w Figmie i Adobe XD.",
+  "Full-time engineering degree in Computer Science with a Data Engineering specialization.": "Stacjonarne studia inżynierskie z informatyki, specjalność inżynieria danych.",
+  "Algorithms &amp; data structures": "Algorytmy i struktury danych",
+  "Software engineering": "Inżynieria oprogramowania",
+  "Team project": "Projekt zespołowy",
+  "Data mining": "Drążenie danych",
+  "Machine learning": "Uczenie maszynowe",
+  "Data visualisation &amp; reporting": "Wizualizacja danych i raportowanie",
+  "Key subjects": "Kluczowe przedmioty",
+  "Specialization": "Specjalność",
+  "Stack": "Stack",
+  "Databases": "Bazy danych",
+  "R &amp; Python": "R i Python"
  },
  "js": {
   "Name is required": "Podaj imię",
