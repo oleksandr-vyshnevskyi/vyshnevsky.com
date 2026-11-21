@@ -970,14 +970,24 @@ button.xp-head:focus-visible {
 }
 
 .xp-logo {
+  --glow: var(--g-rgb);
   position: relative;
   width: 52px;
   height: 52px;
   border-radius: 50%;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 0 0 1px var(--w-12);
+  box-shadow:
+    0 0 0 1px rgba(var(--glow), .65),
+    0 0 14px rgba(var(--glow), .55),
+    0 0 34px rgba(var(--glow), .28);
+  animation: xpNeon 4s ease-in-out infinite;
   transition: transform var(--dur-slow) var(--ease-out), box-shadow var(--dur);
+}
+
+@keyframes xpNeon {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(var(--glow), .65), 0 0 14px rgba(var(--glow), .55), 0 0 34px rgba(var(--glow), .28); }
+  50%      { box-shadow: 0 0 0 1px rgba(var(--glow), .8), 0 0 20px rgba(var(--glow), .7), 0 0 48px rgba(var(--glow), .36); }
 }
 
 .xp-logo img {
@@ -990,7 +1000,8 @@ button.xp-head:focus-visible {
 .xp:not(.xp--next):hover .xp-logo,
 .xp.is-open .xp-logo {
   transform: scale(1.06);
-  box-shadow: 0 0 0 1px var(--ga-50), 0 0 22px var(--ga-20);
+  animation: none;
+  box-shadow: 0 0 0 1px rgba(var(--glow), .95), 0 0 22px rgba(var(--glow), .8), 0 0 56px rgba(var(--glow), .45);
 }
 
 .xp-logo--swap img {
@@ -1028,7 +1039,6 @@ button.xp-head:focus-visible {
 .xp-logo--next {
   background: var(--bg);
   border: 1.5px dashed var(--ga-50);
-  box-shadow: 0 0 22px var(--ga-15);
   display: grid;
   place-items: center;
 }
@@ -1523,6 +1533,7 @@ button.xp-head:hover .xp-plus::after {
     transition: none;
   }
   .xp-now-dot,
+  .xp-logo,
   .xp-logo--swap .xp-logo-b,
   .xp-logo--swap::after {
     animation: none;
