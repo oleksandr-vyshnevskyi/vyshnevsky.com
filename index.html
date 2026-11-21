@@ -805,233 +805,90 @@
   </section>
 
 <!-- ─── CONTACT ─── -->
-<section id="contact">
-  <div class="ct-scroll" id="ctScroll">
-  <div class="ct-sticky" id="ctSticky">
-
-  <!-- BG atmosphere -->
-  <div class="ct-bg" aria-hidden="true">
-    <div class="ct-bg-glow"></div>
-    <div class="ct-bg-glow2"></div>
-  </div>
-
+<section id="contact" class="ctx">
   <div class="wrap">
-
-    <div id="ctHead">
-      <div class="stag">Contact</div>
-
-      <h2 class="sh ct-title">
-        Got something<br>to build? <span class="glow">Let's ship it.</span>
-      </h2>
-
-      <p class="ct-sub">
-        Drop me a message — I'll review your brief and reply within 12 hours with a clear timeline and fixed price. No vague estimates.
-      </p>
+    <div class="stag ctx-stag">Contact</div>
+    <div class="ctx-head">
+      <h2 class="sh ctx-title">Let's <span class="glow">talk.</span></h2>
+      <p class="ctx-sub">Hiring, a project, or just a question — write a few lines and I'll get back to you <strong>within a day</strong>.</p>
     </div>
-
-    <!-- Timeline steps (canvas + icons) -->
-    <div class="ct-timeline" id="ctTimeline">
-      <canvas class="ct-line-canvas" id="ctLineCanvas"></canvas>
-
-      <!-- Step 1 -->
-      <div class="ct-tl-item" id="ctS1">
-        <div class="ct-dot-wrap">
-          <div class="ct-pr" id="ctPr1a"></div>
-          <div class="ct-pr" id="ctPr1b"></div>
-          <div class="ct-dot-main" id="ctD1">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-            </svg>
+    <div class="ctx-grid">
+      <form class="ctx-form" id="ctxForm" novalidate>
+        <fieldset class="ctx-topics-wrap">
+          <legend class="ctx-lbl">I'm reaching out about</legend>
+          <div class="ctx-topics" role="radiogroup">
+            <label class="stk-chip ctx-topic is-on"><input type="radio" name="topic" value="Job" data-ph="A few words about the role — company, position, link to the vacancy…" checked><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span>Job opportunity</span></label>
+            <label class="stk-chip ctx-topic"><input type="radio" name="topic" value="Freelance" data-ph="What do you need built, and by when?"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12"/></svg><span>Freelance project</span></label>
+            <label class="stk-chip ctx-topic"><input type="radio" name="topic" value="Other" data-ph="What's on your mind?"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg><span>Something else</span></label>
+          </div>
+        </fieldset>
+        <div class="ctx-row">
+          <div class="ctx-f">
+            <label class="ctx-lbl" for="cf-name">Name</label>
+            <input class="ctx-in" id="cf-name" name="name" type="text" autocomplete="name" placeholder="Anna Kowalska" required>
+            <span class="ctx-err" id="cf-name-err" aria-live="polite"></span>
+          </div>
+          <div class="ctx-f">
+            <label class="ctx-lbl" for="cf-email">Email</label>
+            <input class="ctx-in" id="cf-email" name="email" type="email" autocomplete="email" placeholder="anna@company.com" required>
+            <span class="ctx-err" id="cf-email-err" aria-live="polite"></span>
           </div>
         </div>
-        <div class="ct-tl-num" id="ctNum1">01</div>
-        <div class="ct-tl-title" id="ctTitle1">Send a brief</div>
-        <div class="ct-tl-desc" id="ctDesc1">2 min · no commitment</div>
+        <div class="ctx-f">
+          <label class="ctx-lbl" for="cf-msg">Message</label>
+          <textarea class="ctx-in" id="cf-msg" name="message" rows="5" placeholder="A few words about the role — company, position, link to the vacancy…" required></textarea>
+          <span class="ctx-err" id="cf-msg-err" aria-live="polite"></span>
+        </div>
+        <div class="ctx-hp" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input id="cf-website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="ctx-actions">
+          <p class="ctx-legal">Your details are used only to reply to your message. See the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+          <button type="submit" class="btn btn--primary btn--l ctx-send" id="ctxSend"><span class="ctx-send-text">Send message</span> <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+        </div>
+        <p class="ctx-send-err" id="ctxSendErr" role="alert">Something went wrong — please email me directly.</p>
+      </form>
+      <div class="ctx-done" id="ctxDone" role="status" aria-live="polite" hidden>
+        <span class="ctx-done-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <h3 class="ctx-done-title">Thanks — message sent.</h3>
+        <p class="ctx-done-text">I'll reply within a day. Talk soon!</p>
       </div>
 
-      <!-- Step 2 -->
-      <div class="ct-tl-item" id="ctS2">
-        <div class="ct-dot-wrap">
-          <div class="ct-pr" id="ctPr2a"></div>
-          <div class="ct-pr" id="ctPr2b"></div>
-          <div class="ct-dot-main" id="ctD2">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 11 12 14 22 4"/>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-            </svg>
+      <aside class="ctx-side">
+        <div class="ctx-block">
+          <div class="ctx-status"><span class="xp-now-dot"></span><span><b>Open to full-time roles</b> · React / TypeScript</span></div>
+          <div class="ctx-meta">
+            <div><span>Based in</span><strong>Poland · Remote / Hybrid</strong></div>
+            <div><span>Local time</span><strong><span id="ctTime">--:--</span> CET</strong></div>
           </div>
         </div>
-        <div class="ct-tl-num" id="ctNum2">02</div>
-        <div class="ct-tl-title" id="ctTitle2">Get a plan</div>
-        <div class="ct-tl-desc" id="ctDesc2">Fixed price · 12h</div>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="ct-tl-item" id="ctS3">
-        <div class="ct-dot-wrap">
-          <div class="ct-pr" id="ctPr3a"></div>
-          <div class="ct-pr" id="ctPr3b"></div>
-          <div class="ct-dot-main" id="ctD3">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6"/>
-              <polyline points="8 6 2 12 8 18"/>
-            </svg>
+        <div class="ctx-block">
+          <span class="ctx-lbl">Email</span>
+          <div class="ctx-email">
+            <a href="mailto:oleksandr.vyshnevskyi.work@gmail.com">oleksandr.vyshnevskyi<wbr>.work@gmail.com</a>
+            <button type="button" class="ctx-copy" id="ctxCopy" data-copy="oleksandr.vyshnevskyi.work@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg><span class="ctx-copy-text">Copy</span><span class="ctx-copy-done">Copied</span></button>
           </div>
         </div>
-        <div class="ct-tl-num" id="ctNum3">03</div>
-        <div class="ct-tl-title" id="ctTitle3">We build it</div>
-        <div class="ct-tl-desc" id="ctDesc3">On deadline · pixel-perfect</div>
-      </div>
-
+        <div class="ctx-block ctx-links">
+          <div class="cv-pick ctx-cv" id="cvPickCt">
+            <button type="button" class="ctx-link ctx-link--hl cv-pick__btn" aria-haspopup="true" aria-expanded="false" aria-controls="cvPickCtMenu"><span>Download CV <i>EN · PL</i></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></button>
+            <div class="cv-pick__menu" id="cvPickCtMenu" aria-label="Choose CV language">
+              <a href="/cv/cv.pdf" download class="cv-pick__item"><span class="cv-pick__name">English</span><span class="cv-pick__meta">EN · PDF</span></a>
+              <a href="/cv/cv-pl.pdf" download hreflang="pl" class="cv-pick__item"><span class="cv-pick__name" lang="pl">Polski</span><span class="cv-pick__meta">PL · PDF</span></a>
+            </div>
+          </div>
+          <a class="ctx-link" href="https://www.linkedin.com/in/oleksandr-vyshnevskyi-dev/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+          <a class="ctx-link" href="https://github.com/oleksandr-vyshnevskyi" target="_blank" rel="noopener noreferrer"><span>GitHub</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+          <a class="ctx-link" href="https://www.fiverr.com/vyshnevsky" target="_blank" rel="noopener noreferrer"><span>Fiverr <i>freelance</i></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+          <a class="ctx-link" href="https://www.upwork.com/freelancers/~01569a3bc56c0a5504" target="_blank" rel="noopener noreferrer"><span>Upwork <i>freelance</i></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+        </div>
+      </aside>
     </div>
-
-    <!-- Actions -->
-    <div class="ct-actions" id="ctCta">
-      <button type="button" class="ct-cta btn btn--primary btn--l" id="drawerOpen" aria-expanded="false" aria-controls="contactDrawer">Start a project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
-      <a href="mailto:oleksandr.vyshnevskyi.work@gmail.com" class="ct-email">
-        or email directly
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7 17L17 7M7 7h10v10"/>
-        </svg>
-      </a>
-    </div>
-
-    <!-- Availability row -->
-    <div class="ct-avail-row" id="ctAvailRow">
-      <span class="ct-avail-status">
-        <span class="ct-avail-dot"></span>
-        <span class="ct-avail-text">Available for new projects · Poland · Remote</span>
-      </span>
-      <div class="ct-socials">
-        <a href="https://www.linkedin.com/in/oleksandr-vyshnevskyi-dev/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://github.com/oleksandr-vyshnevskyi" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://www.fiverr.com/vyshnevsky" target="_blank" rel="noopener noreferrer">Fiverr</a>
-        <a href="https://www.upwork.com/freelancers/~01569a3bc56c0a5504" target="_blank" rel="noopener noreferrer">UpWork</a>
-      </div>
-    </div>
-
   </div>
-  </div><!-- /ct-sticky -->
-  </div><!-- /ct-scroll -->
 </section>
 
 </main>
-
-<!-- ─── DRAWER OVERLAY ─── -->
-<div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
-
-<!-- ─── DRAWER PANEL ─── -->
-<aside class="contact-drawer" id="contactDrawer" role="dialog" aria-modal="true" aria-label="Contact form" aria-hidden="true" inert>
-  <div class="drawer-inner">
-
-    <div class="drawer-head">
-      <div>
-        <div class="drawer-eyebrow">New Project</div>
-        <div class="drawer-title">What are we building?</div>
-      </div>
-      <button type="button" class="drawer-close" id="drawerClose" aria-label="Close">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 6 6 18M6 6l12 12"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- FORM -->
-    <form class="drawer-form" id="drawerForm" novalidate>
-
-      <!-- Row 1: Name + Email -->
-      <div class="cf-2col">
-        <div class="cf-g" id="grp-name">
-          <label class="cf-lbl" for="d-name">Your Name</label>
-          <input id="d-name" required aria-required="true" type="text" class="cf-in" placeholder="John Doe" autocomplete="name">
-          <span class="cf-err" id="err-name"></span>
-        </div>
-        <div class="cf-g" id="grp-email">
-          <label class="cf-lbl" for="d-email">Email</label>
-          <input id="d-email" required aria-required="true" type="email" class="cf-in" placeholder="john@example.com" autocomplete="email">
-          <span class="cf-err" id="err-email"></span>
-        </div>
-      </div>
-
-      <!-- Row 2: Project type + Budget -->
-      <div class="cf-2col">
-        <div class="cf-g" id="grp-type">
-          <label class="cf-lbl" for="d-type">Project Type</label>
-          <select id="d-type" class="cf-in" required aria-required="true">
-            <option value="" disabled selected>Select type</option>
-            <option>Landing page</option>
-            <option>Web app / Platform</option>
-            <option>E-commerce</option>
-            <option>Redesign</option>
-            <option>Other</option>
-          </select>
-          <span class="cf-err" id="err-type"></span>
-        </div>
-        <div class="cf-g" id="grp-deadline">
-          <label class="cf-lbl" for="d-deadline">Deadline</label>
-          <select id="d-deadline" class="cf-in" required aria-required="true">
-            <option value="" disabled selected>When do you need it?</option>
-            <option>ASAP (1–2 weeks)</option>
-            <option>1 month</option>
-            <option>2–3 months</option>
-            <option>Flexible</option>
-          </select>
-          <span class="cf-err" id="err-deadline"></span>
-        </div>
-      </div>
-
-      <!-- Brief -->
-      <div class="cf-g cf-g--grow" id="grp-msg">
-        <label class="cf-lbl" for="d-msg">
-          Project Brief
-          <span class="cf-counter" id="d-counter">0 chars</span>
-        </label>
-        <textarea id="d-msg" required aria-required="true" class="cf-in cf-textarea" placeholder="What's the project? What's the deadline? Do you have a design or references?"></textarea>
-        <span class="cf-err" id="err-msg"></span>
-        <span class="cf-hint">More detail → faster and more accurate estimate</span>
-      </div>
-
-      <!-- Messenger optional -->
-      <div class="cf-g">
-        <label class="cf-lbl" for="d-messenger">
-          WhatsApp / Telegram
-          <span class="cf-optional">optional</span>
-        </label>
-        <input id="d-messenger" type="text" class="cf-in" placeholder="+48 123 456 789 or @username">
-      </div>
-
-      <!-- Honeypot (spam trap) — hidden from humans, Formspree drops submissions where it is filled -->
-      <div style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
-        <label for="d-website">Website</label>
-        <input id="d-website" type="text" tabindex="-1" autocomplete="off">
-      </div>
-
-      <button type="submit" class="cf-sub" id="drawerSubmit">
-        <span class="cf-sub-text">Send Message</span>
-        <span class="cf-sub-arrow">→</span>
-        <span class="cf-sub-dots" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </span>
-      </button>
-      <p class="cf-legal">Your details are used only to reply to your request. See the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</p>
-
-    </form>
-
-    <!-- SUCCESS -->
-    <div class="drawer-success" id="drawerSuccess" aria-live="polite" role="status">
-      <div class="ds-check">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </div>
-      <div class="ds-title">Message sent!</div>
-      <div class="ds-body">I'll get back to you within 12 hours with a clear plan.</div>
-    </div>
-
-
-
-  </div>
-</aside>
 
   </div><!-- /page-content -->
 
@@ -1047,14 +904,7 @@
       <!-- Col 1: Brand -->
       <div class="foot-col foot-col--brand">
        <a class="foot-logo" href="/"> OV.</a>
-        <p class="foot-tagline">Front-End Developer.<br>Clean code, real results, every time.</p>
-        <div class="foot-avail"><span class="pulse"></span>Open to full-time roles</div>
-        <div class="foot-sep"></div>
-        <span class="foot-col-label">Contact</span>
-        <a href="mailto:oleksandr.vyshnevskyi.work@gmail.com" class="foot-email">
-          oleksandr.vyshnevskyi<wbr>.work@gmail.com
-        </a>
-
+        <p class="foot-tagline">Front-End Developer<br>React · TypeScript</p>
       </div>
 
       <!-- Col 2: Navigate -->

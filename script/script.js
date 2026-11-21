@@ -122,9 +122,6 @@ gsap.registerPlugin(ScrollTrigger);
   });
 })();
 
-/* ─── SCROLL LOCK — defined in transition.js as window.lockScroll / window.unlockScroll ─── */
-const lockScroll   = () => window.lockScroll?.();
-const unlockScroll = () => window.unlockScroll?.();
 
 /* Scroll progress, burger menu, clock, footer reveal — handled by common.js */
 
@@ -1011,740 +1008,6 @@ const unlockScroll = () => window.unlockScroll?.();
 
 
 
-/* ─── CONTACT DRAWER ─── */
-(function () {
-  'use strict';
-
-  const openBtn   = document.getElementById('drawerOpen');
-  const closeBtn  = document.getElementById('drawerClose');
-  const drawer    = document.getElementById('contactDrawer');
-  const overlay   = document.getElementById('drawerOverlay');
-  const form      = document.getElementById('drawerForm');
-  const successEl = document.getElementById('drawerSuccess');
-  const submitBtn = document.getElementById('drawerSubmit');
-
-  if (!openBtn || !drawer || !form) return;
-
-  const fieldName  = document.getElementById('d-name');
-  const fieldEmail = document.getElementById('d-email');
-  const fieldMsg   = document.getElementById('d-msg');
-  const counterEl  = document.getElementById('d-counter');
-
-  // Character counter for the textarea
-  if (fieldMsg && counterEl) {
-    fieldMsg.addEventListener('input', function () {
-      const n = this.value.length;
-      counterEl.textContent = n + ' ' + T(n === 1 ? 'char' : 'chars');
-      counterEl.className = 'cf-counter' + (n >= 50 ? ' ok' : '');
-    });
-  }
-
-  let isOpen    = false;
-  let prevFocus = null;
-
-  /* ══════════════════════════════════════
-     VALIDATION
-  ══════════════════════════════════════ */
-
-  function validate(field, groupId, errId, ruleFn) {
-    const group = document.getElementById(groupId);
-    const errEl = document.getElementById(errId) || { textContent: '' };
-    const error = ruleFn(field.value.trim());
-
-    if (error) {
-      group.classList.add('has-error');
-      group.classList.remove('is-valid');
-      errEl.textContent = error;
-      return false;
-    } else {
-      group.classList.remove('has-error');
-      group.classList.add('is-valid');
-      errEl.textContent = '';
-      return true;
-    }
-  }
-
-  function validateAll() {
-    const okName  = validate(fieldName,  'grp-name',  'err-name',  v => !v ? T('Name is required') : null);
-    const okEmail = validate(fieldEmail, 'grp-email', 'err-email', v => {
-      if (!v) return T('Email is required');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return T('Enter a valid email address');
-      return null;
-    });
-    const okMsg   = validate(fieldMsg,   'grp-msg',   'err-msg',   v => !v ? T('Please describe your project') : null);
-
-    const typeEl     = document.getElementById('d-type');
-    const deadlineEl = document.getElementById('d-deadline');
-
-    const okType     = !typeEl     || validate(typeEl,     'grp-type',     'err-type',     v => !v ? T('Choose a project type') : null);
-    const okDeadline = !deadlineEl || validate(deadlineEl, 'grp-deadline', 'err-deadline', v => !v ? T('Choose a deadline') : null);
-
-    return okName && okEmail && okMsg && okType && okDeadline;
-  }
-
-  /* ══════════════════════════════════════
-     DRAWER OPEN / CLOSE
-  ══════════════════════════════════════ */
-
-  function openDrawer() {
-    if (isOpen) return;
-    isOpen    = true;
-    prevFocus = document.activeElement;
-
-    drawer.removeAttribute('aria-hidden');
-    drawer.inert = false; /* closed drawer is inert: no Tab stops inside an invisible form */
-    openBtn.setAttribute('aria-expanded', 'true');
-    overlay.classList.add('is-open');
-    drawer.classList.add('is-open');
-    lockScroll();
-
-    /* iOS keyboard fix: resize drawer when virtual keyboard appears */
-    if (window.visualViewport) {
-      function onVVResize() {
-        const vv = window.visualViewport;
-        drawer.style.height = vv.height + 'px';
-        drawer.style.top    = vv.offsetTop + 'px';
-      }
-      window.visualViewport.addEventListener('resize', onVVResize);
-      window.visualViewport.addEventListener('scroll', onVVResize);
-      drawer._vvCleanup = () => {
-        window.visualViewport.removeEventListener('resize', onVVResize);
-        window.visualViewport.removeEventListener('scroll', onVVResize);
-        drawer.style.height = '';
-        drawer.style.top = '';
-      };
-    }
-
-    if (typeof gsap !== 'undefined') {
-      const items = form.querySelectorAll('.cf-g, .cf-sub');
-      gsap.fromTo(items,
-        { opacity: 0, x: 20 },
-        { opacity: 1, x: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out', delay: 0.2 }
-      );
-    }
-
-    setTimeout(() => {
-      const first = drawer.querySelector('input');
-      if (first) first.focus();
-    }, 540);
-  }
-
-  function closeDrawer() {
-    if (!isOpen) return;
-    isOpen = false;
-
-    drawer.setAttribute('aria-hidden', 'true');
-    drawer.inert = true;
-    openBtn.setAttribute('aria-expanded', 'false');
-    overlay.classList.remove('is-open');
-    drawer.classList.remove('is-open');
-    unlockScroll();
-
-    /* Clean up iOS keyboard listener */
-    if (drawer._vvCleanup) { drawer._vvCleanup(); drawer._vvCleanup = null; }
-
-    if (prevFocus) prevFocus.focus();
-  }
-
-  function resetDrawer() {
-    form.reset();
-
-    /* Clear all validation states */
-    ['grp-name','grp-email','grp-msg','grp-type','grp-deadline'].forEach(id => {
-      const g = document.getElementById(id);
-      if (g) g.classList.remove('has-error','is-valid');
-    });
-    ['err-name','err-email','err-msg','err-type','err-deadline'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = '';
-    });
-
-    /* Hide send-error */
-    const sendErr = form.querySelector('.cf-send-error');
-    if (sendErr) sendErr.classList.remove('is-visible');
-
-    /* Reset the button */
-    submitBtn.classList.remove('is-loading');
-    submitBtn.disabled = false;
-
-    /* Hide success, show the form */
-    successEl.classList.remove('is-visible');
-    form.style.display = '';
-    form.style.opacity = '';
-  }
-
-  /* ══════════════════════════════════════
-     EVENTS
-  ══════════════════════════════════════ */
-
-  openBtn.addEventListener('click', () => {
-    resetDrawer();
-    openDrawer();
-  });
-
-  closeBtn.addEventListener('click', closeDrawer);
-  overlay.addEventListener('click', closeDrawer);
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && isOpen) closeDrawer();
-  });
-
-  /* Focus trap */
-  drawer.addEventListener('keydown', e => {
-    if (e.key !== 'Tab') return;
-    const focusable = Array.from(drawer.querySelectorAll(
-      'button:not([disabled]),[href],input:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
-    ));
-    const first = focusable[0];
-    const last  = focusable[focusable.length - 1];
-    if (e.shiftKey) {
-      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-    } else {
-      if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
-    }
-  });
-
-  /* ══════════════════════════════════════
-     FORM SUBMIT
-  ══════════════════════════════════════ */
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    /* Clear the previous send-error */
-    const sendErr = form.querySelector('.cf-send-error');
-    if (sendErr) sendErr.classList.remove('is-visible');
-
-    if (!validateAll()) return;
-
-    /* Loading */
-    submitBtn.classList.add('is-loading');
-    submitBtn.disabled = true;
-
-    const name  = fieldName.value.trim();
-    const email = fieldEmail.value.trim();
-    const msg   = fieldMsg.value.trim();
-
-    const type      = (document.getElementById('d-type')      || {}).value || '';
-    const deadline  = (document.getElementById('d-deadline')   || {}).value || '';
-    const messenger = (document.getElementById('d-messenger')  || {}).value.trim() || '';
-
-    fetch('https://formspree.io/f/mpqneqjq', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        name,
-        email,
-        message:      msg,
-        project_type: type,
-        deadline,
-        messenger,
-        _gotcha: (document.getElementById('d-website') || {}).value || ''
-      })
-    })
-    .then(function (r) {
-      if (r.ok) showSuccess();
-      else showSendError();
-    })
-    .catch(showSendError)
-    .finally(function () {
-      submitBtn.classList.remove('is-loading');
-      submitBtn.disabled = false;
-    });
-  });
-
-  /* ══════════════════════════════════════
-     SUCCESS / ERROR
-  ══════════════════════════════════════ */
-
-  function showSuccess() {
-    submitBtn.classList.remove('is-loading');
-
-    if (typeof gsap !== 'undefined') {
-      gsap.to(form, {
-        opacity: 0, y: -12, duration: 0.28, ease: 'power2.in',
-        onComplete: () => {
-          form.style.display = 'none';
-          successEl.classList.add('is-visible');
-          gsap.fromTo(successEl,
-            { opacity: 0, y: 18 },
-            { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }
-          );
-        }
-      });
-    } else {
-      form.style.display = 'none';
-      successEl.classList.add('is-visible');
-    }
-  }
-
-  function showSendError() {
-    submitBtn.classList.remove('is-loading');
-    submitBtn.disabled = false;
-
-    let sendErr = form.querySelector('.cf-send-error');
-    if (!sendErr) {
-      sendErr = document.createElement('p');
-      sendErr.className = 'cf-send-error';
-      sendErr.textContent = 'Something went wrong — please try emailing directly.';
-      form.appendChild(sendErr);
-    }
-    sendErr.classList.add('is-visible');
-  }
-
-})();
-
-// ═══════════════════════════════════════════════════════════════
-//  CONTACT TIMELINE — ScrollTrigger pin + canvas snake animation
-// ═══════════════════════════════════════════════════════════════
-(function () {
-  const canvas  = document.getElementById('ctLineCanvas');
-  const tlWrap  = document.getElementById('ctTimeline');
-  const section = document.getElementById('contact');
-  if (!canvas || !tlWrap || !section) return;
-
-  const ctx = canvas.getContext('2d');
-
-  const isMobile = () => window.innerWidth <= 1024;
-
-  // ── math helpers ────────────────────────────────────────────
-  const cl  = (v, a, b) => Math.max(a, Math.min(b, v));
-  const lp  = (a, b, t) => a + (b - a) * t;
-  const eo3 = t => 1 - Math.pow(1 - t, 3);
-  const eo5 = t => 1 - Math.pow(1 - t, 5);
-  const eio = t => t < .5 ? 4*t*t*t : (1 - Math.pow(-2*t+2, 3) / 2);
-
-  // ── canvas resize ────────────────────────────────────────────
-  function resize() {
-    const dpr = window.devicePixelRatio || 1;
-    const W   = tlWrap.offsetWidth;
-    const H   = tlWrap.offsetHeight;
-    canvas.width  = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.width  = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  // ── layout ───────────────────────────────────────────────────
-  // cy measured once at init (while elements are in flow)
-  let _cy = null;
-  function measureCy() {
-    const dw = document.getElementById('ctD1')?.closest('.ct-tl-item')?.querySelector('.ct-dot-wrap');
-    if (dw) {
-      const tlRect = tlWrap.getBoundingClientRect();
-      const dwRect = dw.getBoundingClientRect();
-      _cy = dwRect.top - tlRect.top + dwRect.height / 2;
-    }
-    if (!_cy) _cy = tlWrap.offsetHeight * 0.42;
-  }
-
-  function getLayout() {
-    const W  = tlWrap.offsetWidth;
-    const H  = tlWrap.offsetHeight;
-    const cy = _cy || H * 0.42;
-    return {
-      s1: { x: W * .16, y: cy },
-      s2: { x: W * .50, y: cy },
-      s3: { x: W * .84, y: cy },
-      cx: W * .50, cy, W, H
-    };
-  }
-
-  // ── position items absolutely ────────────────────────────────
-  function positionItems(lyt) {
-    if (isMobile()) return; // on mobile items stay in flow (position:relative)
-    // ct-tl-item has padding-top: 28px, dot-wrap = 64px
-    // so the dot-wrap centre sits on cy: top = cy - 28 - 32
-    [['ctS1'], ['ctS2'], ['ctS3']].forEach(([id]) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.position  = 'absolute';
-      el.style.top       = (lyt.cy - 60) + 'px';
-    });
-  }
-
-  // ── snake points ─────────────────────────────────────────────
-  function snakePoints(worm, phase, lyt, count = 80) {
-    const amp = worm * 46;
-    const x1  = lyt.s1.x, x2 = lyt.s3.x, cy = lyt.cy;
-    const pts = [];
-    for (let i = 0; i <= count; i++) {
-      const tx = i / count;
-      pts.push([
-        lp(x1, x2, tx),
-        cy + amp * Math.sin(tx * Math.PI * 3.1 + phase * 2.5) * .60
-           + amp * Math.sin(tx * Math.PI * 5.6 + phase * 1.8) * .26
-           + amp * Math.sin(tx * Math.PI * 1.4 + phase * 1.0) * .20
-      ]);
-    }
-    return pts;
-  }
-
-  // ── draw canvas ───────────────────────────────────────────────
-  function drawCanvas(pts, drawFrac, pulsePos, pulseOp, lyt) {
-    ctx.clearRect(0, 0, lyt.W, lyt.H);
-    if (drawFrac < 0.001) return;
-
-    const total   = pts.length - 1;
-    const drawn   = Math.floor(eo3(drawFrac) * total);
-    const dPts    = pts.slice(0, drawn + 1);
-    if (dPts.length < 2) return;
-
-    // main gradient line
-    const grd = ctx.createLinearGradient(lyt.s1.x, 0, lyt.s3.x, 0);
-    grd.addColorStop(0,    'rgba(61,255,143,0)');
-    grd.addColorStop(0.08, 'rgba(61,255,143,0.65)');
-    grd.addColorStop(0.92, 'rgba(61,255,143,0.45)');
-    grd.addColorStop(1,    'rgba(61,255,143,0)');
-
-    function strokePath(pArr) {
-      ctx.beginPath();
-      ctx.moveTo(pArr[0][0], pArr[0][1]);
-      for (let i = 1; i < pArr.length - 1; i++) {
-        const mx = (pArr[i][0] + pArr[i+1][0]) / 2;
-        const my = (pArr[i][1] + pArr[i+1][1]) / 2;
-        ctx.quadraticCurveTo(pArr[i][0], pArr[i][1], mx, my);
-      }
-      ctx.lineTo(pArr[pArr.length-1][0], pArr[pArr.length-1][1]);
-    }
-
-    strokePath(dPts);
-    ctx.strokeStyle = grd;
-    ctx.lineWidth   = 1.2;
-    ctx.lineCap     = 'round';
-    ctx.stroke();
-
-    // travelling pulse glow — only after line fully drawn
-    if (pulseOp > 0.01 && drawFrac > 0.99) {
-      const pi  = Math.round(pulsePos * (pts.length - 1));
-      const px  = pts[pi][0], py = pts[pi][1];
-      const gp  = ctx.createRadialGradient(px, py, 0, px, py, lyt.W * 0.18);
-      gp.addColorStop(0,   `rgba(255,255,255,${(pulseOp * 0.9).toFixed(3)})`);
-      gp.addColorStop(0.3, `rgba(61,255,143,${(pulseOp * 0.6).toFixed(3)})`);
-      gp.addColorStop(1,   'rgba(61,255,143,0)');
-      strokePath(pts);
-      ctx.strokeStyle = gp;
-      ctx.lineWidth   = 2.5;
-      ctx.stroke();
-    }
-  }
-
-  // ── pulse rings ───────────────────────────────────────────────
-  let lT = 0;
-  function pulseRings(id, t, offset, active) {
-    const ra = document.getElementById('ctPr' + id + 'a');
-    const rb = document.getElementById('ctPr' + id + 'b');
-    if (!ra) return;
-    if (!active) {
-      [ra, rb].forEach(r => { r.style.border = '1px solid rgba(61,255,143,0)'; r.style.transform = 'scale(1)'; });
-      return;
-    }
-    const per = 3.0;
-    const pa  = ((t + offset) / per) % 1,   pb = ((t + offset) / per + 0.5) % 1;
-    const sa  = lp(1.0, 1.32, eo5(pa)),     oa = lp(0.28, 0, Math.pow(pa, 0.5));
-    const sb  = lp(1.0, 1.32, eo5(pb)),     ob = lp(0.28, 0, Math.pow(pb, 0.5));
-    ra.style.border    = `1px solid rgba(61,255,143,${oa.toFixed(3)})`;
-    ra.style.transform = `scale(${sa.toFixed(3)})`;
-    rb.style.border    = `1px solid rgba(61,255,143,${ob.toFixed(3)})`;
-    rb.style.transform = `scale(${sb.toFixed(3)})`;
-  }
-
-  // ── scroll progress proxy ─────────────────────────────────────
-  const state = { p: 0 };   // driven by ScrollTrigger onUpdate
-
-  // ── rAF loop — reads state.p ──────────────────────────────────
-  let loopRafId = null;
-
-  function startLoop() {
-    if (!loopRafId) loopRafId = requestAnimationFrame(loop);
-  }
-  function stopLoop() {
-    if (loopRafId) { cancelAnimationFrame(loopRafId); loopRafId = null; }
-  }
-
-  function loop(ts) {
-    loopRafId = null;
-    if (loop.last) lT += (ts - loop.last) * .001;
-    loop.last = ts;
-
-    const p   = state.p;
-    const lyt = getLayout();
-    positionItems(lyt);
-
-    // ── breakpoints per spec ────────────────────────────────
-    // p 0.00→0.08  icon 1 appears
-    const i1dot   = cl((p - .00) / .08, 0, 1);
-    // p 0.08→0.16  label 1 appears
-    const i1label = cl((p - .08) / .08, 0, 1);
-    // p 0.16→0.32  icon 1 flies into place
-    const i1move  = cl((p - .16) / .16, 0, 1);
-
-    // p 0.26→0.66  the snake line draws
-    const lineDraw = cl((p - .26) / .40, 0, 1);
-    const wormOn   = cl((p - .26) / .34, 0, 1);
-
-    // p 0.30→0.38  icon 2 appears
-    const i2dot   = cl((p - .30) / .08, 0, 1);
-    // p 0.38→0.46  label 2 appears
-    const i2label = cl((p - .38) / .08, 0, 1);
-    // p 0.46→0.60  icon 2 flies into place
-    const i2move  = cl((p - .46) / .14, 0, 1);
-
-    // p 0.52→0.60  icon 3 appears
-    const i3dot   = cl((p - .52) / .08, 0, 1);
-    // p 0.60→0.68  label 3 appears
-    const i3label = cl((p - .60) / .08, 0, 1);
-    // p 0.68→0.82  icon 3 flies into place
-    const i3move  = cl((p - .68) / .14, 0, 1);
-
-    const wormOff  = cl((p - .84) / .10, 0, 1);
-    const worm     = wormOn * (1 - eio(wormOff));
-
-    const allSettled = i1move > .95 && i2move > .95 && i3move > .95;
-    const pulsePos   = allSettled ? ((lT / 2.4) % 1) : 0;
-    const pulseOp    = allSettled ? eo3(cl((p - .80) / .10, 0, 1)) * 0.8 : 0;
-
-    // ── finale: p 0.82→0.84 light → p 0.84→0.94 heading → p 0.88→0.98 descriptions → p 0.93→1.0 button → bottom
-    const glowP   = cl((p - .82) / .02, 0, 1);
-    const headP   = cl((p - .84) / .10, 0, 1);
-    const descP   = eo3(cl((p - .88) / .10, 0, 1));
-    const ctaP    = cl((p - .93) / .07, 0, 1);
-    // section bottom (avail-row) — appears after the button
-    const availP  = eo3(cl((p - .96) / .04, 0, 1));
-
-    // background light
-    document.querySelector('.ct-bg-glow')?.classList.toggle('show', glowP > 0.1);
-
-    // heading
-    const ctHead = document.getElementById('ctHead');
-    if (ctHead) {
-      ctHead.style.opacity   = headP.toFixed(3);
-      ctHead.style.transform = `translateY(${lp(-14, 0, eo3(headP)).toFixed(2)}px)`;
-    }
-    // descriptions under the icons
-    ['ctDesc1','ctDesc2','ctDesc3'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = descP.toFixed(3);
-    });
-    // button
-    const ctCta = document.getElementById('ctCta');
-    if (ctCta) {
-      ctCta.style.opacity   = ctaP.toFixed(3);
-      ctCta.style.transform = `translateY(${lp(12, 0, eo3(ctaP)).toFixed(2)}px)`;
-    }
-    // availability row — section bottom
-    const ctAvail = document.getElementById('ctAvailRow');
-    if (ctAvail) {
-      ctAvail.style.opacity   = availP.toFixed(3);
-      ctAvail.style.transform = `translateY(${lp(10, 0, availP).toFixed(2)}px)`;
-    }
-
-    // ── canvas ───────────────────────────────────────────────────
-    const pts = snakePoints(worm, lT, lyt);
-    drawCanvas(pts, lineDraw, pulsePos, pulseOp, lyt);
-
-    // ── item 1 ───────────────────────────────────────────────────
-    const s1 = document.getElementById('ctS1');
-    if (s1) {
-      if (isMobile()) { s1.style.left = ''; s1.style.transform = ''; }
-      else {
-        s1.style.opacity   = i1dot;
-        s1.style.left      = lp(lyt.cx, lyt.s1.x, eo3(i1move)) + 'px';
-        s1.style.transform = `translateX(-50%) scale(${lp(1.65, 1.0, eo3(i1move)).toFixed(3)})`;
-      }
-    }
-    document.getElementById('ctD1')?.classList.toggle('lit', i1move > .92);
-    pulseRings('1', lT, 0, allSettled);
-    // label 1 (num + title) appears separately
-    ['ctNum1','ctTitle1'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = i1label.toFixed(3);
-    });
-
-    // ── item 2 ───────────────────────────────────────────────────
-    const s2 = document.getElementById('ctS2');
-    if (s2) {
-      if (isMobile()) { s2.style.left = ''; s2.style.transform = ''; }
-      else {
-        s2.style.opacity   = i2dot;
-        s2.style.left      = lp(lyt.cx, lyt.s2.x, eo3(i2move)) + 'px';
-        s2.style.transform = `translateX(-50%) scale(${lp(1.65, 1.0, eo3(i2move)).toFixed(3)})`;
-      }
-    }
-    document.getElementById('ctD2')?.classList.toggle('lit', i2move > .92);
-    pulseRings('2', lT, 0.9, allSettled);
-    ['ctNum2','ctTitle2'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = i2label.toFixed(3);
-    });
-
-    // ── item 3 ───────────────────────────────────────────────────
-    const s3 = document.getElementById('ctS3');
-    if (s3) {
-      if (isMobile()) { s3.style.left = ''; s3.style.transform = ''; }
-      else {
-        s3.style.opacity   = i3dot;
-        s3.style.left      = lp(lyt.cx, lyt.s3.x, eo3(i3move)) + 'px';
-        s3.style.transform = `translateX(-50%) scale(${lp(1.65, 1.0, eo3(i3move)).toFixed(3)})`;
-      }
-    }
-    document.getElementById('ctD3')?.classList.toggle('lit', i3move > .92);
-    pulseRings('3', lT, 1.8, allSettled);
-    ['ctNum3','ctTitle3'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = i3label.toFixed(3);
-    });
-
-    loopRafId = requestAnimationFrame(loop);
-  }
-
-  new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) {
-      loop.last = null;
-      startLoop();
-    } else {
-      stopLoop();
-    }
-  }, { threshold: 0 }).observe(document.getElementById('ctSticky') || section);
-
-  // ── initial state ─────────────────────────────────────────────
-  resize();
-  measureCy(); // measure cy while elements are still in flow
-
-  // ── CSS sticky scroll ────────────────────────────────────────
-  const ctScroll = document.getElementById('ctScroll');
-
-  const SCROLL_MULT = 1.4; // viewport height multiplier = scroll length
-
-  function setScrollHeight() {
-    if (!ctScroll) return;
-    if (isMobile()) {
-      ctScroll.style.height = '';
-      return;
-    }
-    // ct-sticky is now min-height:100vh — its real height can exceed vh
-    // Container height = sticky height + scroll distance (SCROLL_MULT * vh)
-    const stickyH = ctScroll.querySelector('#ctSticky')?.offsetHeight || window.innerHeight;
-    ctScroll.style.height = (stickyH + Math.round(window.innerHeight * SCROLL_MULT)) + 'px';
-  }
-
-  function readProgress() {
-    if (!ctScroll) return;
-    if (isMobile()) { state.p = 1; return; }
-    const rect      = ctScroll.getBoundingClientRect();
-    const scrolled  = -rect.top;                          // px scrolled within the section
-    const total     = ctScroll.offsetHeight - window.innerHeight; // max scroll
-    if (total <= 0) { state.p = 1; return; }
-    state.p = Math.max(0, Math.min(1, scrolled / total));
-  }
-
-  // ── mobile init — show everything at once ──────────────────────
-  function initMobile() {
-    state.p = 1;
-    ['ctHead','ctCta','ctAvailRow'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
-    });
-    ['ctDesc1','ctDesc2','ctDesc3','ctNum1','ctNum2','ctNum3',
-     'ctTitle1','ctTitle2','ctTitle3'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = '1';
-    });
-    ['ctS1','ctS2','ctS3'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.opacity   = '1';
-      el.style.position  = 'relative';
-      el.style.left      = '';
-      el.style.top       = '';
-      el.style.transform = 'none';
-    });
-    if (ctScroll) ctScroll.style.height = '';
-  }
-
-  // ── desktop init — hide and prepare the animation ───────────────
-  function initDesktop() {
-    const W0      = tlWrap.offsetWidth;
-    const cx0     = W0 * .50;
-    const topOff0 = (_cy || tlWrap.offsetHeight * 0.42) - 60;
-
-    ['ctS1','ctS2','ctS3'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.style.position  = 'absolute';
-      el.style.top       = topOff0 + 'px';
-      el.style.left      = cx0 + 'px';
-      el.style.transform = 'translateX(-50%) scale(1.65)';
-      el.style.opacity   = '0';
-    });
-
-    ['ctNum1','ctTitle1','ctNum2','ctTitle2','ctNum3','ctTitle3'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = '0';
-    });
-
-    const ctHeadEl = document.getElementById('ctHead');
-    if (ctHeadEl) { ctHeadEl.style.opacity = '0'; ctHeadEl.style.transform = 'translateY(-14px)'; }
-    const ctCtaEl = document.getElementById('ctCta');
-    if (ctCtaEl)  { ctCtaEl.style.opacity  = '0'; ctCtaEl.style.transform  = 'translateY(12px)'; }
-    ['ctDesc1','ctDesc2','ctDesc3'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.opacity = '0';
-    });
-    const ctAvailEl = document.getElementById('ctAvailRow');
-    if (ctAvailEl) { ctAvailEl.style.opacity = '0'; ctAvailEl.style.transform = 'translateY(10px)'; }
-
-    setScrollHeight();
-    readProgress();
-  }
-
-  // ── initial run ─────────────────────────────────────────
-  requestAnimationFrame(() => {
-    if (isMobile()) {
-      initMobile();
-    } else {
-      initDesktop();
-    }
-  });
-
-  // Read progress from scroll
-  window.addEventListener('scroll', readProgress, { passive: true });
-  readProgress();
-
-  // ── single resize pattern / orientationchange / visibility ───
-  let _ctLastMode = isMobile() ? 'mobile' : 'desktop';
-  let _ctResizeTimer;
-
-  function ctReinit() {
-    const newMode = isMobile() ? 'mobile' : 'desktop';
-    resize();
-    measureCy();
-    if (newMode !== _ctLastMode) {
-      _ctLastMode = newMode;
-      if (newMode === 'mobile') initMobile();
-      else initDesktop();
-    } else {
-      setScrollHeight();
-      readProgress();
-    }
-  }
-
-  window.addEventListener('resize', () => {
-    clearTimeout(_ctResizeTimer);
-    _ctResizeTimer = setTimeout(ctReinit, 150);
-  }, { passive: true });
-
-  window.addEventListener('orientationchange', () => {
-    setTimeout(ctReinit, 400);
-  });
-
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) { setScrollHeight(); readProgress(); }
-  });
-
-})();
-
 // ── Deferred refresh for remaining ScrollTrigger instances (skills etc.) ──
 requestAnimationFrame(() => {
   requestAnimationFrame(() => {
@@ -1752,11 +1015,10 @@ requestAnimationFrame(() => {
   });
 });
 
-(function () {
-  const pick = document.getElementById('cvPick');
-  const btn  = document.getElementById('cvPickBtn');
-  const menu = document.getElementById('cvPickMenu');
-  if (!pick || !btn || !menu) return;
+document.querySelectorAll('.cv-pick').forEach(pick => {
+  const btn = pick.querySelector('.cv-pick__btn');
+  const menu = pick.querySelector('.cv-pick__menu');
+  if (!btn || !menu) return;
   const items = Array.from(menu.querySelectorAll('a'));
 
   function setOpen(open, focusFirst) {
@@ -1780,4 +1042,126 @@ requestAnimationFrame(() => {
     if (e.key === 'Escape' && pick.classList.contains('is-open')) { setOpen(false, false); btn.focus(); }
   });
   pick.addEventListener('focusout', e => { if (!pick.contains(e.relatedTarget)) setOpen(false, false); });
+});
+
+(function () {
+  const section = document.getElementById('contact');
+  const form = document.getElementById('ctxForm');
+  if (!section || !form) return;
+  const T = window.T || (s => s);
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const name = document.getElementById('cf-name');
+  const email = document.getElementById('cf-email');
+  const msg = document.getElementById('cf-msg');
+  const send = document.getElementById('ctxSend');
+  const sendErr = document.getElementById('ctxSendErr');
+  const done = document.getElementById('ctxDone');
+  const topics = Array.from(form.querySelectorAll('input[name="topic"]'));
+
+  topics.forEach(r => r.addEventListener('change', () => {
+    topics.forEach(x => x.closest('.ctx-topic').classList.toggle('is-on', x.checked));
+    msg.placeholder = T(r.dataset.ph);
+  }));
+  const first = topics.find(r => r.checked);
+  if (first) msg.placeholder = T(first.dataset.ph);
+
+  const rules = [
+    [name, v => v ? '' : T('Name is required')],
+    [email, v => !v ? T('Email is required') : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : T('Enter a valid email address')],
+    [msg, v => v.length >= 10 ? '' : T('Please write a short message')]
+  ];
+
+  function check(input, rule, show) {
+    const err = rule(input.value.trim());
+    const out = document.getElementById(input.id + '-err');
+    if (show) {
+      out.textContent = err;
+      input.classList.toggle('is-invalid', !!err);
+      input.setAttribute('aria-invalid', err ? 'true' : 'false');
+    }
+    return !err;
+  }
+
+  rules.forEach(([input, rule]) => {
+    input.addEventListener('blur', () => { if (input.value.trim()) check(input, rule, true); });
+    input.addEventListener('input', () => { if (input.classList.contains('is-invalid')) check(input, rule, true); });
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    sendErr.classList.remove('is-visible');
+    const ok = rules.map(([input, rule]) => check(input, rule, true));
+    if (ok.includes(false)) {
+      rules[ok.indexOf(false)][0].focus();
+      return;
+    }
+    const topic = (topics.find(r => r.checked) || {}).value || 'Other';
+    send.classList.add('is-loading');
+    send.disabled = true;
+    fetch('https://formspree.io/f/mpqneqjq', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        topic,
+        name: name.value.trim(),
+        email: email.value.trim(),
+        message: msg.value.trim(),
+        _subject: `[${topic}] ${name.value.trim()}`,
+        _gotcha: document.getElementById('cf-website').value
+      })
+    })
+      .then(r => { if (!r.ok) throw new Error(String(r.status)); showDone(); })
+      .catch(() => sendErr.classList.add('is-visible'))
+      .finally(() => { send.classList.remove('is-loading'); send.disabled = false; });
+  });
+
+  function showDone() {
+    const reveal = () => {
+      form.hidden = true;
+      done.hidden = false;
+      if (window.gsap && !reduce) gsap.fromTo(done, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .5, ease: 'power3.out' });
+    };
+    if (window.gsap && !reduce) gsap.to(form, { opacity: 0, y: -10, duration: .25, ease: 'power1.in', onComplete: reveal });
+    else reveal();
+  }
+
+  const copy = document.getElementById('ctxCopy');
+  if (copy) copy.addEventListener('click', () => {
+    const text = copy.dataset.copy;
+    const ok = () => { copy.classList.add('is-done'); setTimeout(() => copy.classList.remove('is-done'), 1600); };
+    const fallback = () => {
+      const t = document.createElement('textarea');
+      t.value = text;
+      t.setAttribute('readonly', '');
+      t.style.position = 'fixed';
+      t.style.opacity = '0';
+      document.body.appendChild(t);
+      t.select();
+      try { if (document.execCommand('copy')) ok(); } catch (err) {}
+      t.remove();
+    };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(ok).catch(fallback);
+    else fallback();
+  });
+
+  const time = document.getElementById('ctTime');
+  if (time) {
+    const tick = () => { time.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Europe/Warsaw', hour: '2-digit', minute: '2-digit', hour12: false }); };
+    tick();
+    setInterval(tick, 30000);
+  }
+
+  if (reduce || !window.gsap || !window.ScrollTrigger) return;
+  const head = section.querySelectorAll('.ctx-stag, .ctx-title, .ctx-sub');
+  const body = section.querySelectorAll('.ctx-form, .ctx-side');
+  gsap.set([...head, ...body], { opacity: 0, y: 30 });
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 78%',
+    once: true,
+    onEnter() {
+      gsap.to(head, { opacity: 1, y: 0, duration: .8, ease: 'power3.out', stagger: .08 });
+      gsap.to(body, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .12, delay: .2, clearProps: 'transform' });
+    }
+  });
 })();

@@ -67,26 +67,6 @@
     const target = document.getElementById(section);
     if (!target) return;
 
-    // For sections with a pin/sticky animation, scroll to the END of the
-    // animation so the user lands on a fully-revealed section, not mid-animation.
-    // Scroll container lookup: contact uses #ctScroll
-    const scrollContainerMap = {
-      contact: () => document.getElementById('ctScroll'),
-    };
-
-    const getContainer = scrollContainerMap[section];
-    if (getContainer) {
-      const container = getContainer();
-      if (container) {
-        const top = container.getBoundingClientRect().top + window.pageYOffset;
-        // Scroll to the very end of the pin zone
-        const scrollTarget = top + container.offsetHeight - window.innerHeight;
-        window.scrollTo({ top: Math.max(0, scrollTarget), behavior: 'instant' });
-        return;
-      }
-    }
-
-    // Fallback: scroll to top of section
     const top = target.getBoundingClientRect().top + window.pageYOffset;
     window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
   }
@@ -137,7 +117,7 @@
     }
   }
 
-  /* ── Sections with pin animations — links to these scroll to end of pin ── */
+  /* ── Same-page section anchors handled with smooth scroll ── */
   const PIN_SECTIONS = ['contact'];
 
   /* ── Rewrite cross-page anchor links to use ?section= ── */
@@ -164,7 +144,6 @@
       if (target.tagName === 'A' && isInternal(target)) {
         const href = target.getAttribute('href');
 
-        // Same-page pin section anchor (e.g. #about, #contact on index.html)
         if (href && href.startsWith('#')) {
           e.preventDefault();
           const sectionName = href.slice(1);
@@ -181,22 +160,8 @@
     }
   });
 
-  /* ── Scroll to end of pin section (same-page) ── */
+  /* ── Smooth scroll to a same-page section ── */
   function scrollToPinEnd(sectionName) {
-    const containerMap = {
-      contact: () => document.getElementById('ctScroll'),
-    };
-    const getContainer = containerMap[sectionName];
-    if (getContainer) {
-      const container = getContainer();
-      if (container) {
-        const top = container.getBoundingClientRect().top + window.pageYOffset;
-        const scrollTarget = top + container.offsetHeight - window.innerHeight;
-        window.scrollTo({ top: Math.max(0, scrollTarget), behavior: 'smooth' });
-        return;
-      }
-    }
-    // Fallback: scroll to section top
     const el = document.getElementById(sectionName);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   }
