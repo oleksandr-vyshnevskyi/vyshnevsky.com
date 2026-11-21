@@ -3063,7 +3063,8 @@ a.stk-item:hover .stk-item-go svg {
   font-size: var(--fs-body-sm);
   outline: none;
   -webkit-appearance: none;
-  transition: border-color var(--dur), box-shadow var(--dur);
+  background-repeat: no-repeat;
+  transition: border-color var(--dur), box-shadow var(--dur), background-image var(--dur);
 }
 
 textarea.ctx-in {
@@ -3080,7 +3081,8 @@ textarea.ctx-in {
 
 .ctx-in:focus {
   border-bottom-color: var(--g);
-  box-shadow: 0 1px 0 0 var(--g), 0 10px 22px -14px rgba(var(--g-rgb), .7);
+  box-shadow: 0 1px 0 0 var(--g);
+  background-image: linear-gradient(to top, rgba(var(--g-rgb), .16), rgba(var(--g-rgb), 0) 12px);
 }
 
 .ctx-in.is-invalid {
