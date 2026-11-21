@@ -34,3 +34,6 @@ node_modules/
 # ── Generated Polish version (built by tools/build-projects.mjs) ──
 /pl/
 script/projects-data.pl.js
+/project-detail.html
+/projects.html
+/sitemap.xml
