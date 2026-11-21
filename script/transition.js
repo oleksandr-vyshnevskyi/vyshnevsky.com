@@ -69,10 +69,9 @@
 
     // For sections with a pin/sticky animation, scroll to the END of the
     // animation so the user lands on a fully-revealed section, not mid-animation.
-    // Scroll container lookup: contact uses #ctScroll; about uses .about-sticky-wrap
+    // Scroll container lookup: contact uses #ctScroll
     const scrollContainerMap = {
       contact: () => document.getElementById('ctScroll'),
-      about:   () => document.querySelector('.about-sticky-wrap'),
     };
 
     const getContainer = scrollContainerMap[section];
@@ -139,7 +138,7 @@
   }
 
   /* ── Sections with pin animations — links to these scroll to end of pin ── */
-  const PIN_SECTIONS = ['about', 'contact'];
+  const PIN_SECTIONS = ['contact'];
 
   /* ── Rewrite cross-page anchor links to use ?section= ── */
   function rewriteHref(href) {
@@ -186,7 +185,6 @@
   function scrollToPinEnd(sectionName) {
     const containerMap = {
       contact: () => document.getElementById('ctScroll'),
-      about:   () => document.querySelector('.about-sticky-wrap'),
     };
     const getContainer = containerMap[sectionName];
     if (getContainer) {

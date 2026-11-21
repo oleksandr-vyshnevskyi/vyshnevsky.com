@@ -44,257 +44,66 @@ gsap.registerPlugin(ScrollTrigger);
   startHeroAnim();
 })();
 
-// ═══════════════════════════════════════════════════════════════
-//  ABOUT SECTION — CSS sticky + scroll-driven reveal
-//  No GSAP pin — same pattern as Projects (reliable on reload)
-// ═══════════════════════════════════════════════════════════════
 (function () {
+  const about = document.getElementById('about');
+  if (!about) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = [...about.querySelectorAll('.xp')];
 
-  const section    = document.querySelector('#about');
-  const stickyWrap = document.querySelector('.about-sticky-wrap');
-  const bentoInner = document.querySelector('.about-bento-inner');
-  const bento      = document.querySelector('.about-bento');
-  if (!section || !stickyWrap || !bentoInner || !bento) return;
-
-  const photo    = document.querySelector('.ab-photo');
-  const headline = document.querySelector('.ab-headline');
-  const ph1      = document.querySelector('.ab-ph-1');
-  const ph2      = document.querySelector('.ab-ph-2');
-  const bio      = document.querySelector('.ab-bio');
-  const exp      = document.querySelector('.ab-exp');
-  const cv       = document.querySelector('.ab-cv');
-  const imgBack  = document.getElementById('aboutImgBack');
-  const imgFront = document.getElementById('aboutImgFront');
-  const hasGlitch = imgBack && imgFront;
-
-  // Each card: progress window [from, to] within 0..1 scroll through section
-  // All cards animate bottom-up only — consistent, calm entrance
-  // Staggered by column: col1 (photo) → col2 (headline/bio) → col3 (ph1/ph2) → row3 (exp/cv)
-  const cards = [
-    { el: photo,    from: 0.00, to: 0.24, opacity: [0,1], y: [40,0] },
-    { el: headline, from: 0.08, to: 0.32, opacity: [0,1], y: [36,0] },
-    { el: ph1,      from: 0.14, to: 0.38, opacity: [0,1], y: [36,0] },
-    { el: bio,      from: 0.14, to: 0.38, opacity: [0,1], y: [36,0] },
-    { el: ph2,      from: 0.20, to: 0.44, opacity: [0,1], y: [36,0] },
-  ].filter(c => c.el);
-
-  const bottomCards = [
-    { el: exp, from: 0.40, to: 0.62, opacity: [0,1], y: [40,0] },
-    { el: cv,  from: 0.46, to: 0.68, opacity: [0,1], y: [40,0] },
-  ].filter(c => c.el);
-  let bottomObserver = null;
-  let bottomScrub = false;
-
-  const PHOTO_FROM = 0.30;
-  const PHOTO_TO   = 0.92;
-
-  function lerpCl(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
-  function prog(val, from, to) { return Math.max(0, Math.min(1, (val - from) / (to - from))); }
-  // power2.out — fast start, smooth deceleration (replaces symmetric eio)
-  function eio(t) { return 1 - (1 - t) * (1 - t); }
-
-  function resetCards() {
-    cards.forEach(c => {
-      gsap.set(c.el, {
-        opacity: c.opacity ? c.opacity[0] : 1,
-        x:       c.x       ? c.x[0]       : 0,
-        y:       c.y       ? c.y[0]       : 0,
-        scale:   c.scale   ? c.scale[0]   : 1,
+  items.forEach(item => {
+    const head = item.querySelector('button.xp-head');
+    if (!head) return;
+    head.addEventListener('click', () => {
+      const open = !item.classList.contains('is-open');
+      items.forEach(other => {
+        if (other === item) return;
+        other.classList.remove('is-open');
+        const h = other.querySelector('button.xp-head');
+        if (h) h.setAttribute('aria-expanded', 'false');
       });
+      item.classList.toggle('is-open', open);
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-    if (hasGlitch) {
-      gsap.set(imgBack,  { opacity: 1, clipPath: 'inset(0 0 0 0)' });
-      gsap.set(imgFront, { opacity: 1, clipPath: 'inset(100% 0 0 0)' });
-    }
-    photoTxLastP = -1;
-  }
-
-  // ── Reveal bottom-to-top — scroll-driven, fully reversible (About photo) ──
-  let photoTxLastP = -1;
-
-  function initPhotoTx() {
-    if (!hasGlitch) return;
-    const wrap = imgBack.parentNode;
-    wrap.style.position = 'relative';
-    wrap.style.overflow = 'hidden';
-
-    [imgBack, imgFront].forEach(img => {
-      img.style.position  = 'absolute';
-      img.style.inset     = '0';
-      img.style.width     = '100%';
-      img.style.height    = '100%';
-      img.style.objectFit = 'cover';
-    });
-
-    gsap.set(imgBack,  { opacity: 1, clipPath: 'inset(0 0 0 0)' });
-    gsap.set(imgFront, { opacity: 1, clipPath: 'inset(100% 0 0 0)' });
-  }
-
-  function renderPhotoTx(p) {
-    if (!hasGlitch) return;
-    p = Math.max(0, Math.min(1, p));
-    if (Math.abs(p - photoTxLastP) < 0.002) return;
-    photoTxLastP = p;
-
-    // ease in-out cubic
-    const e = p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p+2, 3) / 2;
-
-    // imgFront reveals from bottom: inset top goes 100% → 0%
-    const insetTop = ((1 - e) * 100).toFixed(2);
-    gsap.set(imgFront, { clipPath: `inset(${insetTop}% 0 0 0)` });
-
-    // imgBack fades out gently in the second half
-    const backOpacity = p < 0.5 ? 1 : 1 - (p - 0.5) * 2;
-    gsap.set(imgBack,  { opacity: backOpacity.toFixed(3) });
-  }
-
-  function isMobile() { return window.innerWidth <= 1024; }
-
-  // ── Desktop: stickyWrap gets height, bentoInner is sticky ──
-  function setupDesktop() {
-    const extra = 700;
-    stickyWrap.style.height  = (window.innerHeight + extra) + 'px';
-    bentoInner.style.position  = 'sticky';
-    bentoInner.style.top       = '0px';
-    const innerTop = bentoInner.getBoundingClientRect().top;
-    const fits = bottomCards.every(c => {
-      const r = c.el.getBoundingClientRect();
-      const top = r.top - innerTop - gsap.getProperty(c.el, 'y');
-      return top + r.height * 0.6 <= window.innerHeight;
-    });
-    if (fits !== bottomScrub) {
-      bottomScrub = fits;
-      initBottomCards();
-    }
-  }
-
-  function teardownDesktop() {
-    stickyWrap.style.height    = '';
-    bentoInner.style.position  = '';
-    bentoInner.style.top       = '';
-  }
-
-  function onScroll() {
-    if (isMobile()) return;
-    const rect  = stickyWrap.getBoundingClientRect();
-    const total = stickyWrap.offsetHeight - window.innerHeight;
-    if (total <= 0) return;
-    const lead = window.innerHeight * 0.7;
-    const p = Math.max(0, Math.min(1, (lead - rect.top) / (total + lead)));
-
-    cards.forEach(c => {
-      const t = eio(prog(p, c.from, c.to));
-      gsap.set(c.el, {
-        opacity: c.opacity ? lerpCl(c.opacity[0], c.opacity[1], t) : 1,
-        x:       c.x       ? lerpCl(c.x[0],       c.x[1],       t) : 0,
-        y:       c.y       ? lerpCl(c.y[0],        c.y[1],       t) : 0,
-        scale:   c.scale   ? lerpCl(c.scale[0],    c.scale[1],   t) : 1,
-      });
-    });
-
-    // Scale + Fade photo transition — scroll-driven, works forward & backward
-    if (bottomScrub) {
-      bottomCards.forEach(c => {
-        const t = eio(prog(p, c.from, c.to));
-        gsap.set(c.el, { opacity: lerpCl(0, 1, t), y: lerpCl(40, 0, t) });
-      });
-    }
-
-    const photoP = prog(p, PHOTO_FROM, PHOTO_TO);
-    renderPhotoTx(photoP);
-  }
-
-  // ── Mobile: IntersectionObserver one-shot reveals ──
-  function initMobile() {
-    teardownDesktop();
-    resetCards();
-    cards.forEach(c => {
-      const io = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
-        gsap.to(c.el, {
-          opacity: 1,
-          y:       0,
-          duration: 0.65, ease: 'power2.out'
-        });
-        io.disconnect();
-      }, { threshold: 0.15 });
-      io.observe(c.el);
-    });
-    if (hasGlitch) {
-      const io = new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting) return;
-        // On mobile: animate the transition with a quick tween
-        gsap.to({ p: 0 }, {
-          p: 1, duration: 0.9, ease: 'power3.inOut',
-          onUpdate() { renderPhotoTx(this.targets()[0].p); }
-        });
-        io.disconnect();
-      }, { threshold: 0.3 });
-      io.observe(photo);
-    }
-  }
-
-  function initBottomCards() {
-    const els = bottomCards.map(c => c.el);
-    if (bottomObserver) { bottomObserver.disconnect(); bottomObserver = null; }
-    gsap.killTweensOf(els);
-    gsap.set(els, { opacity: 0, y: 40 });
-    if (!isMobile() && bottomScrub) return;
-    bottomObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const i = els.indexOf(entry.target);
-        if (entry.isIntersecting) {
-          gsap.to(entry.target, { opacity: 1, y: 0, duration: 0.65, delay: i * 0.08, ease: 'power2.out', overwrite: true });
-        } else if (!isMobile() && entry.boundingClientRect.top >= window.innerHeight * 0.5) {
-          gsap.to(entry.target, { opacity: 0, y: 40, duration: 0.3, ease: 'power2.out', overwrite: true });
-        }
-      });
-    }, { threshold: isMobile() ? 0.15 : 0.6 });
-    els.forEach(el => bottomObserver.observe(el));
-  }
-
-  function init() {
-    initPhotoTx();
-    bottomScrub = false;
-    initBottomCards();
-    if (isMobile()) {
-      initMobile();
-    } else {
-      setupDesktop();
-      resetCards();
-      onScroll();
-    }
-  }
-
-  init();
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  let _rt;
-  let _lastMode = isMobile() ? 'mobile' : 'desktop';
-  window.addEventListener('resize', () => {
-    clearTimeout(_rt);
-    _rt = setTimeout(() => {
-      const newMode = isMobile() ? 'mobile' : 'desktop';
-      /* Only reinit when crossing the breakpoint, not on every resize tick */
-      if (newMode !== _lastMode) {
-        _lastMode = newMode;
-        init();
-      } else if (newMode === 'desktop') {
-        /* Desktop: recalculate sticky height on resize */
-        setupDesktop();
-        onScroll();
-      }
-    }, 150);
-  }, { passive: true });
-
-  window.addEventListener('orientationchange', () => {
-    setTimeout(() => { init(); onScroll(); }, 400);
   });
 
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) onScroll();
+  const front = document.getElementById('aboutImgFront');
+  const portrait = about.querySelector('.ab-portrait');
+  if (front && portrait && !reduce) {
+    const io = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      gsap.fromTo(front, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.4, delay: .5, ease: 'power3.inOut' });
+    }, { threshold: .35 });
+    io.observe(portrait);
+  } else if (front) {
+    front.style.clipPath = 'none';
+  }
+
+  if (reduce || !window.gsap) return;
+  const intro = [about.querySelector('.ab-stag'), about.querySelector('.ab-title'), about.querySelector('.ab-bio'), about.querySelector('.ab-actions')].filter(Boolean);
+  gsap.set(portrait, { opacity: 0, y: 40, scale: .97 });
+  gsap.set(intro, { opacity: 0, y: 30 });
+  ScrollTrigger.create({
+    trigger: about.querySelector('.ab-top'),
+    start: 'top 78%',
+    once: true,
+    onEnter() {
+      gsap.to(portrait, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out' });
+      gsap.to(intro, { opacity: 1, y: 0, duration: .8, ease: 'power3.out', stagger: .1, delay: .1 });
+    }
   });
 
+  const path = about.querySelector('.ab-path');
+  const rows = about.querySelectorAll('.ab-path-head, .xp');
+  gsap.set(rows, { opacity: 0, y: 24 });
+  ScrollTrigger.create({
+    trigger: path,
+    start: 'top 82%',
+    once: true,
+    onEnter() {
+      gsap.to(rows, { opacity: 1, y: 0, duration: .7, ease: 'power3.out', stagger: .08, clearProps: 'transform' });
+    }
+  });
 })();
 
 /* ─── SCROLL LOCK — defined in transition.js as window.lockScroll / window.unlockScroll ─── */
@@ -1926,33 +1735,3 @@ requestAnimationFrame(() => {
     setTimeout(() => { ScrollTrigger.refresh(); }, 100);
   });
 });
-
-(function () {
-  const pick = document.getElementById('cvPick');
-  const btn  = document.getElementById('cvPickBtn');
-  const menu = document.getElementById('cvPickMenu');
-  if (!pick || !btn || !menu) return;
-  const items = Array.from(menu.querySelectorAll('a'));
-
-  function setOpen(open, focusFirst) {
-    pick.classList.toggle('is-open', open);
-    btn.setAttribute('aria-expanded', String(open));
-    if (open && focusFirst) items[0].focus();
-  }
-
-  btn.addEventListener('click', () => setOpen(!pick.classList.contains('is-open'), false));
-  btn.addEventListener('keydown', e => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); setOpen(true, true); }
-  });
-  menu.addEventListener('keydown', e => {
-    const i = items.indexOf(document.activeElement);
-    if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
-    if (e.key === 'ArrowUp')   { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
-  });
-  items.forEach(a => a.addEventListener('click', () => setOpen(false, false)));
-  document.addEventListener('click', e => { if (!pick.contains(e.target)) setOpen(false, false); });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && pick.classList.contains('is-open')) { setOpen(false, false); btn.focus(); }
-  });
-  pick.addEventListener('focusout', e => { if (!pick.contains(e.relatedTarget)) setOpen(false, false); });
-})();
