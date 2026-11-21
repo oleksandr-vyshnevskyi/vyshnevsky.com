@@ -3793,10 +3793,25 @@ footer {
   .foot-divider { margin: 0 var(--side-pad) }
 
   .foot-bottom {
-    padding: var(--sp-12) var(--side-pad) calc(1.4rem + env(safe-area-inset-bottom, 0px));
+    padding: var(--sp-24) var(--side-pad) calc(2rem + env(safe-area-inset-bottom, 0px));
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--sp-8)
+    gap: var(--sp-24)
+  }
+
+  .foot-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-12);
+    line-height: 1.6
+  }
+
+  .foot-copy-sep {
+    display: none
+  }
+
+  .foot-legal {
+    align-self: flex-start
   }
 }
 
@@ -3868,7 +3883,7 @@ footer {
 
   .foot-divider { margin: 0 var(--sp-16) }
 
-  .foot-bottom { padding: var(--sp-12) var(--sp-16) calc(1.2rem + env(safe-area-inset-bottom, 0px)) }
+  .foot-bottom { padding: var(--sp-24) var(--sp-16) calc(2rem + env(safe-area-inset-bottom, 0px)) }
 }
 /* ─── PAGE TRANSITION (shared across all pages) ─── */
 .pt-overlay {
@@ -4537,7 +4552,7 @@ select.cf-in option { background: var(--bg2); color: var(--t); }
 ════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  .ct-timeline { height: 160px; margin-bottom: var(--sp-32); }
+  .ct-timeline { height: auto; min-height: 160px; padding-bottom: var(--sp-8); margin-bottom: var(--sp-32); }
   .ct-tl-title, .ct-tl-desc { font-size: var(--fs-label); }
   .cf-2col { grid-template-columns: 1fr; }
 
@@ -4555,7 +4570,7 @@ select.cf-in option { background: var(--bg2); color: var(--t); }
   }
 
   /* Timeline more compact on small screens */
-  .ct-timeline { height: 130px; margin-bottom: var(--sp-48); }
+  .ct-timeline { height: auto; min-height: 130px; padding-bottom: var(--sp-8); margin-bottom: var(--sp-48); }
   .ct-dot-wrap { width: 52px; height: 52px; }
   .ct-dot-main { width: 44px; height: 44px; }
   .ct-dot-main svg { width: 18px; height: 18px; }

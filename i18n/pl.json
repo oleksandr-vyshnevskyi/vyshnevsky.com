@@ -145,7 +145,6 @@
   "Region": "Region",
   "Poland · EU": "Polska · UE",
   "within 12h": "do 12 godzin",
-  "© <span id=\"footYear\"></span> Oleksandr Vyshnevskyi — Designed &amp; built from scratch. <span class=\"foot-copy-sep\">·</span> <a href=\"/privacy\" class=\"foot-legal\">Privacy Policy</a>": "© <span id=\"footYear\"></span> Oleksandr Vyshnevskyi — Zaprojektowane i zbudowane od zera. <span class=\"foot-copy-sep\">·</span> <a href=\"/privacy\" class=\"foot-legal\">Polityka prywatności</a>",
   "Back to top": "Do góry",
   "Projects — Oleksandr Vyshnevskyi · Front-End Developer": "Projekty — Oleksandr Vyshnevskyi · Front-End Developer",
   "Portfolio of 28+ web projects by Oleksandr Vyshnevskyi — landing pages, business sites, web apps and platforms built for clients worldwide.": "Portfolio 28+ projektów Oleksandra Vyshnevskyiego — landing pages, strony firmowe, aplikacje webowe i platformy dla klientów z całego świata.",
@@ -282,7 +281,8 @@
   "Now I'm looking for a <strong>full-time front-end role</strong> in a product team.": "Teraz szukam <strong>pracy na etacie jako front-end developer</strong> w zespole produktowym.",
   "Polish · English · Ukrainian · Russian": "Polski · Angielski · Ukraiński · Rosyjski",
   "Languages": "Języki",
-  "— More projects": "— Więcej projektów"
+  "— More projects": "— Więcej projektów",
+  "© <span id=\"footYear\"></span> Oleksandr Vyshnevskyi — Designed &amp; built from scratch.": "© <span id=\"footYear\"></span> Oleksandr Vyshnevskyi — Zaprojektowane i zbudowane od zera."
  },
  "js": {
   "Name is required": "Podaj imię",
