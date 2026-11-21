@@ -704,7 +704,7 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 22%;
+  object-position: center 30%;
 }
 
 #aboutImgFront {
@@ -1550,7 +1550,7 @@ button.xp-head:hover .xp-plus::after {
     aspect-ratio: 16 / 11;
   }
   .ab-portrait-img img {
-    object-position: center 18%;
+    object-position: center 28%;
   }
 }
 
