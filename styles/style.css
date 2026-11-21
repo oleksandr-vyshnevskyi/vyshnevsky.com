@@ -1010,30 +1010,64 @@ button.xp-head:focus-visible {
 }
 
 .xp-logo--swap .xp-logo-b {
-  animation: xpSwap 7s var(--ease-out) infinite;
+  -webkit-mask-image: linear-gradient(120deg, transparent 0%, transparent 42%, #000 58%, #000 100%);
+  mask-image: linear-gradient(120deg, transparent 0%, transparent 42%, #000 58%, #000 100%);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-position: 0% 0;
+  mask-position: 0% 0;
+  animation: xpSwap 9s infinite;
 }
 
 .xp-logo--swap::after {
   content: '';
   position: absolute;
-  inset: -20%;
-  background: linear-gradient(115deg, transparent 46%, rgba(255, 255, 255, .85) 50%, transparent 54%);
-  transform: translateX(-120%);
-  animation: xpShine 7s var(--ease-out) infinite;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, transparent 40%, rgba(255, 255, 255, .28) 50%, transparent 60%, transparent 100%);
+  background-size: 300% 100%;
+  background-position: 0% 0;
+  animation: xpSwapShine 9s infinite;
   pointer-events: none;
 }
 
 @keyframes xpSwap {
-  0%, 42%   { clip-path: polygon(160% 0, 260% 0, 260% 100%, 100% 100%); }
-  50%, 92%  { clip-path: polygon(0% 0, 260% 0, 260% 100%, -60% 100%); }
-  100%      { clip-path: polygon(160% 0, 260% 0, 260% 100%, 100% 100%); }
+  0%, 36% {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1);
+  }
+  52%, 86% {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1);
+  }
+  100% {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
+  }
 }
 
-@keyframes xpShine {
-  0%, 41%  { transform: translateX(120%); }
-  50%      { transform: translateX(-120%); }
-  50.01%, 91% { transform: translateX(-120%); }
-  100%     { transform: translateX(120%); }
+@keyframes xpSwapShine {
+  0%, 36% {
+    background-position: 0% 0;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1);
+  }
+  44% {
+    opacity: 1;
+  }
+  52%, 86% {
+    background-position: 100% 0;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(.65, 0, .35, 1);
+  }
+  93% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 0% 0;
+    opacity: 0;
+  }
 }
 
 .xp-logo--next {
