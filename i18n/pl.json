@@ -83,7 +83,6 @@
   "B2B Website": "Strona B2B",
   "Multi-page B2B website for an industrial storage and shelving manufacturer — product catalogue, references and technology sections, built from an agency design.": "Wielostronicowa strona B2B producenta systemów magazynowych i regałów — katalog produktów, referencje i sekcje o technologii, wdrożona według projektu agencji.",
   "View Project": "Zobacz projekt",
-  "— Selected Work": "— Wybrane projekty",
   "View All Work": "Wszystkie projekty",
   "Client Reviews": "Opinie klientów",
   "What clients<br><span class=\"glow\">actually say.</span>": "Co naprawdę<br><span class=\"glow\">mówią klienci.</span>",
@@ -282,7 +281,8 @@
   "I've been building for the web commercially since 2022 — with the <strong>Dreamer Studio</strong> agency and for my own clients worldwide: <strong>28+ projects</strong>, from corporate sites to web apps. I'm also comfortable in Figma, so I can take a feature from mockup to production.": "Komercyjnie tworzę strony od 2022 roku — z agencją <strong>Dreamer Studio</strong> i dla własnych klientów z całego świata: <strong>28+ projektów</strong>, od stron firmowych po aplikacje webowe. Swobodnie pracuję też w Figmie, więc mogę przeprowadzić funkcję od makiety do wdrożenia.",
   "Now I'm looking for a <strong>full-time front-end role</strong> in a product team.": "Teraz szukam <strong>pracy na etacie jako front-end developer</strong> w zespole produktowym.",
   "Polish · English · Ukrainian · Russian": "Polski · Angielski · Ukraiński · Rosyjski",
-  "Languages": "Języki"
+  "Languages": "Języki",
+  "— More projects": "— Więcej projektów"
  },
  "js": {
   "Name is required": "Podaj imię",
