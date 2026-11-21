@@ -226,7 +226,6 @@
   "Responsive": "Responsywność",
   "<span class=\"xp-now-dot\"></span>Open to full-time roles": "<span class=\"xp-now-dot\"></span>Otwarty na pracę na etat",
   "I build <span class=\"ab-chip\"><span class=\"ab-chip-ico\"><svg viewBox=\"-11.5 -10.2 23 20.5\" aria-hidden=\"true\"><circle r=\"2.05\"></circle><g fill=\"none\"><ellipse rx=\"11\" ry=\"4.2\"></ellipse><ellipse rx=\"11\" ry=\"4.2\" transform=\"rotate(60)\"></ellipse><ellipse rx=\"11\" ry=\"4.2\" transform=\"rotate(120)\"></ellipse></g></svg></span>React</span> interfaces that load fast, read clearly and <span class=\"glow\">work for everyone.</span>": "Tworzę interfejsy w <span class=\"ab-chip\"><span class=\"ab-chip-ico\"><svg viewBox=\"-11.5 -10.2 23 20.5\" aria-hidden=\"true\"><circle r=\"2.05\"></circle><g fill=\"none\"><ellipse rx=\"11\" ry=\"4.2\"></ellipse><ellipse rx=\"11\" ry=\"4.2\" transform=\"rotate(60)\"></ellipse><ellipse rx=\"11\" ry=\"4.2\" transform=\"rotate(120)\"></ellipse></g></svg></span>React</span>, które szybko się ładują, są czytelne i <span class=\"glow\">działają dla każdego.</span>",
-  "I've been building for the web commercially since 2022 — with the <strong>Dreamer Studio</strong> agency and for my own clients worldwide: <strong>28+ projects</strong>, from corporate sites to web apps. I'm also comfortable in Figma, so I can take a feature from mockup to production. Now I'm looking for a <strong>full-time front-end role</strong> in a product team.": "Komercyjnie tworzę strony od 2022 roku — z agencją <strong>Dreamer Studio</strong> i dla własnych klientów z całego świata: <strong>28+ projektów</strong>, od stron firmowych po aplikacje webowe. Swobodnie pracuję też w Figmie, więc mogę przeprowadzić funkcję od makiety do wdrożenia. Teraz szukam <strong>pracy na etacie jako front-end developer</strong> w zespole produktowym.",
   "My path so far": "Moja droga",
   "Experience &amp; education": "Doświadczenie i edukacja",
   "Freelance<span class=\"xp-now\"><span class=\"xp-now-dot\"></span>Now</span>": "Freelance<span class=\"xp-now\"><span class=\"xp-now-dot\"></span>Teraz</span>",
@@ -279,7 +278,11 @@
   "Specialization": "Specjalność",
   "Stack": "Stack",
   "Databases": "Bazy danych",
-  "R &amp; Python": "R i Python"
+  "R &amp; Python": "R i Python",
+  "I've been building for the web commercially since 2022 — with the <strong>Dreamer Studio</strong> agency and for my own clients worldwide: <strong>28+ projects</strong>, from corporate sites to web apps. I'm also comfortable in Figma, so I can take a feature from mockup to production.": "Komercyjnie tworzę strony od 2022 roku — z agencją <strong>Dreamer Studio</strong> i dla własnych klientów z całego świata: <strong>28+ projektów</strong>, od stron firmowych po aplikacje webowe. Swobodnie pracuję też w Figmie, więc mogę przeprowadzić funkcję od makiety do wdrożenia.",
+  "Now I'm looking for a <strong>full-time front-end role</strong> in a product team.": "Teraz szukam <strong>pracy na etacie jako front-end developer</strong> w zespole produktowym.",
+  "Polish · English · Ukrainian · Russian": "Polski · Angielski · Ukraiński · Rosyjski",
+  "Languages": "Języki"
  },
  "js": {
   "Name is required": "Podaj imię",
