@@ -239,266 +239,542 @@ gsap.registerPlugin(ScrollTrigger);
   });
 })();
 
-/* ─── PROJECTS SPLIT LAYOUT ─── */
 (function () {
-  const wrap   = document.getElementById('pjsWrap');
-  const sticky = document.getElementById('pjsSticky');
-  const list   = document.getElementById('pjsList');
-  if (!list) return;
-  const cards  = Array.from(list.querySelectorAll('.pjs-card'));
-  const video  = document.getElementById('pjsVideo');
-  const info   = document.getElementById('pjsInfo');
-  const curEl  = document.getElementById('pjsCur');
-  const totEl  = document.getElementById('pjsTot');
+  const root  = document.getElementById('pjx');
+  const list  = document.getElementById('pjxList');
+  const stage = document.getElementById('pjxStage');
+  if (!root || !list || !stage) return;
 
-  if (!wrap || !cards.length) return;
+  const slides = Array.from(list.querySelectorAll('.pjx-slide'));
+  const N = slides.length;
+  if (!N) return;
+  const data = slides.map(s => ({ ...s.dataset }));
 
-  const COUNT = cards.length;
-  totEl.textContent = String(COUNT).padStart(2, '0');
+  const $ = id => document.getElementById(id);
+  const curEl = $('pjxCur'), totEl = $('pjxTot');
+  const titleEl = $('pjxTitle'), typeEl = $('pjxType'), yearEl = $('pjxYear');
+  const descEl = $('pjxDesc'), tagsEl = $('pjxTags'), ctaEl = $('pjxCta'), sideEl = descEl.parentNode;
+  const bars = Array.from($('pjxBar').children);
+  const cursor = $('pjxCursor');
+  const pad = n => String(n).padStart(2, '0');
+  const mod = (a, n) => ((a % n) + n) % n;
+  const FINE = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  function pad(n) { return String(n).padStart(2, '0'); }
-  function isMobile() { return window.innerWidth <= 1024; }
+  totEl.textContent = pad(N);
 
-  let activeIdx  = 0;
-  let switchTimer = null;
-  let _initialised = false;
+  let active = 0;
+  let gl = null;
+  let swapTm;
 
-  function setActive(idx, fromScroll) {
-    /* Skip only if this card is already active AND its video is already loaded.
-       (Card 0 is marked .active in the HTML, so the old check skipped the first video forever.) */
-    if (idx === activeIdx && _currentSrc === cards[idx].dataset.video) return;
-    activeIdx = idx;
-    cards.forEach((c, i) => c.classList.toggle('active', i === idx));
-    if (fromScroll) scrollListToCard(idx);
-    curEl.textContent = pad(idx + 1);
-    const d = cards[idx].dataset;
-    updateVideo(d.video, d.poster, d.videoWebm);
-    updateInfo(d);
-  }
+  function renderInfo(i, instant) {
+    const d = data[i];
+    curEl.textContent = pad(i + 1);
+    bars.forEach((b, j) => b.classList.toggle('is-on', j === i));
+    slides.forEach((s, j) => s.classList.toggle('is-active', j === i));
+    ctaEl.href = d.link || '#';
 
-  function scrollListToCard(idx) {
-    if (isMobile()) return;
-    const card    = cards[idx];
-    const listH   = list.clientHeight;
-    const cardTop = card.offsetTop;
-    const cardH   = card.offsetHeight;
-    list.scrollTo({ top: Math.max(0, cardTop - listH / 2 + cardH / 2), behavior: 'smooth' });
-  }
-
-  // ── Poster → Video transition (Projects) ──
-  // Layout (z-index): video(0) | poster(1) | overlay(2) | info(3)
-  // Sequence on every project (including first):
-  //   poster fades IN (0.35s) → video loads → poster fades OUT + video fades IN simultaneously (0.45s)
-  // On project switch: video fades OUT (0.3s) while next poster fades IN → then same sequence.
-
-  const posterEl = document.getElementById('pjsPoster');
-  let _playTm    = null;
-  let _currentSrc = '';
-
-  // Ensure video starts fully hidden; poster is fully visible (set in CSS/HTML)
-  gsap.set(video, { opacity: 0 });
-  if (posterEl) gsap.set(posterEl, { opacity: 1 });
-
-  function showPosterThenVideo(poster, src, srcWebm) {
-    clearTimeout(_playTm);
-    if (!video) return;
-
-    // Step 1: show poster
-    if (posterEl && poster) {
-      posterEl.src = poster;
-      gsap.killTweensOf(posterEl);
-      gsap.to(posterEl, { opacity: 1, duration: 0.35, ease: 'power2.out' });
-    }
-
-    // Step 2: load new video source
-    video.pause();
-    gsap.killTweensOf(video);
-    gsap.set(video, { opacity: 0 });
-
-    video.innerHTML = '';
-    if (srcWebm) {
-      const webmEl = document.createElement('source');
-      webmEl.src  = srcWebm;
-      webmEl.type = 'video/webm';
-      video.appendChild(webmEl);
-    }
-    const mp4El = document.createElement('source');
-    mp4El.src  = src;
-    mp4El.type = 'video/mp4';
-    video.appendChild(mp4El);
-    video.preload = 'auto';
-    video.load();
-
-    // Step 3: when ready — crossfade poster out + video in
-    // Guard: doPlay fires exactly once per call, even if canplay + timeout both fire
-    let played = false;
-    function doPlay() {
-      if (played) return;
-      played = true;
-      clearTimeout(_playTm);
-      video.play().catch(() => {});
-      gsap.killTweensOf(video);
-      gsap.to(video, { opacity: 1, duration: 0.45, ease: 'power2.inOut' });
-      if (posterEl) {
-        /* The presentation videos open with a ~1s fade-in from an empty backdrop
-           (needed for a seamless loop). Keep the poster — a frame with the site
-           already visible — on top a little longer, so switching projects never
-           flashes an empty frame. No seeking: it's unreliable before full buffering. */
-        gsap.killTweensOf(posterEl);
-        gsap.to(posterEl, { opacity: 0, duration: 0.5, delay: 0.9, ease: 'power2.inOut' });
-      }
-    }
-
-    // Fallback: if video never loads, keep poster visible
-    function onError() {
-      if (played) return;
-      played = true;
-      clearTimeout(_playTm);
-      if (posterEl) gsap.set(posterEl, { opacity: 1 });
-    }
-
-    if (video.readyState >= 3) {
-      doPlay();
-    } else {
-      _playTm = setTimeout(() => {
-        video.removeEventListener('canplay', doPlay);
-        video.removeEventListener('error', onError);
-        doPlay(); // fallback after timeout — video may still be buffering, try anyway
-      }, 450);
-      video.addEventListener('canplay', doPlay, { once: true });
-      video.addEventListener('error',   onError, { once: true });
-    }
-  }
-
-  function updateVideo(src, poster, srcWebm) {
-    if (!_initialised || !src || src === _currentSrc) return;
-    clearTimeout(switchTimer);
-    clearTimeout(_playTm);
-
-    // Mark src immediately so rapid calls don't trigger duplicate loads
-    const prevSrc = _currentSrc;
-    _currentSrc = src;
-
-    if (prevSrc === '') {
-      // First project on page load — just run the sequence directly
-      showPosterThenVideo(poster, src, srcWebm);
-    } else {
-      // Switching project: fade out current video first (0.3s), then show poster + load new
-      video.pause();
-      gsap.killTweensOf(video);
-      gsap.to(video, {
-        opacity: 0, duration: 0.3, ease: 'power2.inOut',
-        onComplete: () => showPosterThenVideo(poster, src, srcWebm)
+    const fill = () => {
+      typeEl.textContent = d.type || '';
+      yearEl.textContent = d.year || '';
+      descEl.textContent = d.desc || '';
+      tagsEl.innerHTML = '';
+      (d.stack || '').split(',').filter(Boolean).forEach(t => {
+        const s = document.createElement('span');
+        s.textContent = t.trim();
+        tagsEl.appendChild(s);
       });
+    };
+
+    if (instant || REDUCE_MOTION) {
+      titleEl.innerHTML = '';
+      const s = document.createElement('span');
+      s.textContent = d.name;
+      titleEl.appendChild(s);
+      titleEl.style.height = '';
+      fill();
+      return;
     }
-  }
 
-  function updateInfo(d) {
-    const badge = document.getElementById('pjsBadge');
-    const year  = document.getElementById('pjsYear');
-    const name  = document.getElementById('pjsName');
-    const desc  = document.getElementById('pjsDesc');
-    const cta   = document.getElementById('pjsCta');
-    if (badge) badge.textContent = d.type || '';
-    if (year)  year.textContent  = d.year || '';
-    if (name)  name.textContent  = d.name || '';
-    if (desc)  desc.textContent  = d.desc || '';
-    if (cta)   cta.href          = d.link || '#';
-    info.classList.remove('pjs-info-fade');
-    void info.offsetWidth;
-    info.classList.add('pjs-info-fade');
-  }
-
-  cards.forEach((card, i) => {
-    card.addEventListener('mouseenter', () => { if (!isMobile()) setActive(i, false); });
-    /* Keyboard: Tab focuses & previews, Enter/Space opens the project */
-    card.addEventListener('focus', () => { if (card.matches(':focus-visible')) setActive(i, false); });
-    card.addEventListener('keydown', e => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      e.preventDefault();
-      if (card.dataset.link) window.location.href = card.dataset.link;
+    const old = Array.from(titleEl.children);
+    titleEl.style.height = titleEl.offsetHeight + 'px';
+    old.forEach(o => {
+      o.classList.add('is-out');
+      setTimeout(() => o.remove(), 800);
     });
-    card.addEventListener('click', () => {
-      if (isMobile()) {
-        /* First tap: select card (show info in video box above).
-           Second tap on same already-active card: navigate to project. */
-        if (card.classList.contains('active')) {
-          const link = card.dataset.link;
-          if (link) window.location.href = link;
-        } else {
-          setActive(i, false);
-          /* Scroll video box into view so user sees the preview */
-          const right = document.querySelector('.pjs-right');
-          if (right) right.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      } else {
-        setActive(i, false);
-      }
-    });
-  });
+    const s = document.createElement('span');
+    s.className = 'is-in';
+    s.textContent = d.name;
+    titleEl.appendChild(s);
+    titleEl.style.height = s.offsetHeight + 'px';
+    requestAnimationFrame(() => requestAnimationFrame(() => s.classList.remove('is-in')));
+    clearTimeout(titleEl._tm);
+    titleEl._tm = setTimeout(() => { titleEl.style.height = ''; }, 900);
 
-  /* Desktop: the section is N×100vh tall, scroll position picks the active card.
-     Handlers are registered ONCE and check the current mode themselves
-     (previously they were re-added on every resize / tab switch → listener leak). */
-  function onDesktopScroll() {
-    if (isMobile()) return;
-    const scrolled = -wrap.getBoundingClientRect().top;
-    if (scrolled < 0) { setActive(0, true); return; }
-    const totalScroll = wrap.offsetHeight - window.innerHeight;
-    if (totalScroll <= 0) return;
-    const step = totalScroll / COUNT;
-    setActive(Math.min(COUNT - 1, Math.floor(scrolled / step)), true);
+    sideEl.classList.add('is-swap');
+    clearTimeout(swapTm);
+    swapTm = setTimeout(() => {
+      fill();
+      sideEl.classList.remove('is-swap');
+    }, 220);
   }
 
-  /* Mobile: horizontal card strip — the card closest to the left edge becomes active */
-  let listScrollTimer;
-  function onMobileListScroll() {
-    if (!isMobile()) return;
-    clearTimeout(listScrollTimer);
-    listScrollTimer = setTimeout(() => {
-      const listLeft = list.getBoundingClientRect().left;
-      let best = 0, bestDist = Infinity;
-      cards.forEach((c, i) => {
-        const dist = Math.abs(c.getBoundingClientRect().left - listLeft);
-        if (dist < bestDist) { bestDist = dist; best = i; }
+  function setActive(i) {
+    i = mod(i, N);
+    if (i === active) return;
+    active = i;
+    renderInfo(i);
+    if (gl) gl.onActive(i);
+  }
+
+  function go(dir) {
+    if (gl) { gl.step(dir); return; }
+    scrollListTo(mod(active + dir, N));
+  }
+
+  $('pjxPrev').addEventListener('click', () => go(-1));
+  $('pjxNext').addEventListener('click', () => go(1));
+
+  function scrollListTo(i, smooth = true) {
+    const s = slides[i];
+    list.scrollTo({ left: s.offsetLeft - (list.clientWidth - s.offsetWidth) / 2, behavior: smooth && !REDUCE_MOTION ? 'smooth' : 'auto' });
+  }
+
+  let listTm;
+  list.addEventListener('scroll', () => {
+    if (gl) return;
+    clearTimeout(listTm);
+    listTm = setTimeout(() => {
+      const c = list.scrollLeft + list.clientWidth / 2;
+      let best = 0, bd = Infinity;
+      slides.forEach((s, i) => {
+        const d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - c);
+        if (d < bd) { bd = d; best = i; }
       });
-      setActive(best, true);
+      setActive(best);
     }, 60);
-  }
-
-  function applyLayout() {
-    wrap.style.height = isMobile() ? '' : (100 + (COUNT - 1) * 60) + 'vh';
-  }
-
-  window.addEventListener('scroll', onDesktopScroll, { passive: true });
-  list.addEventListener('scroll', onMobileListScroll, { passive: true });
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { applyLayout(); onDesktopScroll(); }, 150);
   }, { passive: true });
-  window.addEventListener('orientationchange', () => {
-    setTimeout(() => { applyLayout(); onDesktopScroll(); }, 400);
+
+  slides.forEach((s, i) => {
+    const a = s.querySelector('.pjx-card');
+    a.addEventListener('click', e => {
+      if (gl) return;
+      if (i !== active) {
+        e.preventDefault();
+        scrollListTo(i);
+      }
+    });
+    a.addEventListener('focus', () => {
+      if (!gl) return;
+      gl.goTo(i);
+      root.classList.toggle('is-kbd', a.matches(':focus-visible'));
+    });
+    a.addEventListener('blur', () => root.classList.remove('is-kbd'));
   });
 
-  applyLayout();
-
-  // Delay initial video load until the section is actually visible.
-  // Calling video.play() before the user has scrolled to the section
-  // gets blocked by browser autoplay policy — the video stays invisible.
-  const _sectionObserver = new IntersectionObserver((entries) => {
-    if (!entries[0].isIntersecting || _initialised) return;
-    _initialised = true;
-    _sectionObserver.disconnect();
-    setActive(0, true);
-  }, { threshold: 0.1 });
-  _sectionObserver.observe(wrap);
-
-  // Resume after bfcache restore (browser Back/Forward)
-  window.addEventListener('pageshow', (e) => {
-    if (e.persisted && video) video.play().catch(() => {});
+  root.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); go(-1); }
   });
+
+  renderInfo(0, true);
+
+  function canUseGL() {
+    if (REDUCE_MOTION) return false;
+    const c = navigator.connection;
+    if (c && c.saveData) return false;
+    if (navigator.deviceMemory && navigator.deviceMemory <= 1) return false;
+    try {
+      const cv = document.createElement('canvas');
+      return !!(cv.getContext('webgl2') || cv.getContext('webgl'));
+    } catch (e) { return false; }
+  }
+
+  function withThree(cb) {
+    if (window.THREE) { cb(); return; }
+    let tag = document.querySelector('script[src$="three.min.js"]');
+    if (!tag) {
+      tag = document.createElement('script');
+      tag.src = '/script/vendor/three/three.min.js';
+      document.head.appendChild(tag);
+    }
+    tag.addEventListener('load', () => window.THREE && cb(), { once: true });
+  }
+
+  const boot = new IntersectionObserver(es => {
+    if (!es[0].isIntersecting) return;
+    boot.disconnect();
+    if (canUseGL()) withThree(() => { try { gl = createGL(); } catch (e) { gl = null; } });
+  }, { rootMargin: '600px 0px' });
+  boot.observe(root);
+
+  function createGL() {
+    const T = window.THREE;
+    const renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setClearColor(0x000000, 0);
+    const scene = new T.Scene();
+    const cam = new T.PerspectiveCamera(40, 1, 1, 6000);
+
+    const VS = `
+      uniform float uHalfW, uFlat, uBend, uVel;
+      varying vec2 vUv;
+      varying float vSide, vDir;
+      void main() {
+        vUv = uv;
+        vec4 wp = modelMatrix * vec4(position, 1.0);
+        float s = wp.x < 0.0 ? -1.0 : 1.0;
+        float e = max(abs(wp.x) - uFlat, 0.0);
+        float R = uHalfW * 0.62 / max(uBend, 0.001);
+        float a = min(e / R, 1.3);
+        if (e > 0.0) {
+          wp.x = s * (uFlat + R * sin(a));
+          wp.z += R * (1.0 - cos(a));
+        }
+        wp.y += sin(uv.x * 3.14159) * clamp(uVel, -40.0, 40.0) * -0.6;
+        vSide = clamp(e / (uHalfW * 0.8), 0.0, 1.0);
+        vDir = s;
+        gl_Position = projectionMatrix * viewMatrix * wp;
+      }`;
+
+    const FS = `
+      uniform sampler2D uPoster, uVideo;
+      uniform vec2 uPlane, uPMedia, uVMedia;
+      uniform float uFocus, uRad, uVidMix, uVel;
+      varying vec2 vUv;
+      varying float vSide, vDir;
+      vec2 cover(vec2 uv, vec2 m) {
+        float pr = uPlane.x / uPlane.y, mr = m.x / m.y;
+        vec2 k = pr > mr ? vec2(1.0, mr / pr) : vec2(pr / mr, 1.0);
+        return (uv - 0.5) * k + 0.5;
+      }
+      vec3 tex(vec2 uv) {
+        uv = clamp(uv, 0.001, 0.999);
+        vec3 c = texture2D(uPoster, cover(uv, uPMedia)).rgb;
+        if (uVidMix > 0.002) c = mix(c, texture2D(uVideo, cover(uv, uVMedia)).rgb, uVidMix);
+        return c;
+      }
+      float sdBox(vec2 p, vec2 b, float r) {
+        vec2 q = abs(p) - b + r;
+        return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+      }
+      void main() {
+        float v = min(abs(uVel) * 0.0035, 0.14);
+        float amt = vSide * 0.3 + v;
+        float ca = vSide * 0.014 + v * 0.08;
+        vec3 col;
+        if (amt < 0.003) {
+          col = tex(vUv);
+        } else {
+          col = vec3(0.0);
+          for (int i = 0; i < 7; i++) {
+            float t = float(i) / 6.0;
+            vec2 u = vUv - vec2(vDir * amt * t * t, 0.0);
+            col.r += tex(u + vec2(ca, 0.0)).r;
+            col.g += tex(u).g;
+            col.b += tex(u - vec2(ca, 0.0)).b;
+          }
+          col /= 7.0;
+        }
+        float g = dot(col, vec3(0.299, 0.587, 0.114));
+        vec3 dim = mix(vec3(g), col, 0.35) * vec3(0.5, 0.58, 0.54);
+        col = mix(dim, col, uFocus);
+        float outer = vDir > 0.0 ? vUv.x : 1.0 - vUv.x;
+        vec3 rim = mix(vec3(0.24, 1.0, 0.56), vec3(0.2, 0.85, 1.0), vUv.y);
+        col += rim * smoothstep(0.55, 1.0, outer) * vSide * 0.55;
+        vec2 p = (vUv - 0.5) * uPlane;
+        float d = sdBox(p, uPlane * 0.5, uRad);
+        float alpha = 1.0 - smoothstep(-1.0, 0.5, d);
+        float edge = 1.0 - smoothstep(0.0, 2.0, abs(d + 1.0));
+        col = mix(col, vec3(0.24, 1.0, 0.56), edge * uFocus * 0.9);
+        gl_FragColor = vec4(col, alpha);
+      }`;
+
+    const video = document.createElement('video');
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.preload = 'none';
+    const useWebm = !!video.canPlayType('video/webm; codecs="vp9"') || !!video.canPlayType('video/webm');
+    const vTex = new T.VideoTexture(video);
+    vTex.minFilter = T.LinearFilter;
+    vTex.generateMipmaps = false;
+    const blank = new T.DataTexture(new Uint8Array([7, 9, 10, 255]), 1, 1, T.RGBAFormat);
+    blank.needsUpdate = true;
+
+    const loader = new T.TextureLoader();
+    let pending = N;
+    const meshes = data.map(d => {
+      const u = {
+        uPoster: { value: blank }, uVideo: { value: blank },
+        uPlane: { value: new T.Vector2(1, 1) }, uPMedia: { value: new T.Vector2(16, 9) }, uVMedia: { value: new T.Vector2(16, 9) },
+        uFocus: { value: 0 }, uRad: { value: 18 }, uVidMix: { value: 0 }, uVel: { value: 0 },
+        uHalfW: { value: 600 }, uFlat: { value: 300 }, uBend: { value: 1 }
+      };
+      loader.load(d.poster, t => {
+        t.minFilter = T.LinearFilter;
+        t.generateMipmaps = false;
+        u.uPoster.value = t;
+        u.uPMedia.value.set(t.image.width, t.image.height);
+        if (--pending === 0) ready();
+      }, undefined, () => { if (--pending === 0) ready(); });
+      const m = new T.Mesh(new T.PlaneGeometry(1, 1, 40, 12), new T.ShaderMaterial({ uniforms: u, vertexShader: VS, fragmentShader: FS, transparent: true }));
+      m.userData = { u, mix: 0 };
+      scene.add(m);
+      return m;
+    });
+
+    let W = 0, H = 0, pw = 0, ph = 0, gap = 0, step = 1, total = 1;
+    function size() {
+      W = stage.clientWidth;
+      H = stage.clientHeight;
+      if (!W || !H) return;
+      renderer.setSize(W, H, false);
+      cam.aspect = W / H;
+      cam.position.z = (H / 2) / Math.tan(T.MathUtils.degToRad(cam.fov / 2));
+      cam.updateProjectionMatrix();
+      const mob = W < 768;
+      pw = mob ? W * 0.68 : Math.min(W * 0.5, H * 0.86 * 16 / 9);
+      ph = pw * 9 / 16;
+      gap = mob ? W * 0.045 : W * 0.035;
+      step = pw + gap;
+      total = step * N;
+      const rad = mob ? 14 : 20;
+      meshes.forEach(m => {
+        m.geometry.dispose();
+        m.geometry = new T.PlaneGeometry(pw, ph, mob ? 28 : 40, 10);
+        const u = m.userData.u;
+        u.uPlane.value.set(pw, ph);
+        u.uHalfW.value = W / 2;
+        u.uFlat.value = pw / 2 + 1;
+        u.uRad.value = rad;
+      });
+      root.style.setProperty('--pjx-fw', pw + 'px');
+      root.style.setProperty('--pjx-fh', ph + 'px');
+      cur = target = Math.round(target / (prevStep || step)) * step;
+      prevStep = step;
+    }
+
+    let target = 0, cur = 0, vel = 0, prevStep = 0;
+    let running = false, visible = false, raf = 0, idleFrames = 0;
+
+    function ready() {
+      size();
+      stage.appendChild(renderer.domElement);
+      root.classList.add('is-gl');
+      size();
+      kick();
+      loadVideo(active, 0);
+    }
+
+    function snap() { target = Math.round(target / step) * step; kick(); }
+    function goTo(i) {
+      const curIdx = Math.round(target / step);
+      let d = i - mod(curIdx, N);
+      if (d > N / 2) d -= N;
+      if (d < -N / 2) d += N;
+      target = (curIdx + d) * step;
+      kick();
+    }
+
+    let vTm, vFor = -1;
+    function loadVideo(i, delay = 320) {
+      clearTimeout(vTm);
+      vTm = setTimeout(() => {
+        const d = data[i];
+        const src = useWebm && d.videoWebm ? d.videoWebm : d.video;
+        if (vFor === i && video.getAttribute('src') === src) { if (visible) video.play().catch(() => {}); return; }
+        vFor = -1;
+        video.pause();
+        video.src = src;
+        video.preload = 'auto';
+        video.load();
+        video.addEventListener('loadeddata', function onData() {
+          video.removeEventListener('loadeddata', onData);
+          vFor = i;
+          meshes.forEach((m, j) => { m.userData.u.uVideo.value = j === i ? vTex : blank; });
+          meshes[i].userData.u.uVMedia.value.set(video.videoWidth || 16, video.videoHeight || 9);
+          if (visible) video.play().catch(() => {});
+          kick();
+        });
+      }, delay);
+    }
+
+    function onActive(i) {
+      vFor = -1;
+      loadVideo(i);
+    }
+
+    let down = false, sx = 0, sy = 0, st0 = 0, moved = 0, lock = '', lastX = 0, lastT = 0, flick = 0;
+    stage.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      down = true; lock = ''; moved = 0;
+      sx = lastX = e.clientX; sy = e.clientY; st0 = target; lastT = performance.now(); flick = 0;
+      cursor.classList.add('is-down');
+    });
+    window.addEventListener('pointermove', e => {
+      if (FINE) {
+        cursor.style.setProperty('--x', e.clientX + 'px');
+        cursor.style.setProperty('--y', e.clientY + 'px');
+      }
+      if (!down) return;
+      const dx = e.clientX - sx, dy = e.clientY - sy;
+      if (!lock && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) lock = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
+      if (lock === 'y') { down = false; cursor.classList.remove('is-down'); snap(); return; }
+      if (lock !== 'x') return;
+      stage.classList.add('is-drag');
+      moved = Math.max(moved, Math.abs(dx));
+      const now = performance.now();
+      flick = (e.clientX - lastX) / Math.max(now - lastT, 1);
+      lastX = e.clientX; lastT = now;
+      target = st0 - dx * (W < 768 ? 1.15 : 1.35);
+      kick();
+    }, { passive: true });
+    function up(e) {
+      if (!down) return;
+      down = false;
+      stage.classList.remove('is-drag');
+      cursor.classList.remove('is-down');
+      if (moved < 6 && lock !== 'y' && e && e.type === 'pointerup') {
+        const r = stage.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        if (Math.abs(x) <= pw / 2) {
+          const link = data[active].link;
+          if (link) (window.ptNavigate || (h => { location.href = h; }))(link);
+        } else go(x > 0 ? 1 : -1);
+        return;
+      }
+      if (Math.abs(flick) > 0.35) {
+        const base = Math.round(st0 / step) * step;
+        const dir = flick < 0 ? 1 : -1;
+        const proj = Math.round(target / step) * step;
+        target = (proj === base ? base + dir * step : proj);
+        kick();
+      } else snap();
+    }
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
+
+    let wheelTm;
+    stage.addEventListener('wheel', e => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) && !e.shiftKey) return;
+      e.preventDefault();
+      target += e.shiftKey && !e.deltaX ? e.deltaY : e.deltaX;
+      kick();
+      clearTimeout(wheelTm);
+      wheelTm = setTimeout(snap, 140);
+    }, { passive: false });
+
+    if (FINE) {
+      stage.addEventListener('pointerenter', () => cursor.classList.add('is-on'));
+      stage.addEventListener('pointerleave', () => cursor.classList.remove('is-on'));
+    }
+
+    let lastF = 0;
+    function frame(now) {
+      raf = 0;
+      const dt = lastF ? Math.min((now - lastF) / 16.667, 4) : 1;
+      lastF = now;
+      const k = 1 - Math.pow(1 - 0.085, dt);
+      const prev = cur;
+      cur += (target - cur) * k;
+      if (Math.abs(target - cur) < 0.05) cur = target;
+      vel += ((cur - prev) / dt - vel) * 0.25;
+      const bend = 1 + Math.min(Math.abs(vel) * 0.02, 0.8);
+      let busy = Math.abs(target - cur) > 0.05 || Math.abs(vel) > 0.02;
+
+      meshes.forEach((m, i) => {
+        let x = i * step - cur;
+        x = mod(x + total / 2, total) - total / 2;
+        m.position.x = x;
+        m.visible = Math.abs(x) < W / 2 + step;
+        const u = m.userData.u;
+        const f = Math.max(0, 1 - Math.abs(x) / step);
+        const ft = f * f;
+        u.uFocus.value += (ft - u.uFocus.value) * (1 - Math.pow(0.82, dt));
+        u.uVel.value = vel;
+        u.uBend.value = bend;
+        let mt = 0;
+        if (i === vFor && i === active && video.readyState >= 2 && video.duration) {
+          const t = video.currentTime;
+          mt = t > 1.0 && t < video.duration - 0.6 ? 1 : 0;
+        }
+        u.uVidMix.value += (mt - u.uVidMix.value) * (1 - Math.pow(0.92, dt));
+        if (Math.abs(ft - u.uFocus.value) > 0.002 || Math.abs(mt - u.uVidMix.value) > 0.002) busy = true;
+      });
+
+      const idx = mod(Math.round(cur / step), N);
+      if (idx !== active) setActive(idx);
+
+      renderer.render(scene, cam);
+      const playing = vFor === active && !video.paused;
+      idleFrames = busy || playing ? 0 : idleFrames + 1;
+      if (visible && idleFrames < 3) raf = requestAnimationFrame(frame);
+      else { running = false; lastF = 0; }
+    }
+
+    function kick() {
+      if (!visible || raf) return;
+      running = true;
+      idleFrames = 0;
+      raf = requestAnimationFrame(frame);
+    }
+
+    const vis = new IntersectionObserver(es => {
+      visible = es[0].isIntersecting;
+      if (visible) {
+        if (vFor === active) video.play().catch(() => {});
+        kick();
+      } else {
+        video.pause();
+      }
+    }, { threshold: 0.05 });
+    vis.observe(root);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) video.pause();
+      else if (visible && vFor === active) { video.play().catch(() => {}); kick(); }
+    });
+
+    video.addEventListener('playing', kick);
+
+    let rTm;
+    window.addEventListener('resize', () => {
+      clearTimeout(rTm);
+      rTm = setTimeout(() => { size(); kick(); }, 120);
+    }, { passive: true });
+
+    renderer.domElement.addEventListener('webglcontextlost', e => {
+      e.preventDefault();
+      video.pause();
+      cancelAnimationFrame(raf);
+      root.classList.remove('is-gl', 'is-kbd');
+      gl = null;
+      scrollListTo(active, false);
+    });
+
+    window.addEventListener('pageshow', e => {
+      if (e.persisted && visible && vFor === active) video.play().catch(() => {});
+    });
+
+    return {
+      step(dir) { target = Math.round(target / step) * step + dir * step; kick(); },
+      goTo,
+      onActive
+    };
+  }
+
+  const head = document.querySelector('.pjx-head');
+  if (!REDUCE_MOTION && window.gsap && window.ScrollTrigger) {
+    const parts = [head, root, $('pjxInfo')];
+    gsap.set(parts, { opacity: 0, y: 40 });
+    ScrollTrigger.create({
+      trigger: head,
+      start: 'top 85%',
+      once: true,
+      onEnter() { gsap.to(parts, { opacity: 1, y: 0, duration: .9, ease: 'power3.out', stagger: .1 }); }
+    });
+  }
 })();
 
 /* ─── REVEAL BUTTON — soft top glow + sparks ─── */

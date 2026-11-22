@@ -396,167 +396,98 @@
   <!-- ─── PROJECTS ─── -->
   <section id="projects">
 
-    <div class="pjs-wrap" id="pjsWrap">
-      <div class="pjs-sticky" id="pjsSticky">
+    <div class="wrap pjx-head">
+      <div>
+        <div class="stag">Selected Work</div>
+        <h2 class="sh">Projects</h2>
+      </div>
+      <div class="pjx-nav">
+        <span class="pjx-count"><b id="pjxCur">01</b><span class="pjx-count-sep">/</span><span id="pjxTot">04</span></span>
+        <button type="button" class="pjx-arrow" id="pjxPrev" aria-label="Previous project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button type="button" class="pjx-arrow" id="pjxNext" aria-label="Next project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
 
-        <!-- Header -->
-        <div class="pjs-header">
-          <div>
-            <div class="stag">Selected Work</div>
-            <h2 class="sh">Projects</h2>
-          </div>
-          <div class="pjs-counter">
-            <span class="pjs-cur" id="pjsCur">01</span>
-            <span class="pjs-sep">/</span>
-            <span class="pjs-tot" id="pjsTot">04</span>
-          </div>
-        </div>
+    <div class="pjx" id="pjx" role="region" aria-roledescription="carousel" aria-label="Selected projects">
+      <div class="pjx-stage" id="pjxStage" aria-hidden="true"></div>
+      <ul class="pjx-list" id="pjxList">
+        <li class="pjx-slide is-active"
+          data-name="Shelf — Product Catalog"
+          data-type="React SPA"
+          data-year="2026"
+          data-desc="Product catalog in React and TypeScript — search, category filters, product pages and a validated review form, deployed on Vercel."
+          data-stack="React,TypeScript,Vite"
+          data-video="images/projects/catalog.mp4"
+          data-video-webm="images/projects/catalog.webm"
+          data-poster="images/projects/catalog-poster.webp"
+          data-link="/projects/react-product-catalog/">
+          <a class="pjx-card" href="/projects/react-product-catalog/">
+            <img src="images/projects/catalog-poster.webp" alt="Shelf — Product Catalog" width="1280" height="720" loading="lazy" decoding="async">
+            <span class="pjx-card-n" aria-hidden="true">01</span>
+          </a>
+        </li>
+        <li class="pjx-slide"
+          data-name="AD Aerospace"
+          data-type="Corporate Website"
+          data-year="2026"
+          data-desc="Full redesign and custom WordPress build for a British manufacturer of aircraft camera systems — client-editable catalogue, 3D camera viewer and four languages."
+          data-stack="WordPress,PHP,JavaScript,Three.js"
+          data-video="images/projects/adaerospace.mp4"
+          data-video-webm="images/projects/adaerospace.webm"
+          data-poster="images/projects/adaerospace-poster.webp"
+          data-link="/projects/ad-aerospace/">
+          <a class="pjx-card" href="/projects/ad-aerospace/">
+            <img src="images/projects/adaerospace-poster.webp" alt="AD Aerospace" width="1280" height="720" loading="lazy" decoding="async">
+            <span class="pjx-card-n" aria-hidden="true">02</span>
+          </a>
+        </li>
+        <li class="pjx-slide"
+          data-name="STRATA"
+          data-type="3D Product Landing"
+          data-year="2026"
+          data-desc="Cinematic landing page for a fictional field chronograph — real-time WebGL watch, scroll-driven camera work, sound and a live colour switcher."
+          data-stack="Three.js,GSAP,JavaScript,Vite"
+          data-video="images/projects/strata.mp4"
+          data-video-webm="images/projects/strata.webm"
+          data-poster="images/projects/strata-poster.webp"
+          data-link="/projects/strata/">
+          <a class="pjx-card" href="/projects/strata/">
+            <img src="images/projects/strata-poster.webp" alt="STRATA" width="1280" height="720" loading="lazy" decoding="async">
+            <span class="pjx-card-n" aria-hidden="true">03</span>
+          </a>
+        </li>
+        <li class="pjx-slide"
+          data-name="QBL Platform"
+          data-type="B2B Website"
+          data-year="2023"
+          data-desc="Multi-page B2B website for an industrial storage and shelving manufacturer — product catalogue, references and technology sections, built from an agency design."
+          data-stack="HTML,CSS,JavaScript"
+          data-video="images/projects/qbl.mp4"
+          data-video-webm="images/projects/qbl.webm"
+          data-poster="images/projects/qbl-poster.webp"
+          data-link="/projects/qbl/">
+          <a class="pjx-card" href="/projects/qbl/">
+            <img src="images/projects/qbl-poster.webp" alt="QBL Platform" width="1280" height="720" loading="lazy" decoding="async">
+            <span class="pjx-card-n" aria-hidden="true">04</span>
+          </a>
+        </li>
+      </ul>
+      <div class="pjx-cur" id="pjxCursor" aria-hidden="true"><span>Drag</span></div>
+    </div>
 
-        <!-- Body: left list + right preview -->
-        <div class="pjs-body">
-
-          <!-- LEFT — 16:9 cards -->
-          <div class="pjs-left">
-            <div class="pjs-list" id="pjsList">
-
-              <div tabindex="0" role="button" class="pjs-card active"
-                data-index="0"
-                data-name="Shelf — Product Catalog"
-                data-type="React SPA"
-                data-year="2026"
-                data-desc="Product catalog in React and TypeScript — search, category filters, product pages and a validated review form, deployed on Vercel."
-                data-stack="React,TypeScript,Vite"
-                data-video="images/projects/catalog.mp4"
-                data-video-webm="images/projects/catalog.webm"
-                data-poster="images/projects/catalog-poster.webp"
-                data-link="/projects/react-product-catalog/">
-                <div class="pjs-card-bar"></div>
-                <div class="pjs-card-thumb">
-                  <img src="images/projects/catalog-thumb.webp" alt="Shelf — Product Catalog" width="640" height="360" loading="lazy">
-                </div>
-                <span class="pjs-card-num">01</span>
-                <div class="pjs-card-overlay">
-                  <div class="pjs-card-type">React SPA</div>
-                  <div class="pjs-card-name">Shelf — Product Catalog</div>
-                  <div class="pjs-card-tags">
-                    <span>React</span><span>TypeScript</span><span>Vite</span>
-                  </div>
-                </div>
-              </div>
-
-              <div tabindex="0" role="button" class="pjs-card"
-                data-index="1"
-                data-name="AD Aerospace"
-                data-type="Corporate Website"
-                data-year="2026"
-                data-desc="Full redesign and custom WordPress build for a British manufacturer of aircraft camera systems — client-editable catalogue, 3D camera viewer and four languages."
-                data-stack="WordPress,PHP,JavaScript,Three.js"
-                data-video="images/projects/adaerospace.mp4"
-                data-video-webm="images/projects/adaerospace.webm"
-                data-poster="images/projects/adaerospace-poster.webp"
-                data-link="/projects/ad-aerospace/">
-                <div class="pjs-card-bar"></div>
-                <div class="pjs-card-thumb">
-                  <img src="images/projects/adaerospace-thumb.webp" alt="AD Aerospace" width="640" height="360" loading="lazy">
-                </div>
-                <span class="pjs-card-num">02</span>
-                <div class="pjs-card-overlay">
-                  <div class="pjs-card-type">Corporate Website</div>
-                  <div class="pjs-card-name">AD Aerospace</div>
-                  <div class="pjs-card-tags">
-                    <span>WordPress</span><span>PHP</span><span>JavaScript</span><span>Three.js</span>
-                  </div>
-                </div>
-              </div>
-
-              <div tabindex="0" role="button" class="pjs-card"
-                data-index="2"
-                data-name="STRATA"
-                data-type="3D Product Landing"
-                data-year="2026"
-                data-desc="Cinematic landing page for a fictional field chronograph — real-time WebGL watch, scroll-driven camera work, sound and a live colour switcher."
-                data-stack="Three.js,GSAP,JavaScript,Vite"
-                data-video="images/projects/strata.mp4"
-                data-video-webm="images/projects/strata.webm"
-                data-poster="images/projects/strata-poster.webp"
-                data-link="/projects/strata/">
-                <div class="pjs-card-bar"></div>
-                <div class="pjs-card-thumb">
-                  <img src="images/projects/strata-thumb.webp" alt="STRATA" width="640" height="360" loading="lazy">
-                </div>
-                <span class="pjs-card-num">03</span>
-                <div class="pjs-card-overlay">
-                  <div class="pjs-card-type">3D Product Landing</div>
-                  <div class="pjs-card-name">STRATA</div>
-                  <div class="pjs-card-tags">
-                    <span>Three.js</span><span>GSAP</span><span>JavaScript</span><span>Vite</span>
-                  </div>
-                </div>
-              </div>
-
-              <div tabindex="0" role="button" class="pjs-card"
-                data-index="3"
-                data-name="QBL Platform"
-                data-type="B2B Website"
-                data-year="2023"
-                data-desc="Multi-page B2B website for an industrial storage and shelving manufacturer — product catalogue, references and technology sections, built from an agency design."
-                data-stack="HTML,CSS,JavaScript"
-                data-video="images/projects/qbl.mp4"
-                data-video-webm="images/projects/qbl.webm"
-                data-poster="images/projects/qbl-poster.webp"
-                data-link="/projects/qbl/">
-                <div class="pjs-card-bar"></div>
-                <div class="pjs-card-thumb">
-                  <img src="images/projects/qbl-thumb.webp" alt="QBL Platform" width="640" height="360" loading="lazy">
-                </div>
-                <span class="pjs-card-num">04</span>
-                <div class="pjs-card-overlay">
-                  <div class="pjs-card-type">B2B Website</div>
-                  <div class="pjs-card-name">QBL Platform</div>
-                  <div class="pjs-card-tags">
-                    <span>HTML</span><span>CSS</span><span>JavaScript</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div><!-- /pjs-left -->
-
-          <!-- RIGHT — video preview -->
-          <div class="pjs-right">
-            <div class="pjs-video-box">
-              <div class="pjs-video-ratio">
-                <video
-                  id="pjsVideo"
-                  class="pjs-video"
-                  muted
-                  playsinline
-                  loop
-                  preload="none">
-                  <!-- sources are set by script.js when the section scrolls into view -->
-                </video>
-                <img class="pjs-poster" id="pjsPoster" src="images/projects/catalog-poster.webp" alt="" aria-hidden="true" width="1280" height="720">
-                <div class="pjs-video-overlay"></div>
-                <!-- Info over the video -->
-                <div class="pjs-info" id="pjsInfo">
-                  <div class="pjs-info-left">
-                    <div class="pjs-info-meta">
-                      <span class="pjs-info-badge" id="pjsBadge">React SPA</span>
-                      <span class="pjs-info-year" id="pjsYear">2026</span>
-                    </div>
-                    <div class="pjs-info-name" id="pjsName">Shelf — Product Catalog</div>
-                    <div class="pjs-info-desc" id="pjsDesc">Product catalog in React and TypeScript — search, category filters, product pages and a validated review form, deployed on Vercel.</div>
-                  </div>
-                  <a class="pjs-info-cta btn btn--primary btn--s" id="pjsCta" href="/projects/react-product-catalog/">View Project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- /pjs-right -->
-
-        </div><!-- /pjs-body -->
-
-      </div><!-- /pjs-sticky -->
-    </div><!-- /pjs-wrap -->
+    <div class="wrap pjx-info" id="pjxInfo">
+      <div class="pjx-main">
+        <div class="pjx-meta"><span id="pjxType">React SPA</span><span id="pjxYear">2026</span></div>
+        <h3 class="pjx-title" id="pjxTitle"><span>Shelf — Product Catalog</span></h3>
+      </div>
+      <div class="pjx-side">
+        <p class="pjx-desc" id="pjxDesc">Product catalog in React and TypeScript — search, category filters, product pages and a validated review form, deployed on Vercel.</p>
+        <div class="pjx-tags" id="pjxTags"><span>React</span><span>TypeScript</span><span>Vite</span></div>
+      </div>
+      <a class="pjx-cta btn btn--primary btn--l" id="pjxCta" href="/projects/react-product-catalog/">View Project <span class="btn__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <div class="pjx-bar" id="pjxBar" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+      <p class="pjx-hint" aria-hidden="true">Drag or swipe to explore</p>
+    </div>
 
     <!-- reveal — unchanged -->
     <div id="projReveal">
