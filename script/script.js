@@ -342,12 +342,23 @@ gsap.registerPlugin(ScrollTrigger);
     if (!cv || REDUCE_MOTION) return;
     const ctx = cv.getContext('2d');
     let w = 0, h = 0, dpr = 1, ps = [], on = false, raf = 0;
+    const sprite = document.createElement('canvas');
+    sprite.width = sprite.height = 32;
+    const sc = sprite.getContext('2d');
+    const sg = sc.createRadialGradient(16, 16, 0, 16, 16, 16);
+    sg.addColorStop(0, 'rgba(200,255,225,1)');
+    sg.addColorStop(0.18, 'rgba(61,255,143,.95)');
+    sg.addColorStop(0.45, 'rgba(61,255,143,.28)');
+    sg.addColorStop(1, 'rgba(61,255,143,0)');
+    sc.fillStyle = sg;
+    sc.fillRect(0, 0, 32, 32);
     function fit() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const mob = window.innerWidth < 768;
+      dpr = Math.min(window.devicePixelRatio || 1, mob ? 1.5 : 2);
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(w / 18);
+      const n = Math.round(w / (mob ? 30 : 18));
       ps = Array.from({ length: n }, () => spawn(true));
     }
     function spawn(any) {
@@ -373,13 +384,12 @@ gsap.registerPlugin(ScrollTrigger);
         const x = w / 2 + q.u * w;
         const fade = Math.min(1, q.y / (h * 0.25)) * Math.min(1, (h - q.y) / (h * 0.2));
         const a = q.a * fade * (0.55 + 0.45 * Math.sin(t / 900 + q.p));
-        ctx.beginPath();
-        ctx.arc(x, q.y, q.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(61,255,143,${a})`;
-        ctx.shadowColor = 'rgba(61,255,143,.9)';
-        ctx.shadowBlur = 6;
-        ctx.fill();
+        if (a <= 0.01) continue;
+        const d = q.r * 6;
+        ctx.globalAlpha = a;
+        ctx.drawImage(sprite, x - d / 2, q.y - d / 2, d, d);
       }
+      ctx.globalAlpha = 1;
       if (on) raf = requestAnimationFrame(draw);
     }
     new IntersectionObserver(es => {
@@ -425,7 +435,7 @@ gsap.registerPlugin(ScrollTrigger);
     const CROP = new T.Vector4(0.117, 0.102, 0.883, 0.905);
 
     const renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.25 : 1.5));
     renderer.setClearColor(0x000000, 0);
     const scene = new T.Scene();
     const cam = new T.PerspectiveCamera(40, 1, 1, 6000);
@@ -614,7 +624,7 @@ gsap.registerPlugin(ScrollTrigger);
       cam.position.z = (H / 2) / Math.tan(T.MathUtils.degToRad(cam.fov / 2));
       cam.updateProjectionMatrix();
       const mob = W < 768;
-      pw = Math.min(mob ? W * 0.74 : W * 0.5, 760, H / 1.32 * ASPECT);
+      pw = Math.min(mob ? W * 0.64 : W * 0.5, 760, H / 1.32 * ASPECT);
       ph = pw / ASPECT;
       gap = mob ? W * 0.04 : Math.max(W * 0.025, 24);
       step = pw + gap;
@@ -749,9 +759,14 @@ gsap.registerPlugin(ScrollTrigger);
       wheelTm = setTimeout(snap, 140);
     }, { passive: false });
 
-    let lastF = 0;
+    let lastF = 0, lastR = 0, calm = false;
     function frame(now) {
       raf = 0;
+      if (calm && now - lastR < 32) {
+        if (visible) raf = requestAnimationFrame(frame);
+        return;
+      }
+      lastR = now;
       const dt = lastF ? Math.min((now - lastF) / 16.667, 4) : 1;
       lastF = now;
       const k = 1 - Math.pow(1 - 0.085, dt);
@@ -789,12 +804,14 @@ gsap.registerPlugin(ScrollTrigger);
 
       renderer.render(scene, cam);
       const playing = vFor === active && !video.paused;
+      calm = !busy && playing;
       idleFrames = busy || playing ? 0 : idleFrames + 1;
       if (visible && idleFrames < 3) raf = requestAnimationFrame(frame);
       else lastF = 0;
     }
 
     function kick() {
+      calm = false;
       if (!visible || raf) return;
       idleFrames = 0;
       raf = requestAnimationFrame(frame);

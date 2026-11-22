@@ -2404,7 +2404,7 @@ a.stk-item:hover .stk-item-go svg {
 }
 
 @media (max-width: 768px) {
-  #projects { --pjx-cw: 74vw; }
+  #projects { --pjx-cw: 64vw; --pjx-h: calc(var(--pjx-cw) / 1.6 * 1.45); }
   .pjx-list { gap: var(--sp-12); }
   .pjx-arrow { width: 44px; height: 44px; }
   .pjx-count { margin-right: 4px; }
@@ -2778,6 +2778,7 @@ a.stk-item:hover .stk-item-go svg {
 #contact {
   position: relative;
   padding: var(--section-pad) 0;
+  overflow-x: clip;
 }
 
 #contact::before {
