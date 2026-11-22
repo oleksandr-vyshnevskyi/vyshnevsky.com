@@ -251,7 +251,6 @@ gsap.registerPlugin(ScrollTrigger);
   const txt = (el, sel) => { const n = el.querySelector(sel); return n ? n.textContent.trim() : ''; };
   const data = slides.map((s, i) => ({
     ...s.dataset,
-    n: txt(s, '.pjx-lab-n') || String(i + 1).padStart(2, '0'),
     name: txt(s, '.pjx-lab-name'),
     type: txt(s, '.pjx-lab-type'),
     year: txt(s, '.pjx-lab-year'),
@@ -337,6 +336,59 @@ gsap.registerPlugin(ScrollTrigger);
   });
 
   paint(0);
+
+  (function dust() {
+    const cv = $('pjxDust');
+    if (!cv || REDUCE_MOTION) return;
+    const ctx = cv.getContext('2d');
+    let w = 0, h = 0, dpr = 1, ps = [], on = false, raf = 0;
+    function fit() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = cv.clientWidth; h = cv.clientHeight;
+      cv.width = w * dpr; cv.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(w / 18);
+      ps = Array.from({ length: n }, () => spawn(true));
+    }
+    function spawn(any) {
+      const y = any ? Math.random() * h : h * (0.9 + Math.random() * 0.1);
+      const spread = 0.05 + 0.37 * (y / h);
+      return {
+        y, u: (Math.random() * 2 - 1) * spread,
+        r: 0.6 + Math.random() * 1.6,
+        vy: -(0.08 + Math.random() * 0.25),
+        vx: (Math.random() - 0.5) * 0.12,
+        p: Math.random() * Math.PI * 2,
+        a: 0.25 + Math.random() * 0.55
+      };
+    }
+    function draw(t) {
+      raf = 0;
+      ctx.clearRect(0, 0, w, h);
+      for (const q of ps) {
+        q.y += q.vy;
+        q.u += q.vx / w;
+        const spread = 0.05 + 0.37 * (q.y / h);
+        if (q.y < 0 || Math.abs(q.u) > spread) Object.assign(q, spawn(false));
+        const x = w / 2 + q.u * w;
+        const fade = Math.min(1, q.y / (h * 0.25)) * Math.min(1, (h - q.y) / (h * 0.2));
+        const a = q.a * fade * (0.55 + 0.45 * Math.sin(t / 900 + q.p));
+        ctx.beginPath();
+        ctx.arc(x, q.y, q.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(61,255,143,${a})`;
+        ctx.shadowColor = 'rgba(61,255,143,.9)';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+      }
+      if (on) raf = requestAnimationFrame(draw);
+    }
+    new IntersectionObserver(es => {
+      on = es[0].isIntersecting;
+      if (on) { if (!w) fit(); if (!raf) raf = requestAnimationFrame(draw); }
+    }).observe(cv);
+    let tm;
+    window.addEventListener('resize', () => { clearTimeout(tm); tm = setTimeout(fit, 150); }, { passive: true });
+  })();
 
   function canUseGL() {
     if (REDUCE_MOTION) return false;
@@ -445,7 +497,7 @@ gsap.registerPlugin(ScrollTrigger);
           col /= 8.0;
         }
         float g = dot(col, vec3(0.299, 0.587, 0.114));
-        vec3 dim = mix(vec3(g), col, 0.6) * 0.62;
+        vec3 dim = mix(vec3(g), col, 0.7) * 0.78;
         col = mix(dim, col, uFocus);
         float outer = vDir > 0.0 ? vUv.x : 1.0 - vUv.x;
         vec3 rim = mix(vec3(0.24, 1.0, 0.56), vec3(0.2, 0.85, 1.0), vUv.y);
@@ -488,15 +540,12 @@ gsap.registerPlugin(ScrollTrigger);
       g.addColorStop(1, 'rgba(7,9,10,.94)');
       x.fillStyle = g; x.fillRect(0, H - 260, W, 260);
       x.textBaseline = 'alphabetic';
-      x.fillStyle = '#3DFF8F';
-      x.font = `500 ${26 * F}px Inter, sans-serif`;
-      x.fillText(d.n, P, P + 22 * F);
       x.fillStyle = '#ffffff';
       x.font = `700 ${48 * F}px Syne, sans-serif`;
-      x.fillText(d.name, P, P + 88 * F, W - P * 2);
+      x.fillText(d.name, P, P + 48 * F, W - P * 2);
       x.fillStyle = 'rgba(220,232,220,.82)';
       x.font = `400 ${30 * F}px Inter, sans-serif`;
-      if (d.type && !big) x.fillText(d.type, P, P + 132);
+      if (d.type && !big) x.fillText(d.type, P, P + 94);
       x.fillText(big ? d.year : [d.year, d.stack].filter(Boolean).join('   ·   '), P, H - P);
       x.fillStyle = '#3DFF8F';
       x.font = `500 ${30 * F}px Inter, sans-serif`;
@@ -536,7 +585,7 @@ gsap.registerPlugin(ScrollTrigger);
       : Promise.resolve();
     let labelBig = null;
     function labels() {
-      const big = stage.clientWidth < 768;
+      const big = root.clientWidth < 768;
       if (big === labelBig) return;
       labelBig = big;
       meshes.forEach((m, i) => {
