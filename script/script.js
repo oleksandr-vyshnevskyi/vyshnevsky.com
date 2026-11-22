@@ -248,81 +248,40 @@ gsap.registerPlugin(ScrollTrigger);
   const slides = Array.from(list.querySelectorAll('.pjx-slide'));
   const N = slides.length;
   if (!N) return;
-  const data = slides.map(s => ({ ...s.dataset }));
+  const txt = (el, sel) => { const n = el.querySelector(sel); return n ? n.textContent.trim() : ''; };
+  const data = slides.map((s, i) => ({
+    ...s.dataset,
+    n: txt(s, '.pjx-lab-n') || String(i + 1).padStart(2, '0'),
+    name: txt(s, '.pjx-lab-name'),
+    type: txt(s, '.pjx-lab-type'),
+    year: txt(s, '.pjx-lab-year'),
+    stack: txt(s, '.pjx-lab-stack'),
+    cta: txt(s, '.pjx-lab-cta')
+  }));
 
   const $ = id => document.getElementById(id);
-  const curEl = $('pjxCur'), totEl = $('pjxTot');
-  const titleEl = $('pjxTitle'), typeEl = $('pjxType'), yearEl = $('pjxYear');
-  const descEl = $('pjxDesc'), tagsEl = $('pjxTags'), ctaEl = $('pjxCta'), sideEl = descEl.parentNode;
+  const curEl = $('pjxCur');
   const bars = Array.from($('pjxBar').children);
-  const cursor = $('pjxCursor');
   const pad = n => String(n).padStart(2, '0');
   const mod = (a, n) => ((a % n) + n) % n;
   const FINE = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  totEl.textContent = pad(N);
+  $('pjxTot').textContent = pad(N);
 
   let active = 0;
   let gl = null;
-  let swapTm;
 
-  function renderInfo(i, instant) {
-    const d = data[i];
+  function paint(i) {
     curEl.textContent = pad(i + 1);
     bars.forEach((b, j) => b.classList.toggle('is-on', j === i));
     slides.forEach((s, j) => s.classList.toggle('is-active', j === i));
-    ctaEl.href = d.link || '#';
-
-    const fill = () => {
-      typeEl.textContent = d.type || '';
-      yearEl.textContent = d.year || '';
-      descEl.textContent = d.desc || '';
-      tagsEl.innerHTML = '';
-      (d.stack || '').split(',').filter(Boolean).forEach(t => {
-        const s = document.createElement('span');
-        s.textContent = t.trim();
-        tagsEl.appendChild(s);
-      });
-    };
-
-    if (instant || REDUCE_MOTION) {
-      titleEl.innerHTML = '';
-      const s = document.createElement('span');
-      s.textContent = d.name;
-      titleEl.appendChild(s);
-      titleEl.style.height = '';
-      fill();
-      return;
-    }
-
-    const old = Array.from(titleEl.children);
-    titleEl.style.height = titleEl.offsetHeight + 'px';
-    old.forEach(o => {
-      o.classList.add('is-out');
-      setTimeout(() => o.remove(), 800);
-    });
-    const s = document.createElement('span');
-    s.className = 'is-in';
-    s.textContent = d.name;
-    titleEl.appendChild(s);
-    titleEl.style.height = s.offsetHeight + 'px';
-    requestAnimationFrame(() => requestAnimationFrame(() => s.classList.remove('is-in')));
-    clearTimeout(titleEl._tm);
-    titleEl._tm = setTimeout(() => { titleEl.style.height = ''; }, 900);
-
-    sideEl.classList.add('is-swap');
-    clearTimeout(swapTm);
-    swapTm = setTimeout(() => {
-      fill();
-      sideEl.classList.remove('is-swap');
-    }, 220);
   }
 
   function setActive(i) {
     i = mod(i, N);
     if (i === active) return;
     active = i;
-    renderInfo(i);
+    paint(i);
     if (gl) gl.onActive(i);
   }
 
@@ -333,6 +292,7 @@ gsap.registerPlugin(ScrollTrigger);
 
   $('pjxPrev').addEventListener('click', () => go(-1));
   $('pjxNext').addEventListener('click', () => go(1));
+  bars.forEach((b, i) => b.addEventListener('click', () => (gl ? gl.goTo(i) : scrollListTo(i))));
 
   function scrollListTo(i, smooth = true) {
     const s = slides[i];
@@ -376,7 +336,7 @@ gsap.registerPlugin(ScrollTrigger);
     if (e.key === 'ArrowLeft')  { e.preventDefault(); go(-1); }
   });
 
-  renderInfo(0, true);
+  paint(0);
 
   function canUseGL() {
     if (REDUCE_MOTION) return false;
@@ -409,6 +369,9 @@ gsap.registerPlugin(ScrollTrigger);
 
   function createGL() {
     const T = window.THREE;
+    const ASPECT = 1.6;
+    const CROP = new T.Vector4(0.117, 0.102, 0.883, 0.905);
+
     const renderer = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setClearColor(0x000000, 0);
@@ -416,7 +379,7 @@ gsap.registerPlugin(ScrollTrigger);
     const cam = new T.PerspectiveCamera(40, 1, 1, 6000);
 
     const VS = `
-      uniform float uHalfW, uFlat, uBend, uVel;
+      uniform float uHalfW, uFlat, uBend, uVel, uZMax;
       varying vec2 vUv;
       varying float vSide, vDir;
       void main() {
@@ -424,34 +387,40 @@ gsap.registerPlugin(ScrollTrigger);
         vec4 wp = modelMatrix * vec4(position, 1.0);
         float s = wp.x < 0.0 ? -1.0 : 1.0;
         float e = max(abs(wp.x) - uFlat, 0.0);
-        float R = uHalfW * 0.62 / max(uBend, 0.001);
-        float a = min(e / R, 1.3);
+        float R = uHalfW * 0.42 / max(uBend, 0.001);
+        float a = min(e / R, 1.45);
         if (e > 0.0) {
           wp.x = s * (uFlat + R * sin(a));
-          wp.z += R * (1.0 - cos(a));
+          wp.z += min(R * (1.0 - cos(a)), uZMax);
         }
-        wp.y += sin(uv.x * 3.14159) * clamp(uVel, -40.0, 40.0) * -0.6;
-        vSide = clamp(e / (uHalfW * 0.8), 0.0, 1.0);
+        wp.y += sin(uv.x * 3.14159) * clamp(uVel, -40.0, 40.0) * -0.5;
+        vSide = clamp(e / (uHalfW * 0.55), 0.0, 1.0);
         vDir = s;
         gl_Position = projectionMatrix * viewMatrix * wp;
       }`;
 
     const FS = `
-      uniform sampler2D uPoster, uVideo;
-      uniform vec2 uPlane, uPMedia, uVMedia;
-      uniform float uFocus, uRad, uVidMix, uVel;
+      uniform sampler2D uPoster, uVideo, uLabel;
+      uniform vec2 uPlane;
+      uniform vec4 uCrop;
+      uniform float uFocus, uRad, uVidMix, uVel, uHover;
       varying vec2 vUv;
       varying float vSide, vDir;
-      vec2 cover(vec2 uv, vec2 m) {
-        float pr = uPlane.x / uPlane.y, mr = m.x / m.y;
-        vec2 k = pr > mr ? vec2(1.0, mr / pr) : vec2(pr / mr, 1.0);
-        return (uv - 0.5) * k + 0.5;
+      vec2 mapUV(vec2 uv) {
+        vec2 size = uCrop.zw - uCrop.xy;
+        float cr = (size.x / size.y) * (16.0 / 9.0);
+        float pr = uPlane.x / uPlane.y;
+        vec2 k = pr > cr ? vec2(1.0, cr / pr) : vec2(pr / cr, 1.0);
+        k *= 1.0 - 0.035 * uHover;
+        return uCrop.xy + ((uv - 0.5) * k + 0.5) * size;
       }
       vec3 tex(vec2 uv) {
-        uv = clamp(uv, 0.001, 0.999);
-        vec3 c = texture2D(uPoster, cover(uv, uPMedia)).rgb;
-        if (uVidMix > 0.002) c = mix(c, texture2D(uVideo, cover(uv, uVMedia)).rgb, uVidMix);
-        return c;
+        uv = clamp(uv, 0.0, 1.0);
+        vec2 m = mapUV(uv);
+        vec3 c = texture2D(uPoster, m).rgb;
+        if (uVidMix > 0.002) c = mix(c, texture2D(uVideo, m).rgb, uVidMix);
+        vec4 l = texture2D(uLabel, uv);
+        return mix(c, l.rgb, l.a);
       }
       float sdBox(vec2 p, vec2 b, float r) {
         vec2 q = abs(p) - b + r;
@@ -459,33 +428,32 @@ gsap.registerPlugin(ScrollTrigger);
       }
       void main() {
         float v = min(abs(uVel) * 0.0035, 0.14);
-        float amt = vSide * 0.3 + v;
-        float ca = vSide * 0.014 + v * 0.08;
+        float amt = vSide * 0.42 + v;
+        float ca = vSide * 0.018 + v * 0.08;
         vec3 col;
         if (amt < 0.003) {
           col = tex(vUv);
         } else {
           col = vec3(0.0);
-          for (int i = 0; i < 7; i++) {
-            float t = float(i) / 6.0;
+          for (int i = 0; i < 8; i++) {
+            float t = float(i) / 7.0;
             vec2 u = vUv - vec2(vDir * amt * t * t, 0.0);
             col.r += tex(u + vec2(ca, 0.0)).r;
             col.g += tex(u).g;
             col.b += tex(u - vec2(ca, 0.0)).b;
           }
-          col /= 7.0;
+          col /= 8.0;
         }
         float g = dot(col, vec3(0.299, 0.587, 0.114));
-        vec3 dim = mix(vec3(g), col, 0.35) * vec3(0.5, 0.58, 0.54);
+        vec3 dim = mix(vec3(g), col, 0.6) * 0.62;
         col = mix(dim, col, uFocus);
         float outer = vDir > 0.0 ? vUv.x : 1.0 - vUv.x;
         vec3 rim = mix(vec3(0.24, 1.0, 0.56), vec3(0.2, 0.85, 1.0), vUv.y);
-        col += rim * smoothstep(0.55, 1.0, outer) * vSide * 0.55;
+        float fy = 1.0 - smoothstep(0.0, 0.18, min(vUv.y, 1.0 - vUv.y));
+        col += rim * smoothstep(0.35, 1.0, outer) * vSide * (0.25 + 0.55 * fy);
         vec2 p = (vUv - 0.5) * uPlane;
         float d = sdBox(p, uPlane * 0.5, uRad);
         float alpha = 1.0 - smoothstep(-1.0, 0.5, d);
-        float edge = 1.0 - smoothstep(0.0, 2.0, abs(d + 1.0));
-        col = mix(col, vec3(0.24, 1.0, 0.56), edge * uFocus * 0.9);
         gl_FragColor = vec4(col, alpha);
       }`;
 
@@ -495,36 +463,99 @@ gsap.registerPlugin(ScrollTrigger);
     video.playsInline = true;
     video.setAttribute('playsinline', '');
     video.preload = 'none';
-    const useWebm = !!video.canPlayType('video/webm; codecs="vp9"') || !!video.canPlayType('video/webm');
+    const useWebm = !!video.canPlayType('video/webm');
     const vTex = new T.VideoTexture(video);
     vTex.minFilter = T.LinearFilter;
     vTex.generateMipmaps = false;
     const blank = new T.DataTexture(new Uint8Array([7, 9, 10, 255]), 1, 1, T.RGBAFormat);
     blank.needsUpdate = true;
+    const clear = new T.DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1, T.RGBAFormat);
+    clear.needsUpdate = true;
+
+    function label(d, big) {
+      const W = 1280, H = 800, P = big ? 72 : 60, F = big ? 1.6 : 1;
+      const c = document.createElement('canvas');
+      c.width = W; c.height = H;
+      const x = c.getContext('2d');
+      let g = x.createLinearGradient(0, 0, 0, 330);
+      g.addColorStop(0, 'rgba(7,9,10,.94)');
+      g.addColorStop(0.45, 'rgba(7,9,10,.78)');
+      g.addColorStop(1, 'rgba(7,9,10,0)');
+      x.fillStyle = g; x.fillRect(0, 0, W, 330);
+      g = x.createLinearGradient(0, H - 260, 0, H);
+      g.addColorStop(0, 'rgba(7,9,10,0)');
+      g.addColorStop(0.55, 'rgba(7,9,10,.8)');
+      g.addColorStop(1, 'rgba(7,9,10,.94)');
+      x.fillStyle = g; x.fillRect(0, H - 260, W, 260);
+      x.textBaseline = 'alphabetic';
+      x.fillStyle = '#3DFF8F';
+      x.font = `500 ${26 * F}px Inter, sans-serif`;
+      x.fillText(d.n, P, P + 22 * F);
+      x.fillStyle = '#ffffff';
+      x.font = `700 ${48 * F}px Syne, sans-serif`;
+      x.fillText(d.name, P, P + 88 * F, W - P * 2);
+      x.fillStyle = 'rgba(220,232,220,.82)';
+      x.font = `400 ${30 * F}px Inter, sans-serif`;
+      if (d.type && !big) x.fillText(d.type, P, P + 132);
+      x.fillText(big ? d.year : [d.year, d.stack].filter(Boolean).join('   ·   '), P, H - P);
+      x.fillStyle = '#3DFF8F';
+      x.font = `500 ${30 * F}px Inter, sans-serif`;
+      x.textAlign = 'right';
+      if (d.cta) x.fillText(d.cta + '  →', W - P, H - P);
+      const t = new T.CanvasTexture(c);
+      t.minFilter = T.LinearFilter;
+      t.generateMipmaps = false;
+      return t;
+    }
 
     const loader = new T.TextureLoader();
-    let pending = N;
+    let pending = N + 1;
+    const done = () => { if (--pending === 0) ready(); };
+
     const meshes = data.map(d => {
       const u = {
-        uPoster: { value: blank }, uVideo: { value: blank },
-        uPlane: { value: new T.Vector2(1, 1) }, uPMedia: { value: new T.Vector2(16, 9) }, uVMedia: { value: new T.Vector2(16, 9) },
-        uFocus: { value: 0 }, uRad: { value: 18 }, uVidMix: { value: 0 }, uVel: { value: 0 },
-        uHalfW: { value: 600 }, uFlat: { value: 300 }, uBend: { value: 1 }
+        uPoster: { value: blank }, uVideo: { value: blank }, uLabel: { value: clear },
+        uPlane: { value: new T.Vector2(1, 1) }, uCrop: { value: CROP },
+        uFocus: { value: 0 }, uRad: { value: 18 }, uVidMix: { value: 0 }, uVel: { value: 0 }, uHover: { value: 0 },
+        uHalfW: { value: 600 }, uFlat: { value: 300 }, uBend: { value: 1 }, uZMax: { value: 400 }
       };
       loader.load(d.poster, t => {
         t.minFilter = T.LinearFilter;
         t.generateMipmaps = false;
         u.uPoster.value = t;
-        u.uPMedia.value.set(t.image.width, t.image.height);
-        if (--pending === 0) ready();
-      }, undefined, () => { if (--pending === 0) ready(); });
-      const m = new T.Mesh(new T.PlaneGeometry(1, 1, 40, 12), new T.ShaderMaterial({ uniforms: u, vertexShader: VS, fragmentShader: FS, transparent: true }));
-      m.userData = { u, mix: 0 };
+        done();
+      }, undefined, done);
+      const m = new T.Mesh(new T.PlaneGeometry(1, 1, 48, 12), new T.ShaderMaterial({ uniforms: u, vertexShader: VS, fragmentShader: FS, transparent: true }));
+      m.userData = { u };
       scene.add(m);
       return m;
     });
 
+    const fontsReady = document.fonts && document.fonts.load
+      ? Promise.all([document.fonts.load('700 48px Syne'), document.fonts.load('400 30px Inter'), document.fonts.load('500 30px Inter')]).catch(() => {})
+      : Promise.resolve();
+    let labelBig = null;
+    function labels() {
+      const big = stage.clientWidth < 768;
+      if (big === labelBig) return;
+      labelBig = big;
+      meshes.forEach((m, i) => {
+        const old = m.userData.u.uLabel.value;
+        m.userData.u.uLabel.value = label(data[i], big);
+        if (old !== clear) old.dispose();
+      });
+    }
+    let fontsOk = false;
+    Promise.race([fontsReady, new Promise(r => setTimeout(r, 1500))]).then(() => {
+      fontsOk = true;
+      labels();
+      done();
+    });
+
     let W = 0, H = 0, pw = 0, ph = 0, gap = 0, step = 1, total = 1;
+    let target = 0, cur = 0, vel = 0, prevStep = 0;
+    let visible = false, raf = 0, idleFrames = 0, hover = 0, hoverT = 0;
+
     function size() {
       W = stage.clientWidth;
       H = stage.clientHeight;
@@ -534,29 +565,26 @@ gsap.registerPlugin(ScrollTrigger);
       cam.position.z = (H / 2) / Math.tan(T.MathUtils.degToRad(cam.fov / 2));
       cam.updateProjectionMatrix();
       const mob = W < 768;
-      pw = mob ? W * 0.68 : Math.min(W * 0.5, H * 0.86 * 16 / 9);
-      ph = pw * 9 / 16;
-      gap = mob ? W * 0.045 : W * 0.035;
+      pw = Math.min(mob ? W * 0.74 : W * 0.5, 760, H / 1.32 * ASPECT);
+      ph = pw / ASPECT;
+      gap = mob ? W * 0.04 : Math.max(W * 0.025, 24);
       step = pw + gap;
       total = step * N;
-      const rad = mob ? 14 : 20;
       meshes.forEach(m => {
         m.geometry.dispose();
-        m.geometry = new T.PlaneGeometry(pw, ph, mob ? 28 : 40, 10);
+        m.geometry = new T.PlaneGeometry(pw, ph, mob ? 32 : 48, 12);
         const u = m.userData.u;
         u.uPlane.value.set(pw, ph);
         u.uHalfW.value = W / 2;
         u.uFlat.value = pw / 2 + 1;
-        u.uRad.value = rad;
+        u.uRad.value = mob ? 14 : 20;
+        u.uZMax.value = cam.position.z * 0.72;
       });
       root.style.setProperty('--pjx-fw', pw + 'px');
       root.style.setProperty('--pjx-fh', ph + 'px');
       cur = target = Math.round(target / (prevStep || step)) * step;
       prevStep = step;
     }
-
-    let target = 0, cur = 0, vel = 0, prevStep = 0;
-    let running = false, visible = false, raf = 0, idleFrames = 0;
 
     function ready() {
       size();
@@ -569,11 +597,11 @@ gsap.registerPlugin(ScrollTrigger);
 
     function snap() { target = Math.round(target / step) * step; kick(); }
     function goTo(i) {
-      const curIdx = Math.round(target / step);
-      let d = i - mod(curIdx, N);
+      const ci = Math.round(target / step);
+      let d = i - mod(ci, N);
       if (d > N / 2) d -= N;
       if (d < -N / 2) d += N;
-      target = (curIdx + d) * step;
+      target = (ci + d) * step;
       kick();
     }
 
@@ -583,7 +611,7 @@ gsap.registerPlugin(ScrollTrigger);
       vTm = setTimeout(() => {
         const d = data[i];
         const src = useWebm && d.videoWebm ? d.videoWebm : d.video;
-        if (vFor === i && video.getAttribute('src') === src) { if (visible) video.play().catch(() => {}); return; }
+        if (!src) return;
         vFor = -1;
         video.pause();
         video.src = src;
@@ -591,9 +619,9 @@ gsap.registerPlugin(ScrollTrigger);
         video.load();
         video.addEventListener('loadeddata', function onData() {
           video.removeEventListener('loadeddata', onData);
+          if (i !== active) return;
           vFor = i;
           meshes.forEach((m, j) => { m.userData.u.uVideo.value = j === i ? vTex : blank; });
-          meshes[i].userData.u.uVMedia.value.set(video.videoWidth || 16, video.videoHeight || 9);
           if (visible) video.play().catch(() => {});
           kick();
         });
@@ -605,24 +633,31 @@ gsap.registerPlugin(ScrollTrigger);
       loadVideo(i);
     }
 
+
     let down = false, sx = 0, sy = 0, st0 = 0, moved = 0, lock = '', lastX = 0, lastT = 0, flick = 0;
     stage.addEventListener('pointerdown', e => {
       if (e.button !== 0) return;
       down = true; lock = ''; moved = 0;
       sx = lastX = e.clientX; sy = e.clientY; st0 = target; lastT = performance.now(); flick = 0;
-      cursor.classList.add('is-down');
     });
+    stage.addEventListener('pointermove', e => {
+      if (!FINE || down) return;
+      const r = stage.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
+      const on = Math.abs(x) <= pw / 2 && Math.abs(y) <= ph / 2;
+      stage.classList.toggle('is-link', on);
+      hoverT = on ? 1 : 0;
+      kick();
+    });
+    stage.addEventListener('pointerleave', () => { hoverT = 0; stage.classList.remove('is-link'); kick(); });
     window.addEventListener('pointermove', e => {
-      if (FINE) {
-        cursor.style.setProperty('--x', e.clientX + 'px');
-        cursor.style.setProperty('--y', e.clientY + 'px');
-      }
       if (!down) return;
       const dx = e.clientX - sx, dy = e.clientY - sy;
       if (!lock && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) lock = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
-      if (lock === 'y') { down = false; cursor.classList.remove('is-down'); snap(); return; }
+      if (lock === 'y') { down = false; snap(); return; }
       if (lock !== 'x') return;
       stage.classList.add('is-drag');
+      hoverT = 0;
       moved = Math.max(moved, Math.abs(dx));
       const now = performance.now();
       flick = (e.clientX - lastX) / Math.max(now - lastT, 1);
@@ -634,21 +669,21 @@ gsap.registerPlugin(ScrollTrigger);
       if (!down) return;
       down = false;
       stage.classList.remove('is-drag');
-      cursor.classList.remove('is-down');
       if (moved < 6 && lock !== 'y' && e && e.type === 'pointerup') {
         const r = stage.getBoundingClientRect();
-        const x = e.clientX - r.left - r.width / 2;
+        const x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
         if (Math.abs(x) <= pw / 2) {
-          const link = data[active].link;
-          if (link) (window.ptNavigate || (h => { location.href = h; }))(link);
+          if (Math.abs(y) <= ph / 2) {
+            const link = data[active].link;
+            if (link) (window.ptNavigate || (h => { location.href = h; }))(link);
+          }
         } else go(x > 0 ? 1 : -1);
         return;
       }
       if (Math.abs(flick) > 0.35) {
         const base = Math.round(st0 / step) * step;
-        const dir = flick < 0 ? 1 : -1;
         const proj = Math.round(target / step) * step;
-        target = (proj === base ? base + dir * step : proj);
+        target = proj === base ? base + (flick < 0 ? 1 : -1) * step : proj;
         kick();
       } else snap();
     }
@@ -665,11 +700,6 @@ gsap.registerPlugin(ScrollTrigger);
       wheelTm = setTimeout(snap, 140);
     }, { passive: false });
 
-    if (FINE) {
-      stage.addEventListener('pointerenter', () => cursor.classList.add('is-on'));
-      stage.addEventListener('pointerleave', () => cursor.classList.remove('is-on'));
-    }
-
     let lastF = 0;
     function frame(now) {
       raf = 0;
@@ -680,8 +710,9 @@ gsap.registerPlugin(ScrollTrigger);
       cur += (target - cur) * k;
       if (Math.abs(target - cur) < 0.05) cur = target;
       vel += ((cur - prev) / dt - vel) * 0.25;
-      const bend = 1 + Math.min(Math.abs(vel) * 0.02, 0.8);
-      let busy = Math.abs(target - cur) > 0.05 || Math.abs(vel) > 0.02;
+      hover += (hoverT - hover) * (1 - Math.pow(0.85, dt));
+      const bend = 1 + Math.min(Math.abs(vel) * 0.02, 0.7);
+      let busy = Math.abs(target - cur) > 0.05 || Math.abs(vel) > 0.02 || Math.abs(hoverT - hover) > 0.002;
 
       meshes.forEach((m, i) => {
         let x = i * step - cur;
@@ -694,6 +725,7 @@ gsap.registerPlugin(ScrollTrigger);
         u.uFocus.value += (ft - u.uFocus.value) * (1 - Math.pow(0.82, dt));
         u.uVel.value = vel;
         u.uBend.value = bend;
+        u.uHover.value = i === active ? hover : 0;
         let mt = 0;
         if (i === vFor && i === active && video.readyState >= 2 && video.duration) {
           const t = video.currentTime;
@@ -710,12 +742,11 @@ gsap.registerPlugin(ScrollTrigger);
       const playing = vFor === active && !video.paused;
       idleFrames = busy || playing ? 0 : idleFrames + 1;
       if (visible && idleFrames < 3) raf = requestAnimationFrame(frame);
-      else { running = false; lastF = 0; }
+      else lastF = 0;
     }
 
     function kick() {
       if (!visible || raf) return;
-      running = true;
       idleFrames = 0;
       raf = requestAnimationFrame(frame);
     }
@@ -725,9 +756,7 @@ gsap.registerPlugin(ScrollTrigger);
       if (visible) {
         if (vFor === active) video.play().catch(() => {});
         kick();
-      } else {
-        video.pause();
-      }
+      } else video.pause();
     }, { threshold: 0.05 });
     vis.observe(root);
 
@@ -735,13 +764,12 @@ gsap.registerPlugin(ScrollTrigger);
       if (document.hidden) video.pause();
       else if (visible && vFor === active) { video.play().catch(() => {}); kick(); }
     });
-
     video.addEventListener('playing', kick);
 
     let rTm;
     window.addEventListener('resize', () => {
       clearTimeout(rTm);
-      rTm = setTimeout(() => { size(); kick(); }, 120);
+      rTm = setTimeout(() => { size(); if (fontsOk) labels(); kick(); }, 120);
     }, { passive: true });
 
     renderer.domElement.addEventListener('webglcontextlost', e => {
@@ -766,7 +794,7 @@ gsap.registerPlugin(ScrollTrigger);
 
   const head = document.querySelector('.pjx-head');
   if (!REDUCE_MOTION && window.gsap && window.ScrollTrigger) {
-    const parts = [head, root, $('pjxInfo')];
+    const parts = [head, root, document.querySelector('.pjx-foot')];
     gsap.set(parts, { opacity: 0, y: 40 });
     ScrollTrigger.create({
       trigger: head,
